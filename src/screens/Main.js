@@ -8,8 +8,8 @@ import colors from '../styles/colors/index';
 
 const fundo = '../../assets/fundo.png';
 const logo = '../../assets/logo.png';
-const iconeUsuario = '../../assets/icons/usuario.png';
-const profissional = '../../assets/icons/profissional.png'
+const iconeCorretor = '../../assets/icons/Corretor.png';
+const Gestor = '../../assets/icons/Gestor.png'
 
 export default function Main(props) {
   const modalizeRef = useRef(null);
@@ -39,10 +39,10 @@ export default function Main(props) {
         >
 
           <View style={styles.containerModal}>
-            <TouchableOpacity style={styles.btnModal} onPress={() => props.navigation.navigate('ScreenUm')}>
+            <TouchableOpacity style={styles.btnModal} onPress={() => props.navigation.navigate('CadastroCorretor')}>
               <Image
                 style={styles.imgPerfisModal}
-                source={require(iconeUsuario)}>
+                source={require(iconeCorretor)}>
               </Image>
 
               <Text style={styles.textModal}>
@@ -52,14 +52,14 @@ export default function Main(props) {
 
             <View style={styles.divisoriaModal}></View>
 
-            <TouchableOpacity style={styles.btnModal} onPress={() => props.navigation.navigate('CadastroTecnico')}>
+            <TouchableOpacity style={styles.btnModal} onPress={() => props.navigation.navigate('CadastroGestor')}>
               <Image
                 style={styles.imgPerfisModal}
-                source={require(profissional)}>
+                source={require(Gestor)}>
               </Image>
 
               <Text style={styles.textModal}>
-                PROFISSIONAL
+                Gestor
               </Text>
             </TouchableOpacity>
           </View>

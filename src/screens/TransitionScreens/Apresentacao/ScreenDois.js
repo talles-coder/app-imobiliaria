@@ -23,7 +23,7 @@ export default function ScreenDois(props) {
       </View>
 
       <View style={styles.footer}>
-        <TouchableOpacity onPress={() => props.navigation.navigate('CadastroCliente')}>
+        <TouchableOpacity onPress={() => props.navigation.navigate('CadastroCorretor')}>
           <Text style={styles.btnTransparente}>
             PULAR
           </Text>

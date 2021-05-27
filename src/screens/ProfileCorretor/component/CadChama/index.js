@@ -14,7 +14,7 @@ export default function CadMsg(props) {
     return (
         <View style={styles.container}>
             <View style={styles.Header}>
-                <Image source={props.img} style={styles.ImagemProfissional} />
+                <Image source={props.img} style={styles.ImagemGestor} />
 
                 <View style={styles.ColunaDescricao}>
                     <Text style={styles.StyleName}> {props.NameProf}</Text>
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
         opacity: 0.5,
         fontWeight: 'bold'
     },
-    ImagemProfissional: {
+    ImagemGestor: {
         resizeMode: 'contain',
         marginRight: widthPercentageToDP('2%')
     },

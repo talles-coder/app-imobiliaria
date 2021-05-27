@@ -11,7 +11,7 @@ import Pesquisa from './pages/Pesquisa'
 
 import CustomDrawer from './component/CustomDrawer'
 
-export default function ProfileCliente() {
+export default function ProfileCorretor() {
   const Drawer = createDrawerNavigator();
 
   return (

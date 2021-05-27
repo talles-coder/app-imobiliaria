@@ -8,7 +8,7 @@ import AnimatedFormView from '../../components/Step'
 import DadosIniciais from './Formularios/DadosIniciais';
 import Senha from './Formularios/Senha';
 
-export default class CadastroCliente extends React.Component {
+export default class CadastroCorretor extends React.Component {
   constructor(props) {
     super(props);
 
@@ -22,7 +22,7 @@ export default class CadastroCliente extends React.Component {
   finish = () => this.props.navigation.navigate('Main');
 
   render() {
-    const allStepsFormsCliente = [
+    const allStepsFormsCorretor = [
       { name: "step 1", component: DadosIniciais },
       { name: "step 2", component: Senha }
     ];
@@ -30,7 +30,7 @@ export default class CadastroCliente extends React.Component {
     return (
       <View style={styles.container}>
         <AnimatedFormView
-          steps={allStepsFormsCliente}
+          steps={allStepsFormsCorretor}
           onFinish={this.finish}
           onBack={this.onBack}
           onNext={this.onNext}

@@ -9,7 +9,7 @@ import ImagePicker from '../../../components/ImagePicker';
 import Button from '../../../components/Button';
 
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { addNewProfissionalData, addNewUserData, emailSignUp, uploadDocumentToFirebase, uploadImageToFirebase } from '../../../database/Firebase';
+import { addNewUserData, emailSignUp, uploadDocumentToFirebase, uploadImageToFirebase } from '../../../database/Firebase';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 export default class Senha extends React.Component {
@@ -35,15 +35,9 @@ export default class Senha extends React.Component {
 
         const userData = data;
 
-        if (userData.profissional) {
-          addNewProfissionalData({ email, userData }, (docRef, error) => {
-            if (error && !docRef) return alert(error);
-          });
-        } else {
-          addNewUserData({ email, userData }, (docRef, error) => {
-            if (error && !docRef) return alert(error);
-          });
-        }
+        addNewUserData({ email, userData }, (docRef, error) => {
+          if (error && !docRef) return alert(error);
+        });
       });
     }, 2000);
   };
@@ -79,13 +73,19 @@ export default class Senha extends React.Component {
 
     const password = this.state.senha;
     const passwordConfirmation = this.state.confirmacaoSenha;
+    
+    //Validar se senha confere
 
     if (password !== passwordConfirmation) {
       Alert.alert('Senhas divergentes!');
       return;
     };
 
+    //Validar se campos estão preenchidos
+
     if (!email || !password) return Alert.alert('Dados Incompletos!');
+
+    // Fazer upload da imagem se ouver
 
     if (imagem) {
       const uri = imagem;
@@ -106,6 +106,8 @@ export default class Senha extends React.Component {
 
       await uploadDocumentToFirebase(blob, nomeDocumento);
     }
+
+    // Criando usuário no banco de dadaos
 
     this.createDataAndUserInDatabase(data, email, password);
 

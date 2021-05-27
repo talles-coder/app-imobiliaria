@@ -58,24 +58,8 @@ export default class Login extends React.Component {
           Global.NOME = Global.userData.nome;
           Global.PROFILEIMAGE = Global.userData.imagem;
 
-          this.props.navigation.navigate('ProfileCliente');
+          this.props.navigation.navigate('ProfileCorretor');
         }
-      });
-
-      getProfissionalData(email, (data, error) => {
-        if (error && !data) alert(error.message);
-
-        const userData = data.data();
-
-        if (userData) {
-          Global.userData = userData;
-          Global.EMAIL = email;
-          Global.NOME = Global.userData.nome;
-          Global.PROFILEIMAGE = Global.userData.imagem;
-
-          if (Global.userData) this.props.navigation.navigate('ProfileProfissional');
-        }
-
       });
     });
   }

@@ -37,7 +37,7 @@ class Index extends Component {
       if (animate) {
         setTimeout(() => {
           this.setState({ currentStep: currentStep + 1 });
-        }, 300);
+        }, 100);
       }
     } else {
       this.finish();
@@ -54,7 +54,7 @@ class Index extends Component {
       if (animate) {
         setTimeout(() => {
           this.setState({ currentStep: currentStep - 1 });
-        }, 300);
+        }, 100);
       }
     } else {
       this.finish();

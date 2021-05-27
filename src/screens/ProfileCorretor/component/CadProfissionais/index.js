@@ -1,26 +1,36 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import colors from '../../../../styles/colors';
 
-export default function CadMensagens(props) {
-    function filterDesc(mens) {
-        if (mens.length < 43) {
-            return mens;
-        }
+export default function CadPro(props) {
+    function filterDesc(desc) {
+        if (desc.length < 60) return desc;
 
-        return `${mens.substring(0, 38)}...`;
+        return `${desc.substring(0, 55)}...`;
     }
 
     return (
         <View style={styles.container}>
             <View style={styles.Header}>
-                <Image source={props.img} style={styles.ImagemProfissional} />
+                <Image source={props.img} style={styles.imagemGestor} />
 
                 <View style={styles.ColunaDescricao}>
                     <Text style={styles.StyleName}> {props.NameProf} </Text>
 
-                    <Text style={styles.StyleDesc}> {filterDesc(props.DescServico)}</Text>
+                    <Text style={styles.StyleRamo}> {props.NameRamo} </Text>
+                    <Text style={styles.StyleDesc}> {filterDesc(props.DescServico)} </Text>
+
+                    <View style={styles.linhaDistancia}>
+                        <Icon name='location-on' style={styles.StyleDist} />
+                        <Text style={styles.StyleDist}> {props.Distancia}</Text>
+                    </View>
+                </View>
+
+                <View style={styles.StyleAva}>
+                    <Icon name='star' size={20} />
+                    <Text> {props.Avali} </Text>
                 </View>
             </View>
 
@@ -35,7 +45,7 @@ export default function CadMensagens(props) {
 
 const styles = StyleSheet.create({
     container: {
-        height: heightPercentageToDP('15%'),
+        height: heightPercentageToDP('22%'),
         width: widthPercentageToDP('90%'),
         backgroundColor: colors.branco,
         margin: heightPercentageToDP('2%'),
@@ -47,14 +57,20 @@ const styles = StyleSheet.create({
     },
     Header: {
         flexDirection: 'row',
+        justifyContent: 'space-around',
     },
     ColunaDescricao: {
         width: widthPercentageToDP('55%'),
     },
-    ColunaAccess: {
-        flex: 0.2,
-        height: '100%',
-        width: '20%',
+    linhaDistancia: {
+        height: '33.3%',
+        alignItems: 'center',
+        flex: 0.6,
+        flexDirection: 'row',
+        borderTopWidth: 1,
+        borderColor: '#b3b3b3',
+        paddingTop: heightPercentageToDP('2%'),
+        marginTop: heightPercentageToDP('2%')
     },
     StyleName: {
         fontSize: widthPercentageToDP('4.8%'),
@@ -62,16 +78,30 @@ const styles = StyleSheet.create({
         width: widthPercentageToDP('55%'),
         marginBottom: heightPercentageToDP('0.8%')
     },
+    StyleRamo: {
+        fontSize: widthPercentageToDP('3.5%'),
+        marginBottom: heightPercentageToDP('0.4%'),
+        opacity: 0.6,
+        fontWeight: 'bold'
+    },
     StyleDesc: {
         fontSize: widthPercentageToDP('3%'),
         opacity: 0.5,
     },
-    ImagemProfissional: {
+    StyleDist: {
+        fontSize: widthPercentageToDP('3%'),
+        opacity: 0.5,
+    },
+    imagemGestor: {
         resizeMode: 'contain',
         marginRight: widthPercentageToDP('2%')
+    },
+    StyleAva: {
+        flexDirection: 'row',
+        opacity: 0.6,
     },
     StyleAccess: {
         resizeMode: 'contain',
         alignSelf: 'flex-end',
-    }
+    },
 });

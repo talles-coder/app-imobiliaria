@@ -77,7 +77,7 @@ export default function Chamados({ navigation }) {
           <CadChama
             img={require('../../assets/Bolinha-foto.png')}
             NameProf="Marcos Silva"
-            NameRamo="Tecnico de Informatica"
+            NameRamo="Gestor de Informatica"
             DescServico='Monto computadores e faço manutencoes'
             Status="Pendente">
           </CadChama>

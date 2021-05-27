@@ -84,7 +84,7 @@ export default function Profissionais({ navigation }) {
           <CadProfissionais
             img={require('../../assets/Bolinha-foto.png')}
             NameProf="Iago Roberts"
-            NameRamo="Tecnico de Informatica"
+            NameRamo="Gestor de Informatica"
             DescServico='Monto computadores e faço formatação'
             Distancia="A 5,5km de você"
             Avali="9,0"
@@ -142,7 +142,7 @@ export default function Profissionais({ navigation }) {
           <CadProfissionais
             img={require('../../assets/Bolinha-foto.png')}
             NameProf="Diego Silvaldo"
-            NameRamo="Tecnico de informatica"
+            NameRamo="Gestor de informatica"
             DescServico='Troco o Coleer do seu pc'
             Distancia="A 0,5km de você"
             Avali="4,6"
