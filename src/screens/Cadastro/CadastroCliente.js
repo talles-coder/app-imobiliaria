@@ -6,8 +6,6 @@ import colors from '../../styles/colors/index';
 import AnimatedFormView from '../../components/Step'
 
 import DadosIniciais from './Formularios/DadosIniciais';
-import Endereco from './Formularios/Endereco';
-import CartaoDeCredito from './Formularios/CartaoDeCredito';
 import Senha from './Formularios/Senha';
 
 export default class CadastroCliente extends React.Component {
@@ -26,9 +24,7 @@ export default class CadastroCliente extends React.Component {
   render() {
     const allStepsFormsCliente = [
       { name: "step 1", component: DadosIniciais },
-      { name: "step 2", component: Endereco },
-      { name: "step 3", component: CartaoDeCredito },
-      { name: "step 4", component: Senha }
+      { name: "step 2", component: Senha }
     ];
 
     return (

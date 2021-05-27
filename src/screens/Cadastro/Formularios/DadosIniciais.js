@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView, Platform } from 'react-native';
+import { StyleSheet, View, Text, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView, Platform } from 'react-native';
 
 import colors from '../../../styles/colors/index';
 
@@ -22,29 +22,20 @@ export default class DadosIniciais extends React.Component {
       nome: '',
       email: '',
       celular: '',
-      nascimento: '',
-      cpf: '',
     };
 
+    this.handleTermoDeUsoChange = this.handleTermoDeUsoChange.bind(this);
+    this.handleImageChange = this.handleImageChange.bind(this);
     this.handleNomeChange = this.handleNomeChange.bind(this);
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handleCelularChange = this.handleCelularChange.bind(this);
-    this.handleNascimentoChange = this.handleNascimentoChange.bind(this);
-    this.handleCPFChange = this.handleCPFChange.bind(this);
-    this.handleTermoDeUsoChange = this.handleTermoDeUsoChange.bind(this);
-    this.handleImageChange = this.handleImageChange.bind(this);
   }
 
+  handleTermoDeUsoChange() {this.setState({ termoDeUso: !this.state.termoDeUso });}
+  handleImageChange = (imagem) => this.setState({ imagem });
   handleNomeChange = (nome) => this.setState({ nome });
   handleEmailChange = (email) => this.setState({ email: email ? email.toString().trim() : email });
   handleCelularChange = (celular) => this.setState({ celular });
-  handleNascimentoChange = (nascimento) => this.setState({ nascimento });
-  handleCPFChange = (cpf) => this.setState({ cpf });
-  handleImageChange = (imagem) => this.setState({ imagem });
-
-  handleTermoDeUsoChange() {
-    this.setState({ termoDeUso: !this.state.termoDeUso });
-  }
 
   nextStep = () => {
     const { next, saveState } = this.props;
@@ -60,11 +51,14 @@ export default class DadosIniciais extends React.Component {
   }
 
   render() {
+    let nome = 'Corretor'
     return (
       <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.container}>
-            <Header titulo='Seus Dados' funcao={this.goBack} />
+            <Header titulo={nome} funcao={this.goBack} />
+
+            <Text>Foto de Perfil</Text> 
 
             <ImagePicker
               onChangeImage={this.handleImageChange}
@@ -77,13 +71,6 @@ export default class DadosIniciais extends React.Component {
                 labelText='Nome'
                 onChangeText={this.handleNomeChange}
                 value={this.state.nome}
-              />
-
-              <Input
-                inputType='numeric'
-                labelText='CPF'
-                onChangeText={this.handleCPFChange}
-                value={this.state.cpf}
               />
 
               <Input
@@ -100,14 +87,8 @@ export default class DadosIniciais extends React.Component {
                 value={this.state.celular}
               />
 
-              <Input
-                labelText='Nascimento'
-                onChangeText={this.handleNascimentoChange}
-                value={this.state.nascimento}
-              />
-
               <CheckBox
-                label="Li e concordo com os termos de uso"
+                label="Confirmo que meus dadaos estão corretos"
                 labelStyle={{ color: colors.branco, fontSize: 16 }}
                 value={this.state.termoDeUso}
                 onChange={this.handleTermoDeUsoChange}
@@ -115,7 +96,7 @@ export default class DadosIniciais extends React.Component {
 
             </View>
 
-            <Button titulo='CONTINUAR' funcao={this.nextStep} />
+            <Button titulo='CONTINUAR' funcao={this.nextStep} hidden={this.state.termoDeUso} />
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAwareScrollView>

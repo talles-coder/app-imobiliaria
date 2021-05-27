@@ -20,7 +20,7 @@ export default class Header extends React.Component {
         </TouchableOpacity>
 
         <Text style={styles.title}>
-          {titulo}
+          Cadastro {titulo}
         </Text>
       </View>
     );

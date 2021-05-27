@@ -16,11 +16,15 @@ export default class Button extends Component {
   }
 
   render() {
-    const { titulo, funcao } = this.props;
+    const { titulo, funcao, hidden=false } = this.props;
 
     return (
       <View style={[styles.wrapper]}>
-        <TouchableOpacity style={styles.button} onPress={funcao}>
+        <TouchableOpacity 
+          style={hidden ? styles.buttonHidden : styles.button } 
+          onPress={funcao}
+          disabled={hidden}
+        >
           <Text style={styles.text}>
             {titulo}
           </Text>
@@ -38,6 +42,13 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: colors.azulVibrante,
+    width: wp('61.6%'),
+    height: hp('5.57%'),
+    borderRadius: 10,
+    justifyContent: 'center',
+  },
+  buttonHidden: {
+    backgroundColor: colors.cinza,
     width: wp('61.6%'),
     height: hp('5.57%'),
     borderRadius: 10,
