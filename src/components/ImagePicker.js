@@ -49,12 +49,6 @@ export default function ImagePicker(props) {
       style={styles.container}
       borderRadius={100}>
 
-      <View style={styles.titleImage}>
-        <Text style={styles.title}>
-          Foto do Perfil
-        </Text>
-      </View>
-
       <View style={styles.circle}>
         <TouchableOpacity
           style={

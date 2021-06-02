@@ -1,5 +1,13 @@
 import { Alert } from "react-native";
 import { firebaseApp } from "./Config";
+import 'react-native-get-random-values';
+import  {  v4  as  uuidv4 } from  'uuid' ;
+import { version as uuidVersion } from 'uuid';
+import { validate as uuidValidate } from 'uuid';
+
+function uuidValidateV4(uuid) {
+  return uuidValidate(uuid) && uuidVersion(uuid) === 4;
+}
 
 export var db = firebaseApp.firestore();
 
@@ -26,6 +34,9 @@ export function emailSignIn({ email, password }, callback) {
     .catch((err) => callback(err, null))
 };
 
+
+// Solicitar dados do usuário
+
 export function getUserData(email, callback) {
   var userRef = db.collection('Usuarios').doc(email);
   userRef.get()
@@ -33,12 +44,82 @@ export function getUserData(email, callback) {
     .catch((error) => callback(null, error))
 };
 
-export async function getImageFromFirebase(imagem, callback) {
+export function getImageFromFirebase(imagem, callback) {
   var ref = firebaseApp.storage().ref('uploads/' + imagem);
   ref.getDownloadURL()
     .then((url) => callback(url, null))
     .catch((error) => callback(null, error))
 };
+
+
+export async function crateTemporaryToken() {
+  // Cria campo no banco de dados
+
+  let vari = Math.floor(100000 + Math.random() * 900000)
+  let uuidd = uuidv4()
+
+  const data = {
+    name: 'Los Angeles',
+    state: 'CA',
+    country: 'USA'
+  };
+
+  const res = db.collection('cities').doc(`${vari}`).set(data);
+
+  //----------------------------------
+
+  // Pesquisa valor no banco de dados
+
+  // const citiesRef = db.collection('cities');
+
+  // // Create a query against the collection
+  // const snapshot = await citiesRef.where('capital', '==', false).get();
+  
+  // if (snapshot.empty) {
+  //   console.log('No matching documents.');
+  //   return;
+  // }
+  // snapshot.forEach(doc => {
+  //   console.log(doc.id);
+  // });
+
+  
+}
+
+export async function deleteTemporaryToken(value) {
+  // Pesquisa valor no banco de dados
+
+  const citiesRef = db.collection('cities');
+  
+  const snapshot = await citiesRef.where( 'name', '==', value).get();
+  
+  if (snapshot.empty) {
+    console.log('No matching documents.');
+    return;
+  }
+  snapshot.forEach(doc => {
+    db.collection('cities').doc(doc.id).delete();
+  });
+}
+
+export async function UpdateTemporaryToken(value, wher) {
+  // Pesquisa valor no banco de dados
+
+  const citiesRef = db.collection('cities');
+  
+  const snapshot = await citiesRef.where( 'name', '==', value).get();
+  
+  if (snapshot.empty) {
+    console.log('No matching documents.');
+    return;
+  }
+  snapshot.forEach(doc => {
+    db.collection('cities').doc(doc.id).update({
+      country : wher
+    });;
+  });
+}
+
 
 export function addNewUserData({ email, userData }, callback) {
   var userRef = db.collection('Usuarios').doc(email);

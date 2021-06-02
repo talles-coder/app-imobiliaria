@@ -5,8 +5,10 @@ import { StatusBar } from 'expo-status-bar';
 import colors from '../../styles/colors/index';
 import AnimatedFormView from '../../components/Step'
 
+import CodigoDeAcesso from './Formularios/CodigoDeAcesso';
 import DadosIniciais from './Formularios/DadosIniciais';
 import Senha from './Formularios/Senha';
+import MainTransition from './Formularios/MainTransition';
 
 export default class CadastroGestor extends React.Component {
   constructor(props) {
@@ -19,12 +21,14 @@ export default class CadastroGestor extends React.Component {
 
   onBack = () => { };
 
-  finish = () => this.props.navigation.navigate('Main');
+  finish = () => this.props.navigation.navigate('Login');
 
   render() {
     const allStepsFormsGestor = [
-      { name: "step 1", component: DadosIniciais },
-      { name: "step 2", component: Senha },
+      { name: "step 1", component: CodigoDeAcesso },
+      { name: "step 2", component: DadosIniciais },
+      { name: "step 3", component: Senha },
+      { name: "step 4", component: MainTransition },
     ];
 
     
@@ -35,10 +39,6 @@ export default class CadastroGestor extends React.Component {
           onFinish={this.finish}
           onBack={this.onBack}
           onNext={this.onNext}
-          comeInOnNext="bounceInUp"
-          OutOnNext="bounceOutDown"
-          comeInOnBack="bounceInDown"
-          OutOnBack="bounceOutUp"
         />
 
         <StatusBar

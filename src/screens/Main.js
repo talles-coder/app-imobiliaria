@@ -59,7 +59,7 @@ export default function Main(props) {
               </Image>
 
               <Text style={styles.textModal}>
-                Gestor
+                GESTOR
               </Text>
             </TouchableOpacity>
           </View>

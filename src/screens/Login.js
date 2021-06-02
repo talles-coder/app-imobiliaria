@@ -14,7 +14,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import Input from "../components/Input";
-import { emailSignIn, getUserData, getProfissionalData } from "../database/Firebase";
+import { updateTemporaryToken, deleteTemporaryToken , crateTemporaryToken, emailSignIn, getUserData, getProfissionalData } from "../database/Firebase";
 import colors from "../styles/colors"
 import Global from "../global/Global";
 import Header from "../components/Header";
@@ -33,6 +33,22 @@ export default class Login extends React.Component {
 
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
+  }
+
+  create = () => {
+    crateTemporaryToken();
+  }
+
+  delete = () => {
+    const send = this.state.email
+    deleteTemporaryToken(send);
+  }
+
+  update = () => {
+    const send = this.state.email
+    const res = this.state.password
+    console.log(send)
+    updateTemporaryToken(send, res);
   }
 
   handleEmailChange = (email) => this.setState({ email: email.trim() });
@@ -105,15 +121,19 @@ export default class Login extends React.Component {
                 </View>
 
                 <View style={{ alignItems: "center", marginTop: 40, marginBottom: 40 }}>
-                  <TouchableOpacity onPress={this.handleNextButton} style={styles.botoes}>
-                    <Text style={styles.txtbotao}>CONFIRMAR</Text>
+                  <TouchableOpacity onPress={this.create} style={styles.botoes}>
+                    <Text style={styles.txtbotao}>Adcionar</Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity onPress={this.handleForgotPassword}>
+                  <TouchableOpacity onPress={this.delete} style={styles.botoes}>
+                    <Text style={styles.txtbotao}>Deletar</Text>
+                  </TouchableOpacity>
+
+                  {/* <TouchableOpacity onPress={this.handleForgotPassword}>
                     <Text style={{ textDecorationLine: "underline", color: "white", textAlign: "center", marginTop: 25 }}>
                       Esqueci minha senha
                 </Text>
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                 </View>
               </View>
             </KeyboardAvoidingView>

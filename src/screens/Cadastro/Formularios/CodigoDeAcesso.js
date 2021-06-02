@@ -1,13 +1,11 @@
 import React from 'react';
-import { ImageBackground, StyleSheet, View, Text, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView, Platform } from 'react-native';
+import { Image, ImageBackground, StyleSheet, View, Text, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView, Platform } from 'react-native';
 
 import colors from '../../../styles/colors/index';
 
 import Header from '../../../components/Header';
 import Input from '../../../components/Input';
-import ImagePicker from '../../../components/ImagePicker';
 import Button from '../../../components/Button';
-import CheckBox from '../../../components/CheckBox';
 const fundo = "../../../../assets/fundo.png";
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -54,7 +52,7 @@ export default class DadosIniciais extends React.Component {
   }
 
   render() {
-    let nome = 'Cadastro Corretor'
+    let nome = 'BEM VINDO'
     return (
       <ImageBackground style={styles.imgBackground} source={require(fundo)}>
         <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -63,43 +61,31 @@ export default class DadosIniciais extends React.Component {
               <Header titulo={nome} funcao={this.goBack} />
 
               <View>
-                  <Text style={styles.title}>Foto de Perfil</Text> 
+                <Image style={styles.img} source={require('../../../../assets/usher.png')}></Image>
+              </View>
 
-                  <ImagePicker
-                    onChangeImage={this.handleImageChange}
-                    value={this.state.imagem}
-                    permitirAdd={true}
-                  />
-                </View>
+              <View style={styles.textView}>
+                <Text style={styles.text}>
+                  Olá gestor(a), Para se cadastrar
+                  você precisa do código de acesso que
+                  o gestor criou para você.
+                </Text>
+              </View>
 
               <View>
                 <Input
-                  labelText='Nome'
-                  onChangeText={this.handleNomeChange}
-                  value={this.state.nome}
-                />
-
-                <Input
-                  inputType='email-address'
-                  labelText='Email'
-                  onChangeText={this.handleEmailChange}
-                  value={this.state.email}
-                />
-
-                <Input
                   inputType='phone-pad'
-                  labelText='Celular'
+                  labelText='Código :'
                   onChangeText={this.handleCelularChange}
                   value={this.state.celular}
                 />
-
               </View>
 
               <Button titulo='CONTINUAR' funcao={this.nextStep} hidden={this.state.termoDeUso} />
             </View>
           </TouchableWithoutFeedback>
         </KeyboardAwareScrollView>
-        </ImageBackground>
+      </ImageBackground>
     );
   }
 }
@@ -113,6 +99,12 @@ const styles = StyleSheet.create({
   formulario: {
     marginBottom: heightPercentageToDP('3.5%')
   },
+  imgBackground: {
+    width: '100%',
+    height: '100%',
+    justifyContent: "space-around",
+    alignItems: "center"
+  },
   title: {
     fontSize: hp('2.2%'),
     color: colors.branco,
@@ -120,10 +112,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 10,
   },
-  imgBackground: {
-    width: '100%',
-    height: '100%',
-    justifyContent: "space-around",
-    alignItems: "center"
+  textView: {
+    width: wp('90%')
+  },
+  text: { 
+    fontSize: hp('3,3%'),
+    color: colors.branco,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    marginBottom: 10,
   },
 });

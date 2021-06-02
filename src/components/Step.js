@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { Dimensions } from "react-native";
 import * as Animatable from "react-native-animatable";
 
-const defaultInOnNext = "bounceInLeft";
-const defaultOutOnNext = "bounceOutRight";
-const defaultInOnBack = "bounceInRight";
-const defaultOutOnBack = "bounceOutLeft";
+const defaultInOnNext = "fadeIn";
+const defaultOutOnNext = "fadeIn";
+const defaultInOnBack = "fadeIn";
+const defaultOutOnBack = "fadeIn";
 
 class Index extends Component {
   constructor(props) {
@@ -15,7 +15,7 @@ class Index extends Component {
       currentStep: 0,
       totalSteps: 0,
       userState: {},
-      action: "bounceInLeft",
+      action: "fadeIn",
       animationFinished: false
     };
   }
@@ -33,7 +33,7 @@ class Index extends Component {
     const { animate = true, OutOnNext = defaultOutOnNext } = this.props;
     if (currentStep !== totalSteps) {
       this.onNext();
-      this.setState({ action: OutOnNext, animationFinished: false });
+      this.setState({ action: OutOnNext, animationFinished: true });
       if (animate) {
         setTimeout(() => {
           this.setState({ currentStep: currentStep + 1 });

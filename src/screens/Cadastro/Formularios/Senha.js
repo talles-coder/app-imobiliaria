@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Alert, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { ImageBackground, StyleSheet, View, Alert, TouchableWithoutFeedback, Keyboard } from 'react-native';
 
 import colors from '../../../styles/colors/index';
 
@@ -11,6 +11,8 @@ import Button from '../../../components/Button';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { addNewUserData, emailSignUp, uploadDocumentToFirebase, uploadImageToFirebase } from '../../../database/Firebase';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
+const fundo = "../../../../assets/fundo.png";
 
 export default class Senha extends React.Component {
   constructor(props) {
@@ -111,9 +113,16 @@ export default class Senha extends React.Component {
 
     this.createDataAndUserInDatabase(data, email, password);
 
-    Alert.alert('Cadastro efetuado com sucesso!');
+    // Alert.alert('Cadastro efetuado com sucesso!');
 
-    finish();
+    this.nextStep();
+  };
+
+  nextStep = () => {
+    const { next, saveState } = this.props;
+    saveState(this.state);
+
+    next();
   };
 
   goBack = () => {
@@ -124,35 +133,37 @@ export default class Senha extends React.Component {
 
   render() {
     return (
-      <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.container}>
-            <Header titulo='Defina Sua Senha' funcao={this.goBack} />
+      <ImageBackground style={styles.imgBackground} source={require(fundo)}>  
+        <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }}>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.container}>
+              <Header titulo='Defina Sua Senha' funcao={this.goBack} />
 
-            <ImagePicker permitirAdd={false} />
+              <ImagePicker permitirAdd={false} />
 
-            <View>
+              <View>
 
-              <Input
-                isPassword={true}
-                labelText='Senha'
-                onChangeText={this.handleSenhaChange}
-                value={this.state.senha}
-              />
+                <Input
+                  isPassword={true}
+                  labelText='Senha'
+                  onChangeText={this.handleSenhaChange}
+                  value={this.state.senha}
+                />
 
-              <Input
-                isPassword={true}
-                labelText='Confirmar senha'
-                onChangeText={this.handleConfirmacaoSenhaChange}
-                value={this.state.confirmacaoSenha}
-              />
+                <Input
+                  isPassword={true}
+                  labelText='Confirmar senha'
+                  onChangeText={this.handleConfirmacaoSenhaChange}
+                  value={this.state.confirmacaoSenha}
+                />
 
+              </View>
+
+              <Button titulo='CADASTRAR' funcao={this.handleSubmit} />
             </View>
-
-            <Button titulo='CADASTRAR' funcao={this.handleSubmit} />
-          </View>
-        </TouchableWithoutFeedback>
-      </KeyboardAwareScrollView >
+          </TouchableWithoutFeedback>
+        </KeyboardAwareScrollView >
+      </ImageBackground>
     );
   }
 }
@@ -160,9 +171,14 @@ export default class Senha extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.azulEscuro,
     alignItems: 'center',
     justifyContent: 'space-around'
+  },
+  imgBackground: {
+    width: '100%',
+    height: '100%',
+    justifyContent: "space-around",
+    alignItems: "center"
   },
   containerDoisInputs: {
     flexDirection: 'row',

@@ -8,7 +8,6 @@ import CadastroGestor from '../screens/Cadastro/CadastroGestor';
 import ProfileCorretor from '../screens/ProfileCorretor/ProfileCorretor';
 import ProfileGestor from '../screens/ProfileGestor/ProfileGestor';
 import ResetPassword from '../screens/ResetPassword';
-import MainTransition from '../screens/TransitionScreens/MainTransition';
 
 const Stack = createStackNavigator();
 
@@ -22,7 +21,6 @@ export default class Route extends React.Component {
             headerShown: false,
           }}
         >
-          <Stack.Screen name="MainTransition" component={MainTransition} />
           <Stack.Screen name="Main" component={Main} />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="CadastroCorretor" component={CadastroCorretor} />
