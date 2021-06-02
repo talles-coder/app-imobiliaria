@@ -3,11 +3,9 @@ import 'react-native-gesture-handler';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 // import { NavigationContainer } from '@react-navigation/native';
 
-import Solicitaçoes from './pagesCorretor/Solicitaçoes'
-import MensagensCli from './pagesCorretor/MensagensCli'
-import NotasFiscais from './pagesCorretor/NotasFiscais'
+import Solicitaçoes from './pagesCorretor/Dashboard'
 
-import CustomDrawerCli from './component/CustomDrawerCli'
+import CustomDrawerGestor from '../../components/componentPages/CustomDrawerGestor'
 
 
 export default function ProfileGestor() {
@@ -17,7 +15,7 @@ export default function ProfileGestor() {
       drawerStyle={{ width: '60%' }}
       edgeWidth={50}
       initialRouteName="Solicitaçoes"
-      drawerContent={CustomDrawerCli}
+      drawerContent={CustomDrawerGestor}
       children
       screenOptions={{
         headerShown: false

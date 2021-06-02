@@ -63,32 +63,32 @@ export default function CustomDrawerCli(props) {
       <View style={styles.BoxMid}>
 
         <DrawerItem
-          icon={() => <Image source={require('../../assets/profs.png')} />}
+          icon={() => <Image source={require('../../../assets/assetsCorretor/profs.png')} />}
           label="Solicitações"
           onPress={() => props.navigation.navigate('Solicitaçoes')}
         />
         <DrawerItem
-          icon={() => <Image source={require('../../assets/mensagens.png')} />}
+          icon={() => <Image source={require('../../../assets/assetsCorretor/mensagens.png')} />}
           label="Mensagens"
           onPress={() => props.navigation.navigate('Mensagens')}
         />
         <DrawerItem
-          icon={() => <Image source={require('../../assets/mais.png')} />}
+          icon={() => <Image source={require('../../../assets/assetsCorretor/mais.png')} />}
           label="Notas Fiscais"
           onPress={() => props.navigation.navigate('Notas Fiscais')}
         />
         <DrawerItem
-          icon={() => <Image source={require('../../assets/carteira.png')} />}
+          icon={() => <Image source={require('../../../assets/assetsCorretor/carteira.png')} />}
           label="Carteira"
           onPress={() => props.navigation.navigate('Carteira')}
         />
         <DrawerItem
-          icon={() => <Image source={require('../../assets/calendario.png')} />}
+          icon={() => <Image source={require('../../../assets/assetsCorretor/calendario.png')} />}
           label="Agenda"
           onPress={() => props.navigation.navigate('Agenda')}
         />
         <DrawerItem
-          icon={() => <Image source={require('../../assets/computador.png')} />}
+          icon={() => <Image source={require('../../../assets/assetsCorretor/computador.png')} />}
           label="Serviços"
           onPress={() => props.navigation.navigate('Serviços')}
         />
@@ -99,12 +99,12 @@ export default function CustomDrawerCli(props) {
       <View style={styles.LastBox}>
 
         <TouchableOpacity style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Image source={require('../../assets/editar.png')} />
+          <Image source={require('../../../assets/assetsCorretor/editar.png')} />
           <Text style={{ color: '#000', fontWeight: 'bold' }}>Alternar Perfil</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }} onPress={handleSignOutButton}>
-          <Image source={require('../../assets/sair.png')} />
+          <Image source={require('../../../assets/assetsCorretor/sair.png')} />
           <Text style={{ color: '#000', fontWeight: 'bold' }}>Sair</Text>
         </TouchableOpacity>
 

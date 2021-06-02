@@ -3,35 +3,31 @@ import 'react-native-gesture-handler';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 // import { NavigationContainer } from '@react-navigation/native';
 
-import Solicitaçoes from './pages/Solicitaçoes'
-import MensagensCli from './pages/MensagensCli'
-import NotasFiscais from './pages/NotasFiscais'
-import Carteira from './pages/Carteira'
-import PesquisaCli from './pages/PesquisaCli'
-import Serviços from './pages/Serviços'
-import Agenda from './pages/Agenda'
+import Solicitaçoes from './pagesCorretor/Dashboard'
 
-import CustomDrawerCli from './component/CustomDrawerCli'
+import CustomDrawerCorretor from '../../components/componentPages/CustomDrawerCorretor'
 
 
-export default function ProfileGestor() {
+export default function ProfileCorretor() {
   const Drawer = createDrawerNavigator();
   return (
     <Drawer.Navigator
       drawerStyle={{ width: '60%' }}
       edgeWidth={50}
       initialRouteName="Solicitaçoes"
-      drawerContent={CustomDrawerCli}
+      drawerContent={CustomDrawerCorretor}
       children
       screenOptions={{
         headerShown: false
       }}
     >
       <Drawer.Screen name="Dashboard" component={Solicitaçoes} />
-      <Drawer.Screen name="Solicitaçoes" component={Solicitaçoes} />
-      <Drawer.Screen name="TodasReservas" component={Solicitaçoes} />
-      <Drawer.Screen name="MinhasReservas" component={Solicitaçoes} />
-      
+      <Drawer.Screen name="Loteamentos" component={Solicitaçoes} />
+      <Drawer.Screen name="CadastrarLoteamento" component={MensagensCli} />
+      <Drawer.Screen name="GerenciarCorretores" component={MensagensCli} />
+      <Drawer.Screen name="TodasReservas" component={NotasFiscais} />
+      <Drawer.Screen name="MinhasReservas" component={MensagensCli} />
+
     </Drawer.Navigator>
   );
 }
