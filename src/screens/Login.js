@@ -1,4 +1,4 @@
-import React from "react";
+import React , {useState} from "react";
 import {
   StyleSheet,
   Text,
@@ -18,9 +18,11 @@ import { updateTemporaryToken, deleteTemporaryToken , crateTemporaryToken, email
 import colors from "../styles/colors"
 import Global from "../global/Global";
 import Header from "../components/Header";
+import * as DocumentPicker from 'expo-document-picker';
 
 const fundo = "../../assets/fundo.png";
 const logo = "../../assets/logo.png";
+const csv=require('csvtojson')
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -29,10 +31,34 @@ export default class Login extends React.Component {
     this.state = {
       email: '',
       password: '',
+      file: '',
     };
 
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
+  }
+  
+  pick = async() => {
+    try {
+      const response = await DocumentPicker.getDocumentAsync({type: 'text/comma-separated-values', copyToCacheDirectory: false, multiple: false})
+      this.state.file = response
+    }
+    catch (error) {
+      console.log(error)
+    }
+  }
+  
+  save = () => {
+    csv()
+    .fromFile(this.state.file)
+    .on('json',(jsonObj)=>{
+    // combine csv header row and csv line to a json object
+    // jsonObj.a ==> 1 or 4
+    console.log(jsonObj)
+    })
+    .on('done',(error)=>{
+    console.log('end')
+  })
   }
 
   create = () => {
@@ -47,7 +73,6 @@ export default class Login extends React.Component {
   update = () => {
     const send = this.state.email
     const res = this.state.password
-    console.log(send)
     updateTemporaryToken(send, res);
   }
 
@@ -121,18 +146,18 @@ export default class Login extends React.Component {
                 </View>
 
                 <View style={{ alignItems: "center", marginTop: 40, marginBottom: 40 }}>
-                  <TouchableOpacity onPress={this.create} style={styles.botoes}>
-                    <Text style={styles.txtbotao}>Adcionar</Text>
+                  <TouchableOpacity onPress={this.save} style={styles.botoes}>
+                    <Text style={styles.txtbotao}>visualizar</Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity onPress={this.delete} style={styles.botoes}>
-                    <Text style={styles.txtbotao}>Deletar</Text>
+                  <TouchableOpacity onPress={this.pick} style={styles.botoes}>
+                    <Text style={styles.txtbotao}>file</Text>
                   </TouchableOpacity>
 
                   {/* <TouchableOpacity onPress={this.handleForgotPassword}>
                     <Text style={{ textDecorationLine: "underline", color: "white", textAlign: "center", marginTop: 25 }}>
                       Esqueci minha senha
-                </Text>
+                    </Text>
                   </TouchableOpacity> */}
                 </View>
               </View>

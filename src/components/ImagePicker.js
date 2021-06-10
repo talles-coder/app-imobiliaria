@@ -25,7 +25,7 @@ export default function ImagePicker(props) {
       allowsEditing: true,
       aspect: [4, 4],
       cropperCircleOverlay: true,
-      quality: 1,
+      quality: 0.6,
     });
 
     if (!result.cancelled) {
