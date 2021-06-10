@@ -30,7 +30,7 @@ export default function CustomDrawerCli(props) {
   function buscarImagemPerfil() {
     const imagem = Global.PROFILEIMAGE;
 
-    if (imagem) {
+    if (!imagem) {
       getImageFromFirebase(imagem, (url, error) => {
         if (error) console.log(error);
         Global.IMAGEURL = url;
@@ -64,35 +64,29 @@ export default function CustomDrawerCli(props) {
 
         <DrawerItem
           icon={() => <Image source={require('../../../assets/assetsCorretor/profs.png')} />}
-          label="Solicitações"
-          onPress={() => props.navigation.navigate('Solicitaçoes')}
+          label="Loteamentos"
+          onPress={() => props.navigation.navigate('Loteamentos')}
         />
         <DrawerItem
           icon={() => <Image source={require('../../../assets/assetsCorretor/mensagens.png')} />}
-          label="Mensagens"
-          onPress={() => props.navigation.navigate('Mensagens')}
+          label="Cadastrar Loteamentos"
+          onPress={() => props.navigation.navigate('CadastrarLoteamentos')}
         />
         <DrawerItem
           icon={() => <Image source={require('../../../assets/assetsCorretor/mais.png')} />}
-          label="Notas Fiscais"
-          onPress={() => props.navigation.navigate('Notas Fiscais')}
+          label="Corretores"
+          onPress={() => props.navigation.navigate('Corretores')}
         />
         <DrawerItem
           icon={() => <Image source={require('../../../assets/assetsCorretor/carteira.png')} />}
-          label="Carteira"
-          onPress={() => props.navigation.navigate('Carteira')}
+          label="Todas Reservas"
+          onPress={() => props.navigation.navigate('TodasReservas')}
         />
         <DrawerItem
           icon={() => <Image source={require('../../../assets/assetsCorretor/calendario.png')} />}
-          label="Agenda"
-          onPress={() => props.navigation.navigate('Agenda')}
+          label="Minhas Reservas"
+          onPress={() => props.navigation.navigate('MinhasReservas')}
         />
-        <DrawerItem
-          icon={() => <Image source={require('../../../assets/assetsCorretor/computador.png')} />}
-          label="Serviços"
-          onPress={() => props.navigation.navigate('Serviços')}
-        />
-
 
       </View>
 

@@ -8,7 +8,7 @@ import Input from '../../../components/Input';
 import Button from '../../../components/Button';
 const fundo = "../../../../../assets/fundo.png";
 
-import { -0=p } from 'react-native-keyboard-aware-scroll-view'
+import { wp } from 'react-native-keyboard-aware-scroll-view'
 import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -16,7 +16,7 @@ import FilePickerManager from 'react-native-file-picker';
 
 
 
-export default class DadosIniciais extends React.Component {
+export default class FormularioArquivos extends React.Component {
   constructor(props) {
     super(props);
 

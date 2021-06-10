@@ -14,7 +14,7 @@ export default function ProfileCorretor() {
     <Drawer.Navigator
       drawerStyle={{ width: '60%' }}
       edgeWidth={50}
-      initialRouteName="Solicitaçoes"
+      initialRouteName="CadastrarLoteamento"
       drawerContent={CustomDrawerCorretor}
       children
       screenOptions={{

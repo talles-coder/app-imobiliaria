@@ -129,6 +129,14 @@ export function addNewUserData({ email, userData }, callback) {
     .catch((error) => callback(null, error))
 };
 
+export function addNewLoteamento({ nome, loteamentoData }, callback) {
+  var loteamentoRef = db.collection('Loteamentos').doc(nome);
+
+  userRef.set(loteamentoData)
+    .then((docRef) => callback(docRef, null))
+    .catch((error) => callback(null, error))
+};
+
 export function addItem(item, tabel) {
   firebaseApp.database().ref(tabel).push(item);
 };
