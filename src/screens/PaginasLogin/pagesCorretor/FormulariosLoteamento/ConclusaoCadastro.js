@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, StyleSheet, View, ImageBackground, Image } from 'react-native';
-import Button from '../../../components/Button';
-import colors from '../../../../src/styles/colors/index';
+import Button from '../../../../components/Button';
+import colors from '../../../../styles/colors/index';
 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
@@ -27,7 +27,7 @@ export default class MainTransition extends React.Component {
       <View style={styles.container}>
         <ImageBackground
           style={{ width: wp('100%'), height: hp('100%'), justifyContent: "space-around", alignItems: "center" }}
-          source={require('../../../../assets/fundo.png')}>
+          source={require('../../../../../assets/fundo.png')}>
 
           <View style={styles.textView}>
             
@@ -35,7 +35,7 @@ export default class MainTransition extends React.Component {
               Cadastro de Loteamento efetuado com sucesso!
             </Text>
             
-            <Image style={styles.img} source={require('../../../../assets/Bolinha-foto.png')}></Image>
+            <Image style={styles.img} source={require('../../../../../assets/Bolinha-foto.png')}></Image>
             
             <Text style={styles.text}>
               Vá para "Loteamentos" para ver seus lotes.

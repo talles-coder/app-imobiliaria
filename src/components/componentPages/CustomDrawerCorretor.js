@@ -5,7 +5,6 @@ import { getImageFromFirebase, signout } from '../../database/Firebase';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-  heightPercentageToDP,
 } from "react-native-responsive-screen";
 import Global from "../../global/Global";
 
@@ -125,9 +124,9 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   imgPerfil: {
-    width: heightPercentageToDP('6.3%'),
-    height: heightPercentageToDP('6.3%'),
-    borderRadius: heightPercentageToDP('50%'),
+    width: hp('6.3%'),
+    height: hp('6.3%'),
+    borderRadius: hp('50%'),
   },
   BoxMid: {
     height: '80%'

@@ -14,10 +14,6 @@ const Gestor = '../../assets/icons/Gestor.png'
 export default function Main(props) {
   const modalizeRef = useRef(null);
 
-  function onOpen() {
-    modalizeRef.current?.open();
-  }
-
   return (
     <View style={styles.container}>
       <ImageBackground style={styles.imgBackground} source={require(fundo)}>
@@ -29,41 +25,10 @@ export default function Main(props) {
             <Text style={styles.txtbotao}>LOGIN</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={onOpen} style={styles.botoes}>
+          <TouchableOpacity onPress={() => props.navigation.navigate('CadastroGestor')} style={styles.botoes}>
             <Text style={styles.txtbotao}>CADASTRAR</Text>
           </TouchableOpacity>
         </View>
-        <Modalize
-          ref={modalizeRef}
-          modalHeight={hp('30%')}
-        >
-
-          <View style={styles.containerModal}>
-            <TouchableOpacity style={styles.btnModal} onPress={() => props.navigation.navigate('CadastroCorretor')}>
-              <Image
-                style={styles.imgPerfisModal}
-                source={require(iconeCorretor)}>
-              </Image>
-
-              <Text style={styles.textModal}>
-                USUÁRIO
-              </Text>
-            </TouchableOpacity>
-
-            <View style={styles.divisoriaModal}></View>
-
-            <TouchableOpacity style={styles.btnModal} onPress={() => props.navigation.navigate('CadastroGestor')}>
-              <Image
-                style={styles.imgPerfisModal}
-                source={require(Gestor)}>
-              </Image>
-
-              <Text style={styles.textModal}>
-                GESTOR
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </Modalize>
       </ImageBackground>
 
       <StatusBar

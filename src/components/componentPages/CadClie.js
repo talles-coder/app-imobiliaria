@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
-import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import colors from '../../styles/colors';
 
 export default function CadCli(props) {
@@ -30,7 +30,7 @@ export default function CadCli(props) {
                 <View style={styles.StyleAccess}>
                     <TouchableOpacity>
                         <View>
-                            <Image source={require('../../assets/SetaRight.png')} style={styles.SetaEnt} />
+                            <Image source={require('../../../assets/assetsCorretor/SetaRight.png')} style={styles.SetaEnt} />
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -41,10 +41,10 @@ export default function CadCli(props) {
 
 const styles = StyleSheet.create({
     container: {
-        height: heightPercentageToDP('18%'),
-        width: widthPercentageToDP('90%'),
+        height: hp('18%'),
+        width: wp('90%'),
         backgroundColor: colors.branco,
-        margin: heightPercentageToDP('2%'),
+        margin: hp('2%'),
         padding: 15,
         borderColor: '#9c9c9c',
         borderWidth: 1,
@@ -56,31 +56,31 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
     },
     ColunaDescricao: {
-        width: widthPercentageToDP('55%'),
+        width: wp('55%'),
     },
     StyleCli: {
-        fontSize: widthPercentageToDP('4.8%'),
+        fontSize: wp('4.8%'),
         fontWeight: 'bold',
-        width: widthPercentageToDP('55%'),
-        marginBottom: heightPercentageToDP('0.8%')
+        width: wp('55%'),
+        marginBottom: hp('0.8%')
     },
     StyleServi: {
-        fontSize: widthPercentageToDP('3.5%'),
-        marginBottom: heightPercentageToDP('0.4%'),
+        fontSize: wp('3.5%'),
+        marginBottom: hp('0.4%'),
         opacity: 0.6,
         fontWeight: 'bold'
     },
     StylePreço: {
-        fontSize: widthPercentageToDP('3.5%'),
+        fontSize: wp('3.5%'),
         opacity: 0.5,
     },
     StyleStatus: {
-        fontSize: widthPercentageToDP('3.5%'),
+        fontSize: wp('3.5%'),
         fontWeight: 'bold'
     },
     CliImg: {
         resizeMode: 'contain',
-        marginRight: widthPercentageToDP('2%')
+        marginRight: wp('2%')
     },
     StyleAccess: {
         resizeMode: 'contain',

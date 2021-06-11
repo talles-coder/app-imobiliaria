@@ -44,6 +44,13 @@ export function getUserData(email, callback) {
     .catch((error) => callback(null, error))
 };
 
+export function getUserCodigo(codigo, callback) {
+  var codigoRef = db.collection('codigos').doc(codigo);
+  codigoRef.get()
+    .then((data) => callback(data, null))
+    .catch((error) => callback(null, error))
+};
+
 export function getImageFromFirebase(imagem, callback) {
   var ref = firebaseApp.storage().ref('uploads/' + imagem);
   ref.getDownloadURL()

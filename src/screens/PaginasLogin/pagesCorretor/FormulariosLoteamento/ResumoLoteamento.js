@@ -1,19 +1,16 @@
 import React from 'react';
-import { ImageBackground, StyleSheet, View, Text, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView, Platform } from 'react-native';
+import { ImageBackground, StyleSheet, View, Text, Keyboard, TouchableWithoutFeedback } from 'react-native';
 
-import colors from '../../../styles/colors/index';
+import colors from '../../../../styles/colors/index';
 
-import Header from '../../../components/Header';
-import Input from '../../../components/Input';
-import Button from '../../../components/Button';
+import Header from '../../../../components/Header';
+import Input from '../../../../components/Input';
+import Button from '../../../../components/Button';
 const fundo = "../../../../../assets/fundo.png";
-
-import { wp } from 'react-native-keyboard-aware-scroll-view'
-import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
+import ImagePicker from '../../../../components/ImagePicker';
 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import FilePickerManager from 'react-native-file-picker';
-
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 
 export default class ResumoLoteamento extends React.Component {
@@ -31,21 +28,7 @@ export default class ResumoLoteamento extends React.Component {
   handleNomeChange = (nomeLoteamento) => this.setState({ nomeLoteamento });
 
   filepick = () => {
-    FilePickerManager.showFilePicker(null, (response) => {
-      console.log('Response = ', response);
     
-      if (response.didCancel) {
-        console.log('User cancelled file picker');
-      }
-      else if (response.error) {
-        console.log('FilePickerManager Error: ', response.error);
-      }
-      else {
-        this.setState({
-          file: response
-        });
-      }
-    });
   }   
 
   nextStep = () => {
@@ -119,7 +102,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around'
   },
   formulario: {
-    marginBottom: heightPercentageToDP('3.5%')
+    marginBottom: hp('3.5%')
   },
   title: {
     fontSize: hp('2.2%'),

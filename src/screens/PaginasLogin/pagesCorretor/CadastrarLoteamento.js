@@ -2,14 +2,14 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 
-import colors from '../../styles/colors/index';
-import AnimatedFormView from '../../components/Step'
+import colors from '../../../styles/colors/index';
+import AnimatedFormView from '../../../components/Step'
 
 import FormularioArquivos from './FormulariosLoteamento/FormularioArquivos';
-import ResumoLoteamento from './FormulariosLoteamento/resumoLoteamento';
-import ConclusaoCadastro from './FormulariosLoteamento/conclusaoCadastro';
-import PreviaQuadras from './FormulariosLoteamento/previaQuadras';
-import PreviaLotes from './FormulariosLoteamento/previaLotes';
+import ResumoLoteamento from './FormulariosLoteamento/ResumoLoteamento';
+import ConclusaoCadastro from './FormulariosLoteamento/ConclusaoCadastro';
+import PreviaQuadras from './FormulariosLoteamento/PreviaQuadras';
+import PreviaLotes from './FormulariosLoteamento/PreviaLotes';
 
 
 export default class CadastroGestor extends React.Component {
@@ -40,7 +40,7 @@ export default class CadastroGestor extends React.Component {
     return (
       <View style={styles.container}>
         <AnimatedFormView
-          steps={allStepsFormsGestor}
+          steps={StepsFormsLoteamento}
           onFinish={this.finish}
           onBack={this.onBack}
           onNext={this.onNext}

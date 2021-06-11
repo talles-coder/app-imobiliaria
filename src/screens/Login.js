@@ -1,4 +1,4 @@
-import React , {useState} from "react";
+import React from "react";
 import {
   StyleSheet,
   Text,
@@ -14,7 +14,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import Input from "../components/Input";
-import { updateTemporaryToken, deleteTemporaryToken , crateTemporaryToken, emailSignIn, getUserData, getProfissionalData } from "../database/Firebase";
+import { emailSignIn, getUserData } from "../database/Firebase";
 import colors from "../styles/colors"
 import Global from "../global/Global";
 import Header from "../components/Header";
@@ -29,10 +29,8 @@ export default class Login extends React.Component {
     super(props);
 
     this.state = {
-      email: '',
-      password: '',
-      file: '',
-      csvObject: ''
+      email: 'talleswendrel@hotmail.com',
+      password: 'Batata',
     };
 
     this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -63,8 +61,9 @@ export default class Login extends React.Component {
           Global.PROFILEIMAGE = userData.imagem;
           Global.PROFILETYPE = userData.profileType;
 
-          if (Global.PROFILETYPE == 'corretor') {this.props.navigation.navigate('ProfileCorretor')}
-          else {this.props.navigation.navigate('ProfileGestor')}
+          console.log(userData)
+          
+          this.props.navigation.navigate('ProfileGestor')
         }
       });
     });
@@ -111,11 +110,11 @@ export default class Login extends React.Component {
                 </View>
 
                 <View style={{ alignItems: "center", marginTop: 40, marginBottom: 40 }}>
-                  <TouchableOpacity onPress={this.handleNextButton} style={styles.botoes}>
+                  <TouchableOpacity onPress={this.login} style={styles.botoes}>
                     <Text style={styles.txtbotao}>Login</Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity onPress={this.login}>
+                  <TouchableOpacity onPress={this.handleForgotPassword}>
                     <Text style={{ textDecorationLine: "underline", color: "white", textAlign: "center", marginTop: 25 }}>
                       Esqueci minha senha
                     </Text>

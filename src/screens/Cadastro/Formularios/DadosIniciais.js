@@ -11,7 +11,6 @@ import CheckBox from '../../../components/CheckBox';
 const fundo = "../../../../assets/fundo.png";
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
@@ -20,21 +19,18 @@ export default class DadosIniciais extends React.Component {
     super(props);
 
     this.state = {
-      termoDeUso: false,
       imagem: '',
       nome: '',
       email: '',
       celular: '',
     };
 
-    this.handleTermoDeUsoChange = this.handleTermoDeUsoChange.bind(this);
     this.handleImageChange = this.handleImageChange.bind(this);
     this.handleNomeChange = this.handleNomeChange.bind(this);
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handleCelularChange = this.handleCelularChange.bind(this);
   }
 
-  handleTermoDeUsoChange() {this.setState({ termoDeUso: !this.state.termoDeUso });}
   handleImageChange = (imagem) => this.setState({ imagem });
   handleNomeChange = (nome) => this.setState({ nome });
   handleEmailChange = (email) => this.setState({ email: email ? email.toString().trim() : email });
@@ -111,7 +107,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around'
   },
   formulario: {
-    marginBottom: heightPercentageToDP('3.5%')
+    marginBottom: hp('3.5%')
   },
   title: {
     fontSize: hp('2.2%'),

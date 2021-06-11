@@ -63,7 +63,7 @@ export default function Solicitaçoes({ navigation }) {
           
         
           <CadClie
-          img={require('../../assets/Bolinha-foto.png')} 
+          img={require('../../../../assets/Bolinha-foto.png')} 
           NameCli="Vieira Saulo" 
           Serviço="Manutenção de Nootbook" 
           Preço='300.00' 
@@ -71,32 +71,32 @@ export default function Solicitaçoes({ navigation }) {
           </CadClie>
 
           <CadClie
-          img={require('../../assets/Bolinha-foto-1.png')} 
+          img={require('../../../../assets/Bolinha-foto.png')} 
           NameCli="Alessandra Aparecida" 
           Serviço="Formatação" 
           Preço='120.00' 
           Status="PENDENTE">
           </CadClie>
           <CadClie
-          img={require('../../assets/Bolinha-foto.png')} 
+          img={require('../../../../assets/Bolinha-foto.png')} 
           NameCli="Lucas Alvim" 
           Serviço="Atualização de Drivers" 
           Preço='130.00' 
           Status="PENDENTE">          </CadClie>
           <CadClie
-          img={require('../../assets/Bolinha-foto.png')} 
+          img={require('../../../../assets/Bolinha-foto.png')} 
           NameCli="Zihao Peçanha" 
           Serviço="Criar Banco de Dados" 
           Preço='5.000.00' 
           Status="PENDENTE">          </CadClie>
           <CadClie
-          img={require('../../assets/Bolinha-foto.png')} 
+          img={require('../../../../assets/Bolinha-foto.png')} 
           NameCli="Maksim Mansilha" 
           Serviço="Configurar Rede" 
           Preço='350.00' 
           Status="PENDENTE">          </CadClie>
           <CadClie
-          img={require('../../assets/Bolinha-foto-1.png')} 
+          img={require('../../../../assets/Bolinha-foto.png')} 
           NameCli="Julieta Caires" 
           Serviço="Montar Maquina" 
           Preço='250.00' 
@@ -104,7 +104,7 @@ export default function Solicitaçoes({ navigation }) {
   
           </CadClie>
           <CadClie
-          img={require('../../assets/Bolinha-foto.png')} 
+          img={require('../../../../assets/Bolinha-foto.png')} 
           NameCli="Gianluca Neves " 
           Serviço="Criar Sistema ERP" 
           Preço='10.000.00' 
@@ -112,7 +112,7 @@ export default function Solicitaçoes({ navigation }) {
   
           </CadClie>
           <CadClie
-          img={require('../../assets/Bolinha-foto-1.png')} 
+          img={require('../../../../assets/Bolinha-foto.png')} 
           NameCli="Kieza Café" 
           Serviço="Trocar Placa de Video" 
           Preço='100.00' 
@@ -120,7 +120,7 @@ export default function Solicitaçoes({ navigation }) {
   
           </CadClie>
           <CadClie
-          img={require('../../assets/Bolinha-foto-1.png')} 
+          img={require('../../../../assets/Bolinha-foto.png')} 
           NameCli="Tamára Malafaia " 
           Serviço="Manutenção de Computador" 
           Preço='300.00' 
