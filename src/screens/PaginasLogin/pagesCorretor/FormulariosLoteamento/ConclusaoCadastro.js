@@ -5,7 +5,7 @@ import colors from '../../../../styles/colors/index';
 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-export default class MainTransition extends React.Component {
+export default class ConclusaoCadastro extends React.Component {
   constructor(props) {
     super(props);
 

@@ -1,159 +1,78 @@
-import { StatusBar } from 'expo-status-bar';
-import React, {useState} from 'react';
-import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, ScrollView, Animated } from 'react-native';
+import React from 'react';
+import { FlatList, StyleSheet, Text, View, StatusBar, TouchableOpacity,} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import 'react-native-gesture-handler';
-
-import CadClie from '../../../components/componentPages/CadClie';
 
 
-export default function Solicitaçoes({ navigation }) {
-  const [scrollY, setScrollY] = useState(new Animated.Value(0));
-  return(
 
-    
-    
-    <SafeAreaView style={{backgroundColor:"#0C1C41", flex:1}}>
-      
-      
-      <StatusBar style = "light" hidden = {false} translucent = {false} backgroundColor = '#0C1C41' />
-      
-      <Animated.View 
-      style={[
-        styles.header,
-        {
-          height: scrollY.interpolate({
-            inputRange:[10, 160, 185],
-            outputRange:[100, 21, 0],
-            extrapolate: 'clamp'
-          }),
-          opacity: scrollY.interpolate({
-            inputRange:[1, 75, 170],
-            outputRange: [1, 1, 0],
-            extrapolate: 'clamp'
-          })
-        }
-        ]} > 
-        <TouchableOpacity onPress={ () => navigation.openDrawer()}>
-         
-           <Icon name="menu" size={40} color="#fff" />
-           
+const Pageloteamentos = () => {
+  
+
+  
+  return (
+
+  <View style={{flex:1, backgroundColor:'#F4A261'}}>
+    <StatusBar hidden = {false} translucent = {false} backgroundColor = '#0C1C41' />
+      <View style={styles.header}>
+        <TouchableOpacity>
+          <Icon name="menu" size={35} color="white" />
         </TouchableOpacity>
-        
-           <Text style={styles.TitleProf}>SOLICITAÇÕES</Text>
-
-        <TouchableOpacity onPress={() => navigation.navigate('Pesquisa')}>
-           <Icon name="search" size={40} color="#fff" />
-        </TouchableOpacity>
-      
-      </Animated.View>
-
-      <ScrollView
-      scrollEventThrottle={20}
-      onScroll={Animated.event([{
-        nativeEvent:{
-          contentOffset: { y: scrollY}
-        },
-      }],
-      { useNativeDriver: false  })}
-
-      >
-      
-      <View style={{ flexDirection: 'column', justifyContent: 'space-around' }}>
+        <Text style={styles.titlepage}>Loteamentos</Text>
+        <View style={{width:40}}></View>
+      </View>
+      <FlatList
+        data=
+        {[
+          {key: '1', Rua: 'Estr. de vitório Torantim', QntLts: '4', Rrvs: '1', Vnd: '1'},
+          {key: '2', Rua: 'Rua Arconde Barros', QntLts: '5', Rrvs: '4', Vnd: '0'},
+          {key: '3', Rua: 'Avenida Santo Antônio', QntLts: '5', Rrvs: '', Vnd: '1'},
+        ]}
+        renderItem={({item}) => 
           
-        
-          <CadClie
-          img={require('../../../../assets/Bolinha-foto.png')} 
-          NameCli="Vieira Saulo" 
-          Serviço="Manutenção de Nootbook" 
-          Preço='300.00' 
-          Status="PENDENTE">
-          </CadClie>
+        <View style={styles.caixa }>
+              
+              <Text  style={{fontSize: 20, padding:3, fontWeight: 'bold'}} numberOfLines={1}>{item.Rua}</Text>
+              <Text  style={styles.titleitem}>Quantidade de Lotes : {item.QntLts}</Text>
+              <Text  style={styles.titleitem}>Reservados: {item.Rrvs}</Text>
+              <Text  style={styles.titleitem}>Vendidos : {item.Vnd}</Text>
 
-          <CadClie
-          img={require('../../../../assets/Bolinha-foto.png')} 
-          NameCli="Alessandra Aparecida" 
-          Serviço="Formatação" 
-          Preço='120.00' 
-          Status="PENDENTE">
-          </CadClie>
-          <CadClie
-          img={require('../../../../assets/Bolinha-foto.png')} 
-          NameCli="Lucas Alvim" 
-          Serviço="Atualização de Drivers" 
-          Preço='130.00' 
-          Status="PENDENTE">          </CadClie>
-          <CadClie
-          img={require('../../../../assets/Bolinha-foto.png')} 
-          NameCli="Zihao Peçanha" 
-          Serviço="Criar Banco de Dados" 
-          Preço='5.000.00' 
-          Status="PENDENTE">          </CadClie>
-          <CadClie
-          img={require('../../../../assets/Bolinha-foto.png')} 
-          NameCli="Maksim Mansilha" 
-          Serviço="Configurar Rede" 
-          Preço='350.00' 
-          Status="PENDENTE">          </CadClie>
-          <CadClie
-          img={require('../../../../assets/Bolinha-foto.png')} 
-          NameCli="Julieta Caires" 
-          Serviço="Montar Maquina" 
-          Preço='250.00' 
-          Status="PENDENTE">
-  
-          </CadClie>
-          <CadClie
-          img={require('../../../../assets/Bolinha-foto.png')} 
-          NameCli="Gianluca Neves " 
-          Serviço="Criar Sistema ERP" 
-          Preço='10.000.00' 
-          Status="PENDENTE">
-  
-          </CadClie>
-          <CadClie
-          img={require('../../../../assets/Bolinha-foto.png')} 
-          NameCli="Kieza Café" 
-          Serviço="Trocar Placa de Video" 
-          Preço='100.00' 
-          Status="PENDENTE">
-  
-          </CadClie>
-          <CadClie
-          img={require('../../../../assets/Bolinha-foto.png')} 
-          NameCli="Tamára Malafaia " 
-          Serviço="Manutenção de Computador" 
-          Preço='300.00' 
-          Status="PENDENTE">
-  
-          </CadClie>
-          
-        </View>    
-      
-      </ScrollView>
-
-    </SafeAreaView>
+        </View>
+        }/>
+  </View>
   );
 }
+export default Pageloteamentos;
 
 const styles = StyleSheet.create({
-  TitleProf:{
-    fontSize: 28,
-    color:"#fff",
+  titleitem: {
+    fontSize: 12,
+    opacity:0.7
+  },
+  titlepage:{
+    fontSize: 25,
+    color:"white",
     fontWeight: 'bold'
-    
   },
   header:{
-    backgroundColor: '#0C1C41',
+    backgroundColor: '#F4A261',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingRight: 23,
-    paddingLeft: 23,
+    paddingRight: 10,
+    paddingLeft: 10,
     borderBottomWidth: 2,
-    borderBottomColor: '#0C1C41',
+    borderBottomColor: '#F4A261',
     width: '100%',
-    alignSelf: 'center'
-    
+    paddingTop:15
+  },  
+  caixa:{
+    backgroundColor:'white',
+    borderRadius:15,
+    width:320,
+    height:132,
+    marginTop:20,
+    alignSelf:'center',
+    alignItems:'center',
+    borderWidth:0.7,
+    justifyContent:'center'
   }
-})
+});

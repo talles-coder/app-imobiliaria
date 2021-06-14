@@ -4,6 +4,7 @@ import 'react-native-get-random-values';
 import  {  v4  as  uuidv4 } from  'uuid' ;
 import { version as uuidVersion } from 'uuid';
 import { validate as uuidValidate } from 'uuid';
+import { date } from "yup";
 
 function uuidValidateV4(uuid) {
   return uuidValidate(uuid) && uuidVersion(uuid) === 4;
@@ -94,38 +95,18 @@ export async function crateTemporaryToken() {
 }
 
 export async function deleteTemporaryToken(value) {
-  // Pesquisa valor no banco de dados
-
-  const citiesRef = db.collection('cities');
-  
-  const snapshot = await citiesRef.where( 'name', '==', value).get();
-  
-  if (snapshot.empty) {
-    console.log('No matching documents.');
-    return;
-  }
-  snapshot.forEach(doc => {
-    db.collection('cities').doc(doc.id).delete();
-  });
+  db.collection('codigos').doc(value).delete();
 }
 
-export async function UpdateTemporaryToken(value, wher) {
-  // Pesquisa valor no banco de dados
-
-  const citiesRef = db.collection('cities');
-  
-  const snapshot = await citiesRef.where( 'name', '==', value).get();
-  
-  if (snapshot.empty) {
-    console.log('No matching documents.');
-    return;
-  }
-  snapshot.forEach(doc => {
-    db.collection('cities').doc(doc.id).update({
-      country : wher
-    });;
-  });
+export function CreateTemporaryToken(value) {
+  let code = Math.floor(Math.pow(10, 8-1) + Math.random() * (Math.pow(10, 8) - Math.pow(10, 8-1) - 1));
+  db.collection('codigos').doc(String(code)).set({      
+    tipo : value,
+    startTime : new Date()
+    })
+  return code
 }
+
 
 
 export function addNewUserData({ email, userData }, callback) {

@@ -69,7 +69,7 @@ export default function CustomDrawerCli(props) {
         <DrawerItem
           icon={() => <Image source={require('../../../assets/assetsCorretor/mensagens.png')} />}
           label="Cadastrar Loteamentos"
-          onPress={() => props.navigation.navigate('CadastrarLoteamentos')}
+          onPress={() => props.navigation.navigate('CadastrarLoteamento')}
         />
         <DrawerItem
           icon={() => <Image source={require('../../../assets/assetsCorretor/mais.png')} />}

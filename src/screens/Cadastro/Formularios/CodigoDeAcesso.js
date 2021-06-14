@@ -9,7 +9,7 @@ import Button from '../../../components/Button';
 const fundo = "../../../../assets/fundo.png";
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { getUserCodigo } from '../../../database/Firebase';
+import { getUserCodigo} from '../../../database/Firebase';
 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
@@ -29,7 +29,7 @@ export default class DadosIniciais extends React.Component {
   nextStep = () => {
     if (this.state.codigo) {  
       getUserCodigo(this.state.codigo, (data, error) => {
-        if (error && !data) return alert(error.message);
+        if (error && !data) return alert("Código de acesso inválido");
 
         let userCodigo = data.data()
         this.state.tipo = userCodigo.tipo
@@ -44,7 +44,12 @@ export default class DadosIniciais extends React.Component {
           next();
         } 
       }
-    )};
+    )} else {
+      Alert.alert('Insira um código de acesso', '', [
+        {
+          style: 'default'
+        }])
+    }
     }
 
   goBack = () => {
@@ -68,9 +73,9 @@ export default class DadosIniciais extends React.Component {
 
               <View style={styles.textView}>
                 <Text style={styles.text}>
-                  Olá gestor(a), Para se cadastrar
+                  Olá, Para se cadastrar
                   você precisa do código de acesso que
-                  o gestor criou para você.
+                  um gestor criou para você.
                 </Text>
               </View>
 

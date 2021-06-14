@@ -9,7 +9,7 @@ import ImagePicker from '../../../components/ImagePicker';
 import Button from '../../../components/Button';
 
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { addNewUserData, emailSignUp, uploadDocumentToFirebase, uploadImageToFirebase } from '../../../database/Firebase';
+import { addNewUserData, emailSignUp, uploadDocumentToFirebase, uploadImageToFirebase,deleteTemporaryToken } from '../../../database/Firebase';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 const fundo = "../../../../assets/fundo.png";
@@ -72,7 +72,7 @@ export default class Senha extends React.Component {
     const email = data.email;
     const imagem = data.imagem;
     const documento = data.doc;
-
+    const codigo = data.codigo;
     const password = this.state.senha;
     const passwordConfirmation = this.state.confirmacaoSenha;
     
@@ -110,6 +110,7 @@ export default class Senha extends React.Component {
     }
 
     // Criando usuário no banco de dadaos
+    deleteTemporaryToken(codigo)
 
     this.createDataAndUserInDatabase(data, email, password);
 

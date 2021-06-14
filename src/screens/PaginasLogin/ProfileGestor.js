@@ -6,6 +6,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 // import Dashboard from './pagesCorretor/Dashboard'
 // import Loteamentos from './pagesCorretor/Loteamentos'
 import CadastrarLoteamento from './pagesCorretor/CadastrarLoteamento'
+import CriarUsuario from './pagesCorretor/CriarUsuario'
 // import GerenciarCorretores from './pagesCorretor/GerenciarCorretores'
 // import TodasReservas from './pagesCorretor/TodasReservas'
 // import MinhasReservas from './pagesCorretor/MinhasReservas'
@@ -19,7 +20,7 @@ export default function ProfileGestor() {
     <Drawer.Navigator
       drawerStyle={{ width: '60%' }}
       edgeWidth={50}
-      initialRouteName="Solicitaçoes"
+      initialRouteName="CriarUsuario"
       drawerContent={CustomDrawerGestor}
       children
       screenOptions={{
@@ -29,6 +30,7 @@ export default function ProfileGestor() {
       {/* <Drawer.Screen name="Dashboard" component={Dashboard} /> */}
       {/* <Drawer.Screen name="Loteamentos" component={Loteamentos} /> */}
       <Drawer.Screen name="CadastrarLoteamento" component={CadastrarLoteamento} />
+      <Drawer.Screen name="CriarUsuario" component={CriarUsuario} />
       {/* <Drawer.Screen name="GerenciarCorretores" component={GerenciarCorretores} /> */}
       {/* <Drawer.Screen name="TodasReservas" component={TodasReservas} /> */}
       {/* <Drawer.Screen name="MinhasReservas" component={MinhasReservas} /> */}

@@ -27,6 +27,21 @@ export default class PreviaLotes extends React.Component {
 
   handleNomeChange = (nomeLoteamento) => this.setState({ nomeLoteamento });
 
+  pick = async() => {
+    try {
+      const response = await DocumentPicker.getDocumentAsync({type: 'text/comma-separated-values', copyToCacheDirectory: true, multiple: false})
+      this.state.file = response
+    }
+    catch (error) {
+      console.log(error)
+    }
+  }
+
+  update = () => {
+    const send = this.state.email
+    const res = this.state.password
+    updateTemporaryToken(send, res);
+  }
 
   nextStep = () => {
     const { next, saveState } = this.props;

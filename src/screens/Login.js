@@ -14,7 +14,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import Input from "../components/Input";
-import { emailSignIn, getUserData } from "../database/Firebase";
+import { emailSignIn, getUserData, deleteTemporaryToken, CreateTemporaryToken } from "../database/Firebase";
 import colors from "../styles/colors"
 import Global from "../global/Global";
 import Header from "../components/Header";
@@ -29,8 +29,8 @@ export default class Login extends React.Component {
     super(props);
 
     this.state = {
-      email: 'talleswendrel@hotmail.com',
-      password: 'Batata',
+      email: '',
+      password: '',
     };
 
     this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -41,7 +41,7 @@ export default class Login extends React.Component {
   handlePasswordChange = (password) => this.setState({ password });
 
   handleForgotPassword = () => this.props.navigation.navigate('ResetPassword')
-
+  
   login = () => {
     const objLogin = {
       email: this.state.email,
@@ -59,7 +59,7 @@ export default class Login extends React.Component {
           Global.EMAIL = objLogin.email;
           Global.NOME = userData.nome;
           Global.PROFILEIMAGE = userData.imagem;
-          Global.PROFILETYPE = userData.profileType;
+          Global.PROFILETYPE = userData.tipo;
 
           console.log(userData)
           

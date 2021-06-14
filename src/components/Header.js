@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet,StatusBar, Text, View, Image, TouchableOpacity } from 'react-native';
 import colors from "../styles/colors/index";
 // import Button from '../../components/Button';
 
@@ -15,6 +15,7 @@ export default class Header extends React.Component {
 
     return (
       <View style={styles.container}>
+        <StatusBar hidden = {false} translucent = {false} backgroundColor = '#896B42' />
         <TouchableOpacity style={styles.btnVoltar} onPress={funcao}>
           <Image style={styles.imagem} source={require("../../assets/icons/btn-voltar.png")} />
         </TouchableOpacity>
@@ -37,7 +38,7 @@ const styles = StyleSheet.create({
     height: hp('2.3%'),
   },
   title: {
-    fontSize: hp('2.2%'),
+    fontSize: hp('3.2%'),
     color: colors.branco,
     textAlign: 'center',
     fontWeight: 'bold'

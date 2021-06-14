@@ -12,7 +12,7 @@ import PreviaQuadras from './FormulariosLoteamento/PreviaQuadras';
 import PreviaLotes from './FormulariosLoteamento/PreviaLotes';
 
 
-export default class CadastroGestor extends React.Component {
+export default class CadastrarLoteamento extends React.Component {
   constructor(props) {
     super(props);
 
@@ -31,9 +31,9 @@ export default class CadastroGestor extends React.Component {
     const StepsFormsLoteamento = [
       { name: "step 1", component: FormularioArquivos },
       { name: "step 2", component: ResumoLoteamento },
-      { name: "step 3", component: PreviaQuadras },
-      { name: "step 4", component: PreviaLotes },
-      { name: "step 5", component: ConclusaoCadastro },
+      // { name: "step 3", component: PreviaQuadras },
+      // { name: "step 4", component: PreviaLotes },
+      { name: "step 3", component: ConclusaoCadastro },
     ];
 
     
