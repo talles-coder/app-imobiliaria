@@ -60,14 +60,17 @@ export default class CriarUsuario extends Component {
 
           <Text style={styles.title}>Tipo de Usuário</Text>
           <View style={styles.selectUser}>
+
             <TouchableOpacity style={type  ? styles.button : styles.buttonPress} onPress={this.onPress} disabled={!type}>
               <Image  source={require('../../../../assets/Gestor.png')}/>
               <Text style={styles.TextUser}>Gestor</Text>
             </TouchableOpacity>
+
             <TouchableOpacity style={type  ? styles.buttonPress : styles.button} onPress={this.onPress} disabled={type}>
               <Image  source={require('../../../../assets/Corretor.png')}/>
               <Text style={styles.TextUser}>Corretor</Text>
               </TouchableOpacity>
+
           </View>
 
           <TouchableOpacity onPress={this.CreateUser}>
@@ -77,12 +80,15 @@ export default class CriarUsuario extends Component {
           </TouchableOpacity>
 
           <View style={{alignSelf:'center',opacity: code ? 1 : 0,borderBottomWidth: 1,borderColor:'white', paddingTop: hp('2%')}}>
+
             <Text style={styles.codigoacesso} selectable={true}>Código de Acesso</Text>
+
             <TouchableOpacity style={styles.code} onPress={this.textCopy}>
               <TextInput value={' '+String(code)+' '} editable={false} style={styles.codigo}>
               </TextInput>
               <Icon name="content-copy" size={35} color="black" />
             </TouchableOpacity>
+            
           </View>
       </ImageBackground>
     );

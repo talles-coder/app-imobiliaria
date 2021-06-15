@@ -3,7 +3,7 @@ import 'react-native-gesture-handler';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 // import { NavigationContainer } from '@react-navigation/native';
 
-// import Dashboard from './pagesCorretor/Dashboard'
+import DashboardGestor from './pagesCorretor/DashboardGestor'
 // import Loteamentos from './pagesCorretor/Loteamentos'
 import CadastrarLoteamento from './pagesCorretor/CadastrarLoteamento'
 import CriarUsuario from './pagesCorretor/CriarUsuario'
@@ -20,14 +20,14 @@ export default function ProfileGestor() {
     <Drawer.Navigator
       drawerStyle={{ width: '60%' }}
       edgeWidth={50}
-      initialRouteName="CriarUsuario"
+      initialRouteName="DashboardGestor"
       drawerContent={CustomDrawerGestor}
       children
       screenOptions={{
         headerShown: false
       }}
     >
-      {/* <Drawer.Screen name="Dashboard" component={Dashboard} /> */}
+      <Drawer.Screen name="DashboardGestor" component={DashboardGestor} />
       {/* <Drawer.Screen name="Loteamentos" component={Loteamentos} /> */}
       <Drawer.Screen name="CadastrarLoteamento" component={CadastrarLoteamento} />
       <Drawer.Screen name="CriarUsuario" component={CriarUsuario} />
