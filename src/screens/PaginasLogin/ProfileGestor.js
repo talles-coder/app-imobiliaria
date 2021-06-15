@@ -20,7 +20,7 @@ export default function ProfileGestor() {
     <Drawer.Navigator
       drawerStyle={{ width: '60%' }}
       edgeWidth={50}
-      initialRouteName="DashboardGestor"
+      initialRouteName="CadastrarLoteamento"
       drawerContent={CustomDrawerGestor}
       children
       screenOptions={{

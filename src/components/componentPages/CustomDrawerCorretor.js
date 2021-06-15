@@ -27,10 +27,10 @@ export default function CustomDrawerCli(props) {
   }
 
   function buscarImagemPerfil() {
-    const imagem = Global.PROFILEIMAGE;
-
+    const imagem = 'photo106.46436345307478.jpg';
+    console.log("------------------------------")
     if (imagem) {
-      getImageFromFirebase(imagem, (url, error) => {
+      getImageFromFirebase( (url, error) => {
         if (error) console.log(error);
         Global.IMAGEURL = url;
       });

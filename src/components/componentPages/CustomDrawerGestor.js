@@ -27,9 +27,9 @@ export default function CustomDrawerCli(props) {
   }
 
   function buscarImagemPerfil() {
-    const imagem = Global.PROFILEIMAGE;
-
-    if (!imagem) {
+    const imagem = Global.PROFILEIMAGE
+    
+    if (Global.IMAGEURL === "https://reactnative.dev/img/tiny_logo.png") {
       getImageFromFirebase(imagem, (url, error) => {
         if (error) console.log(error);
         Global.IMAGEURL = url;

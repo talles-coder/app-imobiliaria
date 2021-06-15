@@ -62,8 +62,13 @@ export default class Login extends React.Component {
           Global.PROFILETYPE = userData.tipo;
 
           console.log(userData)
+            const imagem = Global.PROFILEIMAGE
+
           
-          this.props.navigation.navigate('ProfileGestor')
+          if (Global.PROFILETYPE === "gestor") {this.props.navigation.navigate('ProfileGestor')
+          } else {
+            this.props.navigation.navigate('ProfileCorretor')
+          }
         }
       });
     });
