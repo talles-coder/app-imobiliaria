@@ -15,10 +15,10 @@ export default class ConclusaoCadastro extends React.Component {
     };
   }
 
-  loteamentos = () => {
-    const { lotes } = this.props;
+  finish = () => {
+    const { finish } = this.props;
 
-    lotes()
+    finish();
   }
 
   // TODO - adicionar animações
@@ -44,7 +44,7 @@ export default class ConclusaoCadastro extends React.Component {
           </View>
 
 
-          <Button titulo='Login' funcao={this.loteamentos} />
+          <Button titulo='Login' funcao={this.finish} />
         </ImageBackground>
       </View>
     );

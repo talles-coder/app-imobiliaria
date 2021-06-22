@@ -16,12 +16,12 @@ export default class Button extends Component {
   }
 
   render() {
-    const { titulo, funcao, hidden=false } = this.props;
+    const { titulo, funcao, hidden=false, btStyle } = this.props;
 
     return (
       <View style={[styles.wrapper]}>
         <TouchableOpacity 
-          style={hidden ? styles.buttonHidden : styles.button } 
+          style={[hidden ? styles.buttonHidden : styles.button, btStyle ]} 
           onPress={funcao}
           disabled={hidden}
         >
@@ -37,13 +37,13 @@ export default class Button extends Component {
 
 const styles = StyleSheet.create({
   wrapper: {
-    marginBottom: hp('3.5%'),
     bottom: 0
   },
   button: {
     backgroundColor: colors.azulVibrante,
     width: wp('61.6%'),
     height: hp('5.57%'),
+    marginBottom: hp('3.5%'),
     borderRadius: 10,
     justifyContent: 'center',
   },
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     width: wp('61.6%'),
     height: hp('5.57%'),
     borderRadius: 10,
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   text: {
     fontSize: hp('2.2%'),

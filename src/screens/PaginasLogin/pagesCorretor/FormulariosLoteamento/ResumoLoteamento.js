@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageBackground, StyleSheet, View, Text, Keyboard, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import { ImageBackground, Image, StyleSheet, View, Text, Keyboard, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 
 import colors from '../../../../styles/colors/index';
 import { Modalize } from 'react-native-modalize';
@@ -23,7 +23,7 @@ export default class ResumoLoteamento extends React.Component {
     this.state = {
       nomeLoteamento: '',
       file: '',
-      modalize: false,
+      mapSnapshotURI: '',
     };
 
     this.handleNomeChange = this.handleNomeChange.bind(this);
@@ -32,22 +32,21 @@ export default class ResumoLoteamento extends React.Component {
   handleNomeChange = (nomeLoteamento) => this.setState({ nomeLoteamento });
 
   filepick = () => {
-    
-  }
-  
-  modal() {
-    this.state.modalize = !this.state.modalize ;
+    const { getState } = this.props;
+
+    let data = getState(this.state);
+    console.log(data)
   }
 
   nextStep = () => {
     const { next, saveState } = this.props;
-    saveState(this.state);
+
     next();
   };
 
   goBack = () => {
-    const { finish } = this.props;
-    finish();
+    const { back } = this.props;
+    back();
   }
 
   render() {
@@ -61,7 +60,21 @@ export default class ResumoLoteamento extends React.Component {
 
               <View style={styles.resumo}>
                 <Text>Revise as informações por favor</Text>
+
                 <Text>Planta :</Text>
+                
+                <View style={{height:150, width: "90%", backgroundColor: "#cdcdcd", alignSelf: 'center'}}>
+                  { true ?
+                  <Image
+                  style={styles.imgPerfil}
+                  resizeMethod="resize"
+                  resizeMode='cover'
+                  source={{ uri: "https://reactnative.dev/img/tiny_logo.png"}}
+                  />
+                  :
+                  <Text>Erro : Não foi realizada a captura do mapa, tente novamente</Text>
+                  }
+              </View> 
                 <Text >O Loteamento Possui: </Text>
                 <Text style={{flex: 1, flexWrap: 'wrap'}}>
                 7 quadras e 17 lotes, {"\n"}{"\n"}
@@ -77,14 +90,16 @@ export default class ResumoLoteamento extends React.Component {
                 a Quadra G com 2 lotes;
                 </Text>
                 <Text >Localização : </Text>
-                <Button titulo='Ver Detalhes' funcao={this.modal} hidden={this.state.termoDeUso} />
+                <View style={{alignSelf: 'center'}}>
+                  <Button titulo='Ver Detalhes' funcao={this.modal} hidden={this.state.termoDeUso} />
+                </View>
               </View>
 
-              <Button titulo='CONTINUAR' funcao={this.nextStep} hidden={this.state.termoDeUso} />
+              <Button titulo='CONTINUAR' funcao={this.filepick} hidden={this.state.termoDeUso} />
             </View>
           </TouchableWithoutFeedback>
         </KeyboardAwareScrollView>
-        </ImageBackground>
+      </ImageBackground>
     );
   }
 }
@@ -94,9 +109,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'space-around'
-  },
-  containerModal: {
-    justifyContent: "flex-end",
   },
   resumo: {
     height: hp('70%'),
@@ -125,4 +137,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center"
   },
+  imgPerfil: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 15,
+    borderColor: "#cdcdcd",
+    borderWidth:2
+},
 });

@@ -14,12 +14,10 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import Input from "../components/Input";
-import { emailSignIn, getUserData, deleteTemporaryToken, CreateTemporaryToken } from "../database/Firebase";
+import { emailSignIn, getUserData} from "../database/Firebase";
 import colors from "../styles/colors"
 import Global from "../global/Global";
 import Header from "../components/Header";
-import * as DocumentPicker from 'expo-document-picker';
-import * as FileSystem from 'expo-file-system';
 
 const fundo = "../../assets/fundo.png";
 const logo = "../../assets/logo.png";

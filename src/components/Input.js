@@ -48,6 +48,7 @@ export default class Input extends Component {
 
   render() {
     const {
+      cor,
       withi,
       altura,
       inputType,
@@ -55,13 +56,13 @@ export default class Input extends Component {
       inputValue,
       multiline,
       numberOfLines,
-      isPassword
+      isPassword,
+      placeHold
     } = this.props;
 
     const labelStyle = {
       position: 'absolute',
       left: 0,
-      color: colors.branco,
       top: this._animatedIsFocused.interpolate({
         inputRange: [0, 1],
         outputRange: [35, 18],
@@ -80,7 +81,7 @@ export default class Input extends Component {
       <View style={[
         styles.wrapper
       ]}>
-        <Animated.Text style={labelStyle}>
+        <Animated.Text style={[labelStyle,{color: cor ? cor : colors.branco,}]}>
           {labelText}
 
         </Animated.Text>
@@ -88,10 +89,13 @@ export default class Input extends Component {
           style={[
             styles.inputField,
             {
-              width: withi ? parseInt(withi) : wp('79.71%'),
+              borderBottomColor: cor ? cor : colors.branco,
+              color: cor ? cor : colors.branco,
+              width: withi ? withi : wp('79.71%'),
               height: altura ? altura : hp('3.95%')
             }
           ]}
+          placeholder={placeHold}
           secureTextEntry={isPassword}
           onChangeText={this.onChangeText}
           keyboardType={inputType}
@@ -120,10 +124,8 @@ const styles = StyleSheet.create({
   },
   inputField: {
     paddingBottom: 5,
-    color: colors.branco,
     marginTop: hp('3.5%'),
     fontSize: hp('1.9%'),
     borderBottomWidth: 1,
-    borderBottomColor: colors.branco
   }
 });

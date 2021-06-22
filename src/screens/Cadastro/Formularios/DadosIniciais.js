@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageBackground, StyleSheet, View, Text, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView, Platform } from 'react-native';
+import { ImageBackground, StyleSheet, View, Text, Keyboard, TouchableWithoutFeedback } from 'react-native';
 
 import colors from '../../../styles/colors/index';
 
@@ -7,7 +7,6 @@ import Header from '../../../components/Header';
 import Input from '../../../components/Input';
 import ImagePicker from '../../../components/ImagePicker';
 import Button from '../../../components/Button';
-import CheckBox from '../../../components/CheckBox';
 const fundo = "../../../../assets/fundo.png";
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'

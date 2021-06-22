@@ -109,4 +109,11 @@ const styles = StyleSheet.create({
     width: hp('2.6%'),
     height: hp('2.6%'),
   },
+  imgPerfil: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 15,
+    borderColor: "#cdcdcd",
+    borderWidth:2
+},
 });

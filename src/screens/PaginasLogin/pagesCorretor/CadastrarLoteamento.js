@@ -23,9 +23,7 @@ export default class CadastrarLoteamento extends React.Component {
 
   onBack = () => { };
 
-  finish = () => this.props.navigation.navigate('Dashboard');
-  
-  lotes = () => this.props.navigation.navigate('Loteamentos');
+  finish = () => this.props.navigation.navigate('Loteamentos');
 
   render() {
     const StepsFormsLoteamento = [

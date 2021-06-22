@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 
 
-const Pageloteamentos = () => {
+const Loteamentos = () => {
   
 
   
@@ -40,7 +40,7 @@ const Pageloteamentos = () => {
   </View>
   );
 }
-export default Pageloteamentos;
+export default Loteamentos;
 
 const styles = StyleSheet.create({
   titleitem: {
