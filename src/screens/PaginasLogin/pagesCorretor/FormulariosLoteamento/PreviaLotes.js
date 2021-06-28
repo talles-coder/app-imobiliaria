@@ -1,16 +1,11 @@
 import React from 'react';
-import { ImageBackground, StyleSheet, View, Text, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView, Platform } from 'react-native';
-
-import colors from '../../../../styles/colors/index';
+import { ImageBackground, FlatList, Image, StyleSheet, View, Text, Keyboard, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 
 import Header from '../../../../components/Header';
-import Input from '../../../../components/Input';
 import Button from '../../../../components/Button';
 const fundo = "../../../../../assets/fundo.png";
-import ImagePicker from '../../../../components/ImagePicker';
 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 
 export default class PreviaLotes extends React.Component {
@@ -18,83 +13,71 @@ export default class PreviaLotes extends React.Component {
     super(props);
 
     this.state = {
-      nomeLoteamento: '',
-      file: '',
+      nomeLote: "",
+      planta: {
+        fileName: "",
+        resultado: ""
+      },
+      csvObject: {
+        name: "",
+        uri: "",
+        content: "",
+        values: {
+          totalQuadras: "" ,
+          totalLotes: "" ,
+        }
+      },
+      address: {
+        descricao: "",
+        mapSnapshotURI: ""
+      },
     };
-
-    this.handleNomeChange = this.handleNomeChange.bind(this);
-  }
-
-  handleNomeChange = (nomeLoteamento) => this.setState({ nomeLoteamento });
-
-
-
-  update = () => {
-    const send = this.state.email
-    const res = this.state.password
-    updateTemporaryToken(send, res);
-  }
-
-  nextStep = () => {
-    const { next, saveState } = this.props;
-    saveState(this.state);
-
-    next();
-  };
-
-  goBack = () => {
-    const { finish } = this.props;
-
-    finish();
   }
 
   render() {
-    let nome = 'Cadastro Corretor'
+    const {data, back, quadra} = this.props
+    let nome = 'Previa Lotes'
     return (
       <ImageBackground style={styles.imgBackground} source={require(fundo)}>
-        <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }}>
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={styles.container}>
-              <Header titulo={nome} funcao={this.goBack} />
+        <View style={styles.container}>
+          <Header titulo={nome} funcao={back} />
 
-              <View>
-                  <Text style={styles.title}>Foto de Perfil</Text> 
+          <View style={{height:150, width: wp("90%"), alignSelf: 'center'}}>
+            { data.planta.resultado ?
+              <Image
+              style={styles.imgPerfil}
+              resizeMethod="resize"
+              resizeMode='cover'
+              source={{ uri: data.planta.resultado}}
+              />
+            : <Text>Erro : Não foi realizada a captura do mapa, tente novamente</Text>}
+          </View> 
+          
 
-                  <ImagePicker
-                    onChangeImage={this.handleImageChange}
-                    value={this.state.imagem}
-                    permitirAdd={true}
-                  />
-                </View>
-
-              <View>
-                <Input
-                  labelText='Nome'
-                  onChangeText={this.handleNomeChange}
-                  value={this.state.nome}
-                />
-
-                <Input
-                  inputType='email-address'
-                  labelText='Email'
-                  onChangeText={this.handleEmailChange}
-                  value={this.state.email}
-                />
-
-                <Input
-                  inputType='phone-pad'
-                  labelText='Celular'
-                  onChangeText={this.handleCelularChange}
-                  value={this.state.celular}
-                />
-
-              </View>
-
-              <Button titulo='CONTINUAR' funcao={this.nextStep} hidden={this.state.termoDeUso} />
-            </View>
-          </TouchableWithoutFeedback>
-        </KeyboardAwareScrollView>
-        </ImageBackground>
+          <View style={{height:"65%", width: wp("90%"), alignSelf: 'center'}}>
+            <FlatList
+                data={data.csvObject.content}
+                renderItem={({ item }) => {
+                  return (
+                    <View>   
+                          {
+                            item[quadra]
+                          ?
+                          <View style={styles.caixa}>
+                            <Text style={[styles.title]}>{item[quadra]}</Text>
+                            <Button titulo='Visualizar Lotes' btStyle={{marginBottom: 0, width:wp("47%"), height:hp("5%")}}/>
+                          </View>
+                          :
+                          null
+                          }
+                      </View> 
+                    );
+                  }}
+                keyExtractor={item => item[quadra]}
+              />
+          </View> 
+        </View>
+      </ImageBackground>
     );
   }
 }
@@ -105,20 +88,46 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around'
   },
+  item: {
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },
+  caixa:{
+    flexDirection: 'row',
+    backgroundColor:'white',
+    borderRadius:15,
+    width:wp("90%"),
+    height:hp("8%"),
+    marginTop:20,
+    alignSelf:'center',
+    alignItems:'center',
+    borderWidth:0.7,
+    justifyContent:'space-around'
+  },
   formulario: {
     marginBottom: hp('3.5%')
   },
   title: {
     fontSize: hp('2.2%'),
-    color: colors.branco,
+    color: "#000",
     textAlign: 'center',
     fontWeight: 'bold',
     marginBottom: 10,
+    fontSize: 16,
   },
   imgBackground: {
+    flex: 1,
     width: '100%',
     height: '100%',
-    justifyContent: "space-around",
+    justifyContent: "space-around", 
     alignItems: "center"
   },
+  imgPerfil: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 15,
+    borderColor: "#999",
+    borderWidth:2
+},
 });

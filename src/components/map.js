@@ -9,8 +9,6 @@ import Button from "./Button"
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
-import Global from "../global/Global";
-
 export default class Map extends React.Component {
   constructor(props) {
     super(props);
@@ -31,6 +29,7 @@ export default class Map extends React.Component {
         validAddress: false,
         readyToSnap: true,
         modalVisible: false,
+
         
         mapSnapshotURI: "",
         address: {
@@ -48,23 +47,28 @@ export default class Map extends React.Component {
         },
     };
     
-    this.teste = this.teste.bind(this);
     this.handleCodigoChange = this.handleCodigoChange.bind(this);
 }
 
-  teste = () => {console.log("chegou")}
-//   nextStep = () => {
-//     const { saveState } = this.props;
-//     saveState(this.state);
+    handleCodigoChange = (pesquisa) => this.setState({ pesquisa });
 
-    
-//   };
+    componentDidUpdate(prevProps, PrevState){
+        if (this.mar.props.title !== PrevState.descricao && this.state.readyToSnap) {
+            this.mar.showCallout()
+        }
+    }
 
-  handleCodigoChange = (pesquisa) => this.setState({ pesquisa });
-
-  pesquisar = async() => {
-    await this.findLocation()
-    this.map.animateCamera({center: this.state.changeCord, zoom: 17},{duration:1000})
+    pesquisar = () => {
+        this.setState({
+            readyToSnap: false
+        })
+        this.findLocation()
+        setTimeout(() => {
+            this.map.setCamera({center: this.state.changeCord, zoom: 19},{duration:1000})
+        }, 500);
+        this.setState({
+            readyToSnap: true
+        })
     }
 
   findLocation = () => {
@@ -110,6 +114,7 @@ export default class Map extends React.Component {
     })
   }
 
+  
   takeSnapshot = async() => {
     this.setState({
         readyToSnap: false  
@@ -120,7 +125,7 @@ export default class Map extends React.Component {
     setTimeout(async() => {
         const snapshot = await this.map.takeSnapshot({
             format: 'png',
-            result: 'file'   // result types: 'file', 'base64' (default: 'file')
+            result: 'file'
         });
         this.setState({
             mapSnapshotURI: snapshot
@@ -135,7 +140,6 @@ export default class Map extends React.Component {
   }
 
 
-  
   render() {
     const { 
       pesquisa,
@@ -187,35 +191,38 @@ export default class Map extends React.Component {
                         },
                         userLoc: false
                         })
-                        this.map.animateCamera({center: localInicial, zoom: 17},{duration:1000})
+                        this.map.setCamera({center: localInicial, zoom: 17},{duration:1000})
                     }}
                     onRegionChange={(region)=>{
-                        this.mar.hideCallout()
-                        this.setState({
-                        changeCord: region
-                        });
+                        if (readyToSnap){
+                            this.mar.hideCallout()
+                            this.setState({
+                            changeCord: region
+                            });
+                        }
                     }}
                     onRegionChangeComplete={async(region)=>{
-                        if (region.longitudeDelta <= 0.0023){
+                        
+                        if (readyToSnap){if (region.longitudeDelta <= 0.0023){
                             await this.geocodeLatLng()
-                            if (readyToSnap) {this.mar.showCallout()}
+                            this.mar.showCallout()
                         } else {
                             this.setState({
                                 validAddress: false,
                                 descricao: "Dê zoom para selecionar o endereço",
                             });
-                            setTimeout(() => {
-                                if (readyToSnap) {this.mar.showCallout()}
-                            }, 200);
-                        }
+                            this.mar.showCallout()
+                        }}
                     }}
                     style={{
                         height: height ? parseInt(height) : '100%',
                         width: width ? parseInt(width) : '100%',
                         position:'absolute'
                     }}
-                    >
+                    >    
                     <Marker draggable
+                        tracksViewChanges={false}
+                        tracksInfoWindowChanges={false}
                         ref={ref => { this.mar = ref }}
                         title={descricao}
                         coordinate={changeCord}

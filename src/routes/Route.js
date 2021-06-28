@@ -19,7 +19,7 @@ export default class Route extends React.Component {
             headerShown: false,
           }}
         >
-          <Stack.Screen name="Main" component={ProfileGestor} />
+          <Stack.Screen name="Main" component={Main} />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="CadastroGestor" component={CadastroGestor} />
           <Stack.Screen name="ProfileGestor" component={ProfileGestor} />

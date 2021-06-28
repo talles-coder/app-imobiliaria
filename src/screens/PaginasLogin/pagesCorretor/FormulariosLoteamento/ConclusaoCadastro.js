@@ -10,18 +10,26 @@ export default class ConclusaoCadastro extends React.Component {
     super(props);
 
     this.state = {
-      senha: '',
-      confirmacaoSenha: '',
     };
   }
 
-  finish = () => {
-    const { finish } = this.props;
+  nextStep = () => {
+    const { next, saveState } = this.props;
 
+    next();
+  };
+
+  finalizar = () => {
+    const { finish } = this.props;
     finish();
   }
 
-  // TODO - adicionar animações
+  goBack = () => {
+    const { back } = this.props;
+
+    back();
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -44,7 +52,7 @@ export default class ConclusaoCadastro extends React.Component {
           </View>
 
 
-          <Button titulo='Login' funcao={this.finish} />
+          <Button titulo='Voltar' funcao={this.finalizar} />
         </ImageBackground>
       </View>
     );

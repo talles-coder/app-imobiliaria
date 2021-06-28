@@ -52,28 +52,80 @@ export function getUserCodigo(codigo, callback) {
     .catch((error) => callback(null, error))
 };
 
-export function getImageFromFirebase(imagem, callback) {
-  var ref = firebaseApp.storage().ref('uploads/' + imagem);
-  ref.getDownloadURL()
-    .then((url) => callback(url, null))
-    .catch((error) => callback(null, error))
+export function uploadImageToFirebase(blob, nomeImagem) {
+  return new Promise((resolve, reject) => {
+    var storageRef = firebaseApp.storage().ref();
+
+    storageRef.child('profileImages/' + nomeImagem).put(blob, {
+      contentType: 'image/*'
+    }).then((snapshot) => {
+      blob.close();
+
+      resolve(snapshot);
+
+    }).catch((error) => {
+      reject(error);
+    });
+  });
 };
 
+export function getImageFromFirebase(imagem, callback) {
+  var ref = firebaseApp.storage().ref('profileImages/' + imagem);
+  ref.getDownloadURL()
+  .then((url) => callback(url, null))
+  .catch((error) => callback(null, error))
+};
 
-export async function crateTemporaryToken() {
-  // Cria campo no banco de dados
+export function uploadMapsSnapshotToFirebase(blob, nomeImagem) {
+  return new Promise((resolve, reject) => {
+    var storageRef = firebaseApp.storage().ref();
+    
+    storageRef.child('mapsSnapshots/' + nomeImagem).put(blob, {
+      contentType: 'image/png'
+    })
+    
+    .then((snapshot) => {blob.close();
+      resolve(snapshot);
+    })
+    
+    .catch((error) => {
+      reject(error);
+    });
+  });
+};
 
-  let vari = Math.floor(100000 + Math.random() * 900000)
-  let uuidd = uuidv4()
+export function getMapsSnapshotFromFirebase(imagem, callback) {
+  var ref = firebaseApp.storage().ref('mapsSnapshots/' + imagem);
+  ref.getDownloadURL()
+  .then((url) => callback(url, null))
+  .catch((error) => callback(null, error))
+};
 
-  const data = {
-    name: 'Los Angeles',
-    state: 'CA',
-    country: 'USA'
-  };
+export function uploadPlantaToFirebase(blob, nomeDocumento) {
+  return new Promise((resolve, reject) => {
+    var storageRef = firebaseApp.storage().ref();
 
-  const res = db.collection('cities').doc(`${vari}`).set(data);
+    storageRef.child('plantas/' + nomeDocumento).put(blob, {
+      contentType: 'image/jpeg'
+    }).then((document) => {
+      blob.close();
 
+      resolve(document);
+
+    }).catch((error) => {
+      reject(error);
+    });
+  });
+};
+
+export function getPlantaFromFirebase(imagem, callback) {
+  var ref = firebaseApp.storage().ref('plantas/' + imagem);
+  ref.getDownloadURL()
+  .then((url) => callback(url, null))
+  .catch((error) => callback(null, error))
+};
+
+// export async function TemporaryToken() {
   //----------------------------------
 
   // Pesquisa valor no banco de dados
@@ -92,7 +144,7 @@ export async function crateTemporaryToken() {
   // });
 
   
-}
+// }
 
 export async function deleteTemporaryToken(value) {
   db.collection('codigos').doc(value).delete();
@@ -107,7 +159,9 @@ export function CreateTemporaryToken(value) {
   return code
 }
 
-
+export function addNewLoteamento(nome, loteamentoData) {
+  db.collection('loteamentos').doc(nome).set(loteamentoData)
+};
 
 export function addNewUserData({ email, userData }, callback) {
   var userRef = db.collection('Usuarios').doc(email);
@@ -117,51 +171,10 @@ export function addNewUserData({ email, userData }, callback) {
     .catch((error) => callback(null, error))
 };
 
-export function addNewLoteamento({ nome, loteamentoData }, callback) {
-  var loteamentoRef = db.collection('Loteamentos').doc(nome);
-
-  userRef.set(loteamentoData)
-    .then((docRef) => callback(docRef, null))
-    .catch((error) => callback(null, error))
-};
-
 export function addItem(item, tabel) {
   firebaseApp.database().ref(tabel).push(item);
 };
 
-export function uploadImageToFirebase(blob, nomeImagem) {
-  return new Promise((resolve, reject) => {
-    var storageRef = firebaseApp.storage().ref();
-
-    storageRef.child('uploads/' + nomeImagem).put(blob, {
-      contentType: 'image/jpeg'
-    }).then((snapshot) => {
-      blob.close();
-
-      resolve(snapshot);
-
-    }).catch((error) => {
-      reject(error);
-    });
-  });
-};
-
-export function uploadDocumentToFirebase(blob, nomeDocumento) {
-  return new Promise((resolve, reject) => {
-    var storageRef = firebaseApp.storage().ref();
-
-    storageRef.child('uploads/' + nomeDocumento).put(blob, {
-      contentType: 'application/pdf'
-    }).then((document) => {
-      blob.close();
-
-      resolve(document);
-
-    }).catch((error) => {
-      reject(error);
-    });
-  });
-};
 
 export function forgotPassword(email) {
   firebaseApp.auth().sendPasswordResetEmail(email)

@@ -71,21 +71,30 @@ export default function CustomDrawerCli(props) {
           label="Cadastrar Loteamentos"
           onPress={() => props.navigation.navigate('CadastrarLoteamento')}
         />
-        <DrawerItem
-          icon={() => <Image source={require('../../../assets/assetsCorretor/mais.png')} />}
-          label="Corretores"
-          onPress={() => props.navigation.navigate('Corretores')}
-        />
-        <DrawerItem
-          icon={() => <Image source={require('../../../assets/assetsCorretor/carteira.png')} />}
-          label="Todas Reservas"
-          onPress={() => props.navigation.navigate('TodasReservas')}
-        />
-        <DrawerItem
-          icon={() => <Image source={require('../../../assets/assetsCorretor/calendario.png')} />}
-          label="Minhas Reservas"
-          onPress={() => props.navigation.navigate('MinhasReservas')}
-        />
+        {
+          Global.PROFILETYPE == "gestor"
+          ?
+          <View>          
+            <DrawerItem
+            icon={() => <Image source={require('../../../assets/assetsCorretor/mais.png')} />}
+            label="CriarUsuario"
+            onPress={() => props.navigation.navigate('CriarUsuario')}
+            />
+            <DrawerItem
+            icon={() => <Image source={require('../../../assets/assetsCorretor/carteira.png')} />}
+            label="Todas Reservas"
+            onPress={() => props.navigation.navigate('TodasReservas')}
+            />
+            <DrawerItem
+            icon={() => <Image source={require('../../../assets/assetsCorretor/calendario.png')} />}
+            label="Minhas Reservas"
+            onPress={() => props.navigation.navigate('MinhasReservas')}
+            />
+          </View>
+        :
+          <View>          
+          </View>
+        }
 
       </View>
 

@@ -10,8 +10,6 @@ export default class MainTransition extends React.Component {
     super(props);
 
     this.state = {
-      senha: '',
-      confirmacaoSenha: '',
     };
   }
 

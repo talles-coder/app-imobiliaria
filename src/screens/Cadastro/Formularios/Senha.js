@@ -65,7 +65,7 @@ export default class Senha extends React.Component {
   };
 
   handleSubmit = async () => {
-    const { getState, finish } = this.props;
+    const { getState } = this.props;
 
     let data = getState(this.state);
 

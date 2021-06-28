@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageBackground, Image, TextInput, Icon,TouchableOpacity, StyleSheet, View, Text, Keyboard, TouchableWithoutFeedback, Alert, Modal } from 'react-native';
+import { ImageBackground, StyleSheet, View, Text, Keyboard, TouchableWithoutFeedback, Modal } from 'react-native';
 import Map from '../../../../components/map';
 
 import colors from '../../../../styles/colors/index';
@@ -31,6 +31,11 @@ export default class FormularioArquivos extends React.Component {
       csvObject: {
         name: "",
         uri: "",
+        content: "",
+        values: {
+          totalQuadras: "" ,
+          totalLotes: "" ,
+        }
       },
       address: {
         descricao: "",
@@ -40,10 +45,13 @@ export default class FormularioArquivos extends React.Component {
 
     this.handleNomeLoteamentoChange = this.handleNomeLoteamentoChange.bind(this);
   }
+  
+  handleNomeLoteamentoChange = (nomeLoteamento) => this.setState({ nomeLote: nomeLoteamento });
 
   componentDidMount(){
     const { getState } = this.props;
-
+    console.log(this.props)
+    console.log(this.state)
     let data = getState(this.state);
     this.setState({
       nomeLote : data.nomeLote,
@@ -53,15 +61,13 @@ export default class FormularioArquivos extends React.Component {
     })
   }
   
-  handleNomeLoteamentoChange = (nomeLoteamento) => this.setState({ nomeLote: nomeLoteamento });
-  
   setModalVisible = (visible) => {
     this.setState({ modalVisible: visible });
   }
   
   closeMaps = () => {
-  this.setState({
-    address : this.map?.state,
+    this.setState({
+      address : this.map?.state,
       modalVisible: false
     })
   }
@@ -95,7 +101,7 @@ export default class FormularioArquivos extends React.Component {
     }
   };
   
-  pick = async() => {
+  pickCSV = async() => {
     try {
       const responseDocument = await DocumentPicker.getDocumentAsync({type: 'text/comma-separated-values', copyToCacheDirectory: true, multiple: false})
       const responseFile = await FileSystem.readAsStringAsync(responseDocument.uri)
@@ -103,25 +109,32 @@ export default class FormularioArquivos extends React.Component {
       
       for (let index = 0; csvFormated.search("QUADRA ") != -1; index++) {
         csvFormated = csvFormated.replace("QUADRA ", "QUADRA_")
-      }    
+      } 
+      var lotesTotal = 0   
       var result = [];
       var lines = csvFormated.split("\r\n")
       var headers= lines[0].split(";");
-
       for(var i=1;i<lines.length;i++){
         var obj = {};
         var currentline=lines[i].split(";");
         for(var j=0;j<headers.length;j++){
-          obj[headers[j]] = currentline[j];
+          if (currentline[j] !== "") {
+            obj[headers[j]] = currentline[j];
+            lotesTotal++
+          }
         }
+
         result.push(obj);
       }
-
       this.setState({
         csvObject : { 
           name: responseDocument.name,
           uri: responseDocument.uri,
-          content: result
+          content: result,
+          values: {
+            totalQuadras: headers.length,
+            totalLotes: lotesTotal ,
+          }
         }
       })
     }
@@ -171,17 +184,17 @@ export default class FormularioArquivos extends React.Component {
               <Header titulo={titulo} funcao={this.goBack} />
               
             <View style={styles.preVisualizacao}>
-              <View style={[styles.nomeLote]}>
-                <Input
-                    withi={wp('73%')}
-                    cor="#000"
-                    inputType='default'
-                    labelText='Nome do Loteamento'
-                    onChangeText={this.handleNomeLoteamentoChange}
-                    defaultValue={nomeLote}    
-                    inputValue={nomeLote}
-                  />
-              </View>
+                <View style={[styles.nomeLote]}>
+                  <Input
+                      withi={wp('73%')}
+                      cor="#000"
+                      inputType='default'
+                      labelText='Nome do Loteamento'
+                      onChangeText={this.handleNomeLoteamentoChange}
+                      defaultValue={nomeLote}    
+                      inputValue={nomeLote}
+                    />
+                </View>
 
                 <View style={[styles.search, {opacity: planta?.fileName ? 1 : 0 }]}>            
                   <Text numberOfLines={1}>Planta : {planta?.fileName}</Text>
@@ -193,11 +206,11 @@ export default class FormularioArquivos extends React.Component {
                   <Text numberOfLines={1}>csv : {csvObject?.name}</Text>
                 </View>
 
-              <Button titulo='Importar Planta do Loteamento' funcao={this.pickImage} btStyle={{marginBottom: -20}} hidden={(nomeLote.length) < 8}/>
+                <Button titulo='Importar Planta do Loteamento' funcao={this.pickImage} btStyle={{marginBottom: -20}} hidden={(nomeLote.length) < 8}/>
 
-              <Button titulo='Localização do Loteamento' funcao={() => this.setModalVisible(true)} btStyle={{marginBottom: -20}} hidden={(nomeLote.length) < 8}/>
+                <Button titulo='Localização do Loteamento' funcao={() => this.setModalVisible(true)} btStyle={{marginBottom: -20}} hidden={(nomeLote.length) < 8}/>
 
-              <Button titulo='Importar Arquivo CSV' funcao={this.pick} btStyle={{marginBottom: 0}} hidden={(nomeLote.length) < 8}/>
+                <Button titulo='Importar Arquivo CSV' funcao={this.pickCSV} btStyle={{marginBottom: 0}} hidden={(nomeLote.length) < 8}/>
               
                 
                 <Button titulo='Prosseguir' funcao={this.nextStep} 
@@ -206,25 +219,25 @@ export default class FormularioArquivos extends React.Component {
                   }
                    />
               
-              </View>
-              <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                  this.setModalVisible(false);
-                }}
-              >
-                <View style={styles.maps}>
-                  <Map
-                    ref={ref => { this.map = ref }}
-                    Visiblesearch={true}
-                    placeHol={"Pesquisar"}
-                    closer={this.closeMaps}
-                  >
-                  </Map>
+                  <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={() => {
+                      this.setModalVisible(false);
+                    }}
+                    >
+                    <View style={styles.maps}>
+                      <Map
+                        ref={ref => { this.map = ref }}
+                        Visiblesearch={true}
+                        placeHol={"Pesquisar"}
+                        closer={this.closeMaps}
+                        >
+                      </Map>
+                    </View>
+                  </Modal>
                 </View>
-              </Modal>
               </View>
           </TouchableWithoutFeedback>
         </KeyboardAwareScrollView>

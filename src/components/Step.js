@@ -87,6 +87,12 @@ class Index extends Component {
   finish = () => {
     const { onFinish } = this.props;
     const { userState } = this.state;
+    
+    this.setState({
+      currentStep: 0,
+      userState: {},
+    })
+
     if (onFinish) {
       onFinish(userState);
     }
@@ -136,6 +142,7 @@ class Index extends Component {
           finish={this.finish}
           saveState={this.saveState}
           getState={this.getState}
+
         />
       </Animatable.View>
     );
