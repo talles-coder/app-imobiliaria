@@ -2,6 +2,7 @@ import React from 'react';
 import { ImageBackground, Image, StyleSheet, View, Text, Keyboard, TouchableWithoutFeedback, Modal} from 'react-native';
 
 import colors from '../../../../styles/colors/index';
+import  {  v4  as  uuidv4 } from  'uuid' ;
 
 import Header from '../../../../components/Header';
 import Button from '../../../../components/Button';
@@ -103,17 +104,19 @@ export default class ResumoLoteamento extends React.Component {
       csvObject : {
         name: this.state.csvObject.name,
         uri: this.state.csvObject.uri,
-        content: [],
+        content: {},
         totalQuadras : this.state.csvObject.values.totalQuadras,
-        totalLotes :  this.state.csvObject.values.totalLotes
+        totalLotes :  this.state.csvObject.values.totalLotes,
+        totalReservados: 0,
+        totalVendidos: 0,
       },
       address : this.state.address,
       planta : this.state.planta,
     };
     
-    this.state.csvObject.content.forEach(element => {dados.csvObject.content.push(element)});
-
-    addNewLoteamento(nome , dados);
+    this.state.csvObject.content.forEach((element, index) => {dados.csvObject.content[index] = element});
+    console.log(dados.csvObject.content)
+    addNewLoteamento( uuidv4() , dados);
     
     // Alert.alert('Cadastro efetuado com sucesso!');
     this.nextStep();

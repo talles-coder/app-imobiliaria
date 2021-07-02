@@ -23,6 +23,7 @@ export default class CadastrarLoteamento extends React.Component {
 
   finish = () => this.props.navigation.navigate('Loteamentos');
 
+  // alterar limite do nome do lo
   render() {
     const StepsFormsLoteamento = [
       { name: "step 1", component: FormularioArquivos },

@@ -69,7 +69,19 @@ export default class Senha extends React.Component {
 
     let data = getState(this.state);
 
-    const email = data.email;
+    data.dashboard = {
+      realizadasHoje: 0,
+      ativasHoje: 0,
+      expiramHoje: 0,
+      jaExpiraramMes: 0,
+      vendasHoje: 0,
+      vendasNesteMes: 0,
+      totalVendas: 0  
+    }
+
+    console.log(data)
+
+    const email = data.identificacao.email;
     const imagem = data.imagem;
     const documento = data.doc;
     const codigo = data.codigo;

@@ -1,9 +1,14 @@
 import React from 'react';
 import { ImageBackground, FlatList, Image, StyleSheet, View, Text, Keyboard, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 
-import Header from '../../../../components/Header';
-import Button from '../../../../components/Button';
-const fundo = "../../../../../assets/fundo.png";
+import Header from '../../../components/Header';
+import Button from '../../../components/Button';
+import GerenciarLotes from '../../../components/GerenciarLotes';
+const fundo = "../../../../assets/fundo.png";
+
+import Global from '../../../global/Global';
+
+
 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
@@ -31,16 +36,22 @@ export default class PreviaLotes extends React.Component {
         descricao: "",
         mapSnapshotURI: ""
       },
+      touchable : true,
     };
   }
 
+  componentDidMount = () => {
+    this.props.atualizar()
+  }
+
   render() {
-    const {data, back, quadra} = this.props
-    let nome = 'Previa Lotes'
+    const {touchable} = this.state
+    const {data, back, quadra, atualizar, updating} = this.props
+    let titulo = 'Lotes da ' + quadra.replace("_"," ")
     return (
       <ImageBackground style={styles.imgBackground} source={require(fundo)}>
-        <View style={styles.container}>
-          <Header titulo={nome} funcao={back} />
+        <View style={styles.container} pointerEvents={touchable ? 'auto' : 'none'}>
+          <Header titulo={titulo} funcao={back} />
 
           <View style={{height:150, width: wp("90%"), alignSelf: 'center'}}>
             { data.planta.resultado ?
@@ -52,32 +63,41 @@ export default class PreviaLotes extends React.Component {
               />
             : <Text>Erro : Não foi realizada a captura do mapa, tente novamente</Text>}
           </View> 
-          
 
           <View style={{height:"65%", width: wp("90%"), alignSelf: 'center'}}>
             <FlatList
+                refreshing={updating}
+                onRefresh={this.componentDidMount}
                 data={Object.values(data.csvObject.content)}
-                renderItem={({ item }) => {
+                extraData={data.csvObject.content}
+                renderItem={({ item, index }) => {
                   return (
                     <View>   
-                          {
-                            item[quadra]
-                          ?
-                          <View style={styles.caixa}>
-                            <Text style={[styles.title]}>{item[quadra].lote}</Text>
-                            <Button titulo='Reservar' btStyle={{marginBottom: 0, width:wp("24%"), height:hp("5%")}} hidden={true}/>
-                            <Button titulo='Vender' funcao={this.vender} btStyle={{marginBottom: 0, width:wp("24%"), height:hp("5%")}} hidden={true}/>    
-                          </View>
-                          :
-                          null
-                          }
-                      </View> 
+                      {
+                        item[quadra]
+                      ?
+                        <GerenciarLotes
+                          id={data.id}
+                          index={index}
+                          quadra={quadra}
+                          lote={item[quadra]?.lote}
+                          status={item[quadra]?.status}
+                          data={item[quadra]?.data.seconds} 
+                          corretor={item[quadra]?.corretor}
+                          gestor={item[quadra]?.gestor}
+                          tipo={Global.PROFILETYPE}
+                          atualizar={atualizar}
+                        />
+                      :
+                      null
+                      }
+                    </View> 
                     );
                   }}
-                  keyExtractor={(item, index) => {return String(index)}}
+                keyExtractor={(item, index) => {return String(index)}} 
               />
           </View> 
-        </View>
+        </View> 
       </ImageBackground>
     );
   }
@@ -110,12 +130,12 @@ const styles = StyleSheet.create({
     marginBottom: hp('3.5%')
   },
   title: {
-    fontSize: hp('2.2%'),
+    fontSize: hp('2.5%'),
     color: "#000",
     textAlign: 'center',
+    textAlignVertical: 'bottom',
     fontWeight: 'bold',
     marginBottom: 10,
-    fontSize: 16,
   },
   imgBackground: {
     flex: 1,

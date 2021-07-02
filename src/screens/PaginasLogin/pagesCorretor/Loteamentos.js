@@ -1,51 +1,121 @@
 import React from 'react';
-import { FlatList, StyleSheet, Text, View, StatusBar, TouchableOpacity,} from 'react-native';
+import { FlatList,Modal, StyleSheet, Text, View, StatusBar, TouchableOpacity,} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import Button from '../../../components/Button';
+
+import VisualizarQuadras from './VisualizarQuadras'
+import { getLoteamentosData } from "../../../database/Firebase";
 
 
-const Loteamentos = () => {
+export default class Loteamentos extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalVisible: false,
+      dados : [],
+      updating : true,
+      loteData : {},
+      index: ""
+    };
+  }
+
+  setModalVisible = (visible) => {
+    this.setState({ modalVisible: visible });
+  }
+
+  componentDidMount = () => {
+    this.setState({
+      updating : true
+    })
+    getLoteamentosData()
+    .then((array)=>{
+      this.setState({
+        dados : array,
+        updating : false
+      })
+      if(this.state.index.length !== null) {
+        this.setState({
+          loteData: this.state.dados[this.state.index]
+        })
+      }
+    })
+    .catch((error) => {console.log(error)})
+  }
+
   
 
-  
-  return (
-
-  <View style={{flex:1, backgroundColor:'#F4A261'}}>
-    <StatusBar hidden = {false} translucent = {false} backgroundColor = '#0C1C41' />
-      <View style={styles.header}>
-        <TouchableOpacity>
-          <Icon name="menu" size={35} color="white" />
-        </TouchableOpacity>
-        <Text style={styles.titlepage}>Loteamentos</Text>
-        <View style={{width:40}}></View>
-      </View>
-      <FlatList
-        data=
-        {[
-          {key: '1', Rua: 'Estr. de vitório Torantim', QntLts: '4', Rrvs: '1', Vnd: '1'},
-          {key: '2', Rua: 'Rua Arconde Barros', QntLts: '5', Rrvs: '4', Vnd: '0'},
-          {key: '3', Rua: 'Avenida Santo Antônio', QntLts: '5', Rrvs: '', Vnd: '1'},
-        ]}
-        renderItem={({item}) => 
-          
-        <View style={styles.caixa }>
-              
-              <Text  style={{fontSize: 20, padding:3, fontWeight: 'bold'}} numberOfLines={1}>{item.Rua}</Text>
-              <Text  style={styles.titleitem}>Quantidade de Lotes : {item.QntLts}</Text>
-              <Text  style={styles.titleitem}>Reservados: {item.Rrvs}</Text>
-              <Text  style={styles.titleitem}>Vendidos : {item.Vnd}</Text>
-
+  render(){
+    const { dados, updating, modalVisible , loteData} = this.state
+    return (
+    <View style={{flex:1, backgroundColor:'#F4A261'}}>
+      <StatusBar hidden = {false} translucent = {false} backgroundColor = '#0C1C41' />
+        <View style={styles.header} on>
+          <TouchableOpacity>
+            <Icon name="menu" size={35} color="white" />
+          </TouchableOpacity>
+          <Text style={styles.titlepage}>Loteamentos</Text>
+          <View style={{width:40}}></View>
         </View>
-        }/>
-  </View>
-  );
+        <FlatList
+          refreshing={updating}
+          onRefresh={this.componentDidMount}
+          extraData={this.state.dados}
+          keyExtractor={(item) => item.id}
+          data={dados}
+          renderItem={({item, index}) => 
+          <TouchableOpacity onPress={() => {
+            this.setState({
+              loteData : item,
+              index: index
+            })
+            this.setModalVisible(true)
+          }}>
+            <View style={styles.caixa }>
+                <Text  style={{fontSize: 20, padding:3, fontWeight: 'bold'}} numberOfLines={1}>{item.nomeLote}</Text>
+                <Text  style={styles.titleitem}>Quantidade de Lotes : {item.csvObject.totalLotes}</Text>
+                <Text  style={styles.titleitem}>Reservados: {item.csvObject.totalReservados}</Text>
+                <Text  style={styles.titleitem}>Vendidos : {item.csvObject.totalVendidos}</Text>
+            </View>
+          </TouchableOpacity>
+          }/>
+          <Modal
+            animationType="slide"
+            transparent={false}
+            visible={modalVisible}
+            onRequestClose={() => {
+              this.setModalVisible(false);
+              this.setState({
+                index : ""
+              })
+            }}
+          >
+            <View style={styles.maps}>
+              <VisualizarQuadras
+                data={loteData}
+                back={
+                  () => {
+                    this.setModalVisible(false)
+                    this.setState({
+                      index : ""
+                    })
+                  }}
+                atualizar={()=> {
+                  this.componentDidMount()
+                }}
+                updating={updating}
+              />
+            </View>
+          </Modal>
+    </View>
+    );
+  }
 }
-export default Loteamentos;
 
 const styles = StyleSheet.create({
   titleitem: {
     fontSize: 12,
-    opacity:0.7
+    opacity:0.7,
   },
   titlepage:{
     fontSize: 25,
@@ -64,6 +134,13 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingTop:15
   },  
+  maps: {
+    height: '100%',
+    backgroundColor: "#FFF",
+    borderWidth: 2,
+    borderColor: '#888',
+    justifyContent: 'center',
+  },
   caixa:{
     backgroundColor:'white',
     borderRadius:15,

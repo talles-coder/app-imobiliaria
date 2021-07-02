@@ -19,8 +19,10 @@ export default class DadosIniciais extends React.Component {
 
     this.state = {
       imagem: '',
-      nome: '',
-      email: '',
+      identificacao: {
+        nome: '',
+        email: '',
+      },
       celular: '',
     };
 
@@ -31,12 +33,22 @@ export default class DadosIniciais extends React.Component {
   }
 
   handleImageChange = (imagem) => this.setState({ imagem });
-  handleNomeChange = (nome) => this.setState({ nome });
-  handleEmailChange = (email) => this.setState({ email: email ? email.toString().trim() : email });
+  handleNomeChange = (name) => this.setState(
+    { identificacao: {
+      ...this.state.identificacao,
+      nome : name
+    } }
+    );
+  handleEmailChange = (email) => this.setState(
+    { identificacao: {
+      ...this.state.identificacao,
+      email: email ? email.toString().trim().toLowerCase() : email
+    } });
   handleCelularChange = (celular) => this.setState({ celular });
 
   nextStep = () => {
     const { next, saveState } = this.props;
+    console.log(this.state.identificacao.nome)
     saveState(this.state);
 
     next();
@@ -49,13 +61,13 @@ export default class DadosIniciais extends React.Component {
   }
 
   render() {
-    let nome = 'Cadastro Corretor'
+    let titulo = 'Cadastro Corretor'
     return (
       <ImageBackground style={styles.imgBackground} source={require(fundo)}>
         <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.container}>
-              <Header titulo={nome} funcao={this.goBack} />
+              <Header titulo={titulo} funcao={this.goBack} />
 
               <View>
                   <Text style={styles.title}>Foto de Perfil</Text> 
@@ -71,14 +83,14 @@ export default class DadosIniciais extends React.Component {
                 <Input
                   labelText='Nome'
                   onChangeText={this.handleNomeChange}
-                  value={this.state.nome}
+                  value={this.state.identificacao.nome}
                 />
 
                 <Input
                   inputType='email-address'
                   labelText='Email'
                   onChangeText={this.handleEmailChange}
-                  value={this.state.email}
+                  value={this.state.identificacao.email}
                 />
 
                 <Input

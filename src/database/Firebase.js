@@ -1,16 +1,13 @@
 import { Alert } from "react-native";
-import { firebaseApp } from "./Config";
+import { firebaseApp, adminField } from "./Config";
 import 'react-native-get-random-values';
-import  {  v4  as  uuidv4 } from  'uuid' ;
-import { version as uuidVersion } from 'uuid';
-import { validate as uuidValidate } from 'uuid';
-import { date } from "yup";
+import Global from "../global/Global";
 
-function uuidValidateV4(uuid) {
-  return uuidValidate(uuid) && uuidVersion(uuid) === 4;
-}
 
 export var db = firebaseApp.firestore();
+const increment = adminField.increment(+1);
+const decrement = adminField.increment(-1);
+
 
 //Efetuar o log off
 export function signout(callback) {
@@ -18,9 +15,7 @@ export function signout(callback) {
     .catch((err) => callback(err, null))
 };
 
-
 //criar usuário com e-mail e senha
-
 export function emailSignUp({ email, password }, callback) {
   firebaseApp.auth().createUserWithEmailAndPassword(email, password)
     .then((user) => callback(null, user))
@@ -28,7 +23,6 @@ export function emailSignUp({ email, password }, callback) {
 };
 
 //Efetuar login com e-mail e senha
-
 export function emailSignIn({ email, password }, callback) {
   firebaseApp.auth().signInWithEmailAndPassword(email, password)
     .then((user) => callback(null, user))
@@ -37,7 +31,6 @@ export function emailSignIn({ email, password }, callback) {
 
 
 // Solicitar dados do usuário
-
 export function getUserData(email, callback) {
   var userRef = db.collection('Usuarios').doc(email);
   userRef.get()
@@ -159,9 +152,60 @@ export function CreateTemporaryToken(value) {
   return code
 }
 
+
 export function addNewLoteamento(nome, loteamentoData) {
   db.collection('loteamentos').doc(nome).set(loteamentoData)
 };
+
+export async function getLoteamentosData() {
+  let array = []
+  const loteamentoRef = db.collection('loteamentos');
+  const dados = await loteamentoRef.get();
+  dados.forEach(doc => {
+      const object = doc.data()
+      object.id = doc.id
+      array.push(object)
+    }
+  );
+  
+  return array
+};
+
+export function reservarLote(id, index, quadra, usuario) {
+  const query = `csvObject.content.${index}.${quadra}.`
+  const data = {}
+  data[query + 'status'] = "reservado"
+  data[query + 'corretor'] = usuario 
+  data[query + 'data'] = adminField.serverTimestamp()
+  db.collection("Usuarios").doc(Global.EMAIL).update({
+    'dashboard.realizadasHoje' : increment
+  })
+  return db.collection("loteamentos").doc(id).update(data)
+}
+
+export async function liberarReservaLote (id, index, quadra, corretor) {
+  const query = `csvObject.content.${index}.${quadra}.`
+  const data = {}
+  data[query + 'status'] = "disponivel"
+  data[query + 'corretor'] = "" 
+  data[query + 'data'] = new Date(0)
+  const doc = await db.collection("Usuarios").where('nome', '==', corretor).get()
+  doc.forEach(doc => {
+    console.log(Object.values(doc));
+  })
+  return db.collection("loteamentos").doc(id).update(data)
+}
+
+export function venderLote(id, index, quadra, corretor, gestor) {
+  const query = `csvObject.content.${index}.${quadra}.`
+  const data = {}
+  data[query + 'status'] = "vendido"
+  data[query + 'data'] = new Date()
+  data[query + 'corretor'] = corretor
+  data[query + 'gestor'] = gestor
+  return db.collection("loteamentos").doc(id).update(data)
+}
+
 
 export function addNewUserData({ email, userData }, callback) {
   var userRef = db.collection('Usuarios').doc(email);

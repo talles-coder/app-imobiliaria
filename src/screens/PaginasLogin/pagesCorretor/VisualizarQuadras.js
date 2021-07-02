@@ -1,18 +1,21 @@
 import React from 'react';
-import { ImageBackground, FlatList, Image, StyleSheet, View, Text, Keyboard, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import { ImageBackground, Modal, FlatList, Image, StyleSheet, View, Text, Keyboard, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 
-import Header from '../../../../components/Header';
-import Button from '../../../../components/Button';
-const fundo = "../../../../../assets/fundo.png";
+const fundo = "../../../../assets/fundo.png";
+
+import Header from '../../../components/Header';
+import Button from '../../../components/Button';
+import PreviaLotes from './VisualizarLotes';
 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 
-export default class PreviaLotes extends React.Component {
+export default class VisualizarQuadras extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      modalVisible: false,
       nomeLote: "",
       planta: {
         fileName: "",
@@ -31,12 +34,18 @@ export default class PreviaLotes extends React.Component {
         descricao: "",
         mapSnapshotURI: ""
       },
+      index: ""
     };
   }
 
+  setModalVisible = (visible) => {
+    this.setState({ modalVisible: visible });
+  }
+
   render() {
-    const {data, back, quadra} = this.props
-    let nome = 'Previa Lotes'
+    const {modalVisible, index} = this.state
+    const {data, back, updating, atualizar} = this.props
+    let nome = 'Detalhes do Loteamento'
     return (
       <ImageBackground style={styles.imgBackground} source={require(fundo)}>
         <View style={styles.container}>
@@ -56,27 +65,44 @@ export default class PreviaLotes extends React.Component {
 
           <View style={{height:"65%", width: wp("90%"), alignSelf: 'center'}}>
             <FlatList
-                data={Object.values(data.csvObject.content)}
+                data={Object.keys(data.csvObject.content[0]).sort()}
                 renderItem={({ item }) => {
+                  
                   return (
-                    <View>   
-                          {
-                            item[quadra]
-                          ?
+                    <View>
                           <View style={styles.caixa}>
-                            <Text style={[styles.title]}>{item[quadra].lote}</Text>
-                            <Button titulo='Reservar' btStyle={{marginBottom: 0, width:wp("24%"), height:hp("5%")}} hidden={true}/>
-                            <Button titulo='Vender' funcao={this.vender} btStyle={{marginBottom: 0, width:wp("24%"), height:hp("5%")}} hidden={true}/>    
+                            <Text style={[styles.title]}>{item.replace("_"," ")}</Text>
+                            <Button titulo='Visualizar Lotes' funcao={() => {
+                              this.setState({index: item},
+                              this.setModalVisible(true)
+                              )}} btStyle={{marginBottom: 0, width:wp("47%"), height:hp("5%")}}/>
                           </View>
-                          :
-                          null
-                          }
                       </View> 
                     );
-                  }}
-                  keyExtractor={(item, index) => {return String(index)}}
+                  }}  
+                  keyExtractor={item => item}
+                  />
+          </View>
+
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              this.setModalVisible(false);
+            }}
+          >
+            <View style={styles.maps}>
+              <PreviaLotes
+                quadra={index}
+                data={data}
+                back={() => {this.setModalVisible(false)}}
+                updating={updating}
+                atualizar={atualizar}
               />
-          </View> 
+            </View>
+          </Modal>
+
         </View>
       </ImageBackground>
     );
@@ -105,6 +131,13 @@ const styles = StyleSheet.create({
     alignItems:'center',
     borderWidth:0.7,
     justifyContent:'space-around'
+  },
+  maps: {
+    height: '100%',
+    backgroundColor: "#FFF",
+    borderWidth: 2,
+    borderColor: '#888',
+    justifyContent: 'center',
   },
   formulario: {
     marginBottom: hp('3.5%')

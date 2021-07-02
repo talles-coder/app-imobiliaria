@@ -13,6 +13,8 @@ import * as FileSystem from 'expo-file-system';
 import * as ExpoImagePicker from 'expo-image-picker';
 import * as DocumentPicker from 'expo-document-picker';
 
+import  {  v4  as  uuidv4 } from  'uuid' ;
+
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
@@ -50,8 +52,6 @@ export default class FormularioArquivos extends React.Component {
 
   componentDidMount(){
     const { getState } = this.props;
-    console.log(this.props)
-    console.log(this.state)
     let data = getState(this.state);
     this.setState({
       nomeLote : data.nomeLote,
@@ -97,7 +97,6 @@ export default class FormularioArquivos extends React.Component {
           resultado: resultado, 
         }
       })
-      console.log(this.state.planta)
     }
   };
   
@@ -119,7 +118,13 @@ export default class FormularioArquivos extends React.Component {
         var currentline=lines[i].split(";");
         for(var j=0;j<headers.length;j++){
           if (currentline[j] !== "") {
-            obj[headers[j]] = currentline[j];
+            obj[headers[j]] = {
+              lote : currentline[j],
+              status : "disponivel",
+              data : "",
+              corretor : "",
+              gestor : ""
+            }
             lotesTotal++
           }
         }

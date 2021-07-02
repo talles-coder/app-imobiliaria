@@ -9,6 +9,8 @@ import {
 import Global from "../../global/Global";
 
 export default function CustomDrawerCli(props) {
+  let nome = Global.NOME
+
   function handleSignOutButton() {
     Alert.alert('Você tem certeza que deseja sair?', '', [
       {
@@ -39,24 +41,23 @@ export default function CustomDrawerCli(props) {
     return Global.IMAGEURL
   }
 
-  function formatarNome(nome) {
+  function formatarNome() {
     let tmp = nome.split(" ");
-    if (tmp[1]) {
-      nome = tmp[0] + " " + tmp[1];
-    }
+    if (tmp[1]) {nome = tmp[0];}
 
     return nome;
   }
 
   return (
     <View >
-
       <View style={styles.BoxUser}>
         <Image
           style={styles.imgPerfil}
           source={{ uri: buscarImagemPerfil() }}
         />
-        <Text style={styles.NameUser}>{formatarNome(Global.NOME)}</Text>
+        <View style={{maxWidth:wp("43%")}}>
+          <Text numberOfLines={1} style={styles.NameUser}>{formatarNome()}</Text>
+        </View>
       </View>
 
       <View style={styles.BoxMid}>
@@ -144,5 +145,4 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
   },
-
 })

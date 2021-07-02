@@ -11,4 +11,5 @@ let config = {
 };
 
 export const firebaseApp = !firebase.apps.length ? firebase.initializeApp(config) : firebase.app();
+export const adminField = firebase.firestore.FieldValue
 

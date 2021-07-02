@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Main from '../screens/Main';
 import Login from '../screens/Login';
 import CadastroGestor from '../screens/Cadastro/CadastroGestor';
-import ProfileGestor from '../screens/PaginasLogin/ProfileGestor';
+import Profile from '../screens/PaginasLogin/Profile';
 import ResetPassword from '../screens/ResetPassword';
 
 const Stack = createStackNavigator();
@@ -22,7 +22,7 @@ export default class Route extends React.Component {
           <Stack.Screen name="Main" component={Main} />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="CadastroGestor" component={CadastroGestor} />
-          <Stack.Screen name="ProfileGestor" component={ProfileGestor} />
+          <Stack.Screen name="Profile" component={Profile} />
           <Stack.Screen name="ResetPassword" component={ResetPassword} />
         </Stack.Navigator>
       </NavigationContainer>
