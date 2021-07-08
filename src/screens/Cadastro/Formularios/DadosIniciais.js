@@ -48,7 +48,6 @@ export default class DadosIniciais extends React.Component {
 
   nextStep = () => {
     const { next, saveState } = this.props;
-    console.log(this.state.identificacao.nome)
     saveState(this.state);
 
     next();

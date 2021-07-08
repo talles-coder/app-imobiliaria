@@ -27,8 +27,8 @@ export default class Login extends React.Component {
     super(props);
 
     this.state = {
-      email: 'mateus@gmail.com',
-      password: '193thedr',
+      email: '',
+      password: '',
     };
 
     this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -39,7 +39,7 @@ export default class Login extends React.Component {
   handlePasswordChange = (password) => this.setState({ password });
 
   handleForgotPassword = () => this.props.navigation.navigate('ResetPassword')
-  
+
   login = () => {
     const objLogin = {
       email: this.state.email,
@@ -52,7 +52,6 @@ export default class Login extends React.Component {
         if (error && !data) return alert(error.message);
 
         const userData = data.data();
-        console.log("userdata : ",userData )
         if (userData) {
           Global.EMAIL = userData.identificacao.email;
           Global.NOME = userData.identificacao.nome;
@@ -63,6 +62,29 @@ export default class Login extends React.Component {
         }
       });
     });
+
+  }
+
+  gestor = () => {
+    this.setState({
+      email: 'gestor@gmail.com',
+      password: 'gestor',
+    })
+    setTimeout(() => {
+      this.login()
+      console.log("logado como gestor")
+    }, 500);
+  }
+
+  corretor = () => {
+    this.setState({
+      email: 'corretor@gmail.com',
+      password: 'corretor',
+    })
+    setTimeout(() => {
+      this.login()
+      console.log("logado como corretor")
+    }, 500);
   }
 
   render() {
@@ -106,15 +128,20 @@ export default class Login extends React.Component {
                 </View>
 
                 <View style={{ alignItems: "center", marginTop: 40, marginBottom: 40 }}>
+                  <TouchableOpacity onPress={this.gestor} style={styles.botoes}>
+                    <Text style={styles.txtbotao}>Gestor</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={this.corretor} style={styles.botoes}>
+                    <Text style={styles.txtbotao}>Corretor</Text>
+                  </TouchableOpacity>
                   <TouchableOpacity onPress={this.login} style={styles.botoes}>
                     <Text style={styles.txtbotao}>Login</Text>
                   </TouchableOpacity>
-
-                  <TouchableOpacity onPress={this.handleForgotPassword}>
+                  {/* <TouchableOpacity onPress={this.handleForgotPassword}>
                     <Text style={{ textDecorationLine: "underline", color: "white", textAlign: "center", marginTop: 25 }}>
                       Esqueci minha senha
                     </Text>
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                 </View>
               </View>
             </KeyboardAvoidingView>

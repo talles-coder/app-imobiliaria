@@ -8,7 +8,7 @@ import {
 } from "react-native-responsive-screen";
 import Global from "../../global/Global";
 
-export default function CustomDrawerCli(props) {
+export default function CustomDrawer(props) {
   let nome = Global.NOME
 
   function handleSignOutButton() {
@@ -28,18 +28,18 @@ export default function CustomDrawerCli(props) {
     )
   }
 
-  function buscarImagemPerfil() {
-    const imagem = Global.PROFILEIMAGE
+  // function buscarImagemPerfil() {
+  //   const imagem = Global.PROFILEIMAGE
     
-    if (Global.IMAGEURL === "https://reactnative.dev/img/tiny_logo.png") {
-      getImageFromFirebase(imagem, (url, error) => {
-        if (error) console.log(error);
-        Global.IMAGEURL = url;
-      });
-    }
+  //   if (Global.IMAGEURL === "https://reactnative.dev/img/tiny_logo.png") {
+  //     getImageFromFirebase(imagem, (url, error) => {
+  //       if (error) console.log(error);
+  //       Global.IMAGEURL = url;
+  //     });
+  //   }
 
-    return Global.IMAGEURL
-  }
+  //   return Global.IMAGEURL
+  // }
 
   function formatarNome() {
     let tmp = nome.split(" ");
@@ -51,10 +51,10 @@ export default function CustomDrawerCli(props) {
   return (
     <View >
       <View style={styles.BoxUser}>
-        <Image
+        {/* <Image
           style={styles.imgPerfil}
           source={{ uri: buscarImagemPerfil() }}
-        />
+        /> */}
         <View style={{maxWidth:wp("43%")}}>
           <Text numberOfLines={1} style={styles.NameUser}>{formatarNome()}</Text>
         </View>
@@ -62,6 +62,11 @@ export default function CustomDrawerCli(props) {
 
       <View style={styles.BoxMid}>
 
+        <DrawerItem
+          icon={() => <Image source={require('../../../assets/assetsCorretor/profs.png')} />}
+          label="dashboard"
+          onPress={() => props.navigation.navigate('Dashboard')}
+        />
         <DrawerItem
           icon={() => <Image source={require('../../../assets/assetsCorretor/profs.png')} />}
           label="Loteamentos"
@@ -77,19 +82,19 @@ export default function CustomDrawerCli(props) {
           ?
           <View>          
             <DrawerItem
-            icon={() => <Image source={require('../../../assets/assetsCorretor/mais.png')} />}
-            label="CriarUsuario"
-            onPress={() => props.navigation.navigate('CriarUsuario')}
+              icon={() => <Image source={require('../../../assets/assetsCorretor/mais.png')} />}
+              label="CriarUsuario"
+              onPress={() => props.navigation.navigate('CriarUsuario')}
             />
             <DrawerItem
-            icon={() => <Image source={require('../../../assets/assetsCorretor/carteira.png')} />}
-            label="Todas Reservas"
-            onPress={() => props.navigation.navigate('TodasReservas')}
+              icon={() => <Image source={require('../../../assets/assetsCorretor/carteira.png')} />}
+              label="Todas Reservas"
+              onPress={() => props.navigation.navigate('TodasReservas')}
             />
             <DrawerItem
-            icon={() => <Image source={require('../../../assets/assetsCorretor/calendario.png')} />}
-            label="Minhas Reservas"
-            onPress={() => props.navigation.navigate('MinhasReservas')}
+              icon={() => <Image source={require('../../../assets/assetsCorretor/calendario.png')} />}
+              label="Minhas Reservas"
+              onPress={() => props.navigation.navigate('MinhasReservas')}
             />
           </View>
         :

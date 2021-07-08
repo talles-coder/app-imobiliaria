@@ -21,7 +21,7 @@ export default class CadastroGestor extends React.Component {
 
   onBack = () => { };
 
-  finish = () => this.props.navigation.navigate('Login');
+  finish = () => this.props.navigation.navigate('Main');
 
   render() {
     const allStepsFormsGestor = [

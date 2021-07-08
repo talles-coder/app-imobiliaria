@@ -83,7 +83,8 @@ export default class PreviaLotes extends React.Component {
                           lote={item[quadra]?.lote}
                           status={item[quadra]?.status}
                           data={item[quadra]?.data.seconds} 
-                          corretor={item[quadra]?.corretor}
+                          corretor={item[quadra].corretor?.nome !== undefined ? item[quadra].corretor?.nome : Global.NOME}
+                          idCorretor={item[quadra].corretor?.email !== undefined ? item[quadra].corretor?.email : Global.EMAIL}
                           gestor={item[quadra]?.gestor}
                           tipo={Global.PROFILETYPE}
                           atualizar={atualizar}

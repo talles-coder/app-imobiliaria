@@ -49,7 +49,7 @@ export default class VisualizarQuadras extends React.Component {
     return (
       <ImageBackground style={styles.imgBackground} source={require(fundo)}>
         <View style={styles.container}>
-          <Header titulo={nome} funcao={back} />
+          <Header titulo={nome} funcao={back}/>
 
           <View style={{height:150, width: wp("90%"), alignSelf: 'center'}}>
             { data.planta.resultado ?
@@ -81,7 +81,7 @@ export default class VisualizarQuadras extends React.Component {
                     );
                   }}  
                   keyExtractor={item => item}
-                  />
+                />
           </View>
 
           <Modal
@@ -126,17 +126,15 @@ const styles = StyleSheet.create({
     borderRadius:15,
     width:wp("90%"),
     height:hp("8%"),
-    marginTop:20,
+    marginTop:10,
+    marginBottom: 10,
     alignSelf:'center',
     alignItems:'center',
-    borderWidth:0.7,
     justifyContent:'space-around'
   },
   maps: {
     height: '100%',
     backgroundColor: "#FFF",
-    borderWidth: 2,
-    borderColor: '#888',
     justifyContent: 'center',
   },
   formulario: {

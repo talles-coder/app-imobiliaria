@@ -155,6 +155,9 @@ export default class FormularioArquivos extends React.Component {
     next();
   };
 
+  openMenu = () => {
+    console.log(this.props)
+  }
 
   goBack = () => {
     const { finish } = this.props;

@@ -10,6 +10,7 @@ export default function ImagePicker(props) {
   const [image, setImage] = useState(null);
 
   const pickImage = async () => {
+    
     (async () => {
       if (Platform.OS !== 'web') {
         const { status } = await ExpoImagePicker.requestCameraRollPermissionsAsync();
@@ -44,76 +45,46 @@ export default function ImagePicker(props) {
   return (
     <ImageBackground
       source={{
-        uri: !image ? imagemSelecionada : image
+        uri: !image ? imagemSelecionada : image,
       }}
       style={styles.container}
-      borderRadius={100}>
-
-      <View style={styles.circle}>
-        <TouchableOpacity
-          style={
-            !permitirAdd
-              ? styles.btnHidden
-              : styles.btnAdicionar
-          }
-          onPress={pickImage}>
-          <Image
-            style={styles.imagemAdicao}
-            source={require("../../assets/icons/adicao.png")} />
-        </TouchableOpacity>
-      </View>
+      borderRadius={100}
+    >
+      <TouchableOpacity
+        style={!permitirAdd ? styles.btnHidden : styles.btnAdicionar}
+        onPress={pickImage}
+      >
+        <Image
+          style={styles.imagemAdicao}
+          source={require("../../assets/icons/adicao.png")}
+        />
+      </TouchableOpacity>
     </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    // marginTop: hp('5.5%'),
-    // marginBottom: hp('1%'),
-    height: hp('22%'),
-    width: hp('18%'),
-  },
-  circle: {
-    // marginTop: hp('5.5%'),
-    // marginBottom: hp('1%'),
-    height: hp('18%'),
-    width: hp('18%'),
-    borderRadius: wp('50%'),
-    backgroundColor: colors.cinza,
-    flexDirection: 'column-reverse',
-    alignItems: 'flex-end'
-  },
-  titleImage: {
-    height: hp('4%'),
-    width: hp('18%'),
-    flexDirection: 'column',
+    height: hp("18%"),
+    width: hp("18%"),
+    borderRadius: wp("50%"),
+    backgroundColor: "#A4A5A5",
+    flexDirection: "column-reverse",
+    alignItems: "flex-end",
   },
   btnAdicionar: {
     width: 40,
     height: 40,
     borderRadius: 40,
-    backgroundColor: colors.azulVibrante,
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "#063BD5",
+    justifyContent: "center",
+    alignItems: "center",
   },
   btnHidden: {
-    display: 'none'
-  },
-  title: {
-    fontSize: hp('2.2%'),
-    color: colors.branco,
-    textAlign: 'center',
-    fontWeight: 'bold',
+    display: "none",
   },
   imagemAdicao: {
-    width: hp('2.6%'),
-    height: hp('2.6%'),
+    width: hp("2.6%"),
+    height: hp("2.6%"),
   },
-  imgPerfil: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 15,
-    borderColor: "#cdcdcd",
-    borderWidth:2
-},
 });

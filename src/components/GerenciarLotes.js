@@ -19,7 +19,10 @@ export default class GerenciarLotes extends React.Component {
     }
 
     reservar = () => {
-        const usuario = Global.NOME
+        const usuario = {
+            nome: Global.NOME,
+            email: Global.EMAIL
+        }
         reservarLote(this.props.id, this.props.index, this.props.quadra, usuario ).then(
             ()=>{this.props.atualizar()
             })
@@ -27,13 +30,13 @@ export default class GerenciarLotes extends React.Component {
     }
     
     cancelar = () => {
-        liberarReservaLote(this.props.id, this.props.index, this.props.quadra, this.props.corretor)
+        liberarReservaLote(this.props.id, this.props.index, this.props.quadra, this.props.status, this.props.idCorretor)
         .then(()=>{this.props.atualizar()})
-        .catch((error)=> {Alert.alert(error.toString())})
+        .catch((error)=> {console.log(error.toString())})
     }
 
     vender = () => {
-        venderLote(this.props.id , this.props.index , this.props.quadra , this.props.corretor.length ? this.props.corretor : Global.NOME , Global.NOME)
+        venderLote(this.props.id , this.props.index , this.props.quadra , this.props.corretor, this.props.idCorretor , Global.NOME, this.props.status)
         .then(()=>{this.props.atualizar()})
         .catch((error)=> {Alert.alert(error.toString())})
     }

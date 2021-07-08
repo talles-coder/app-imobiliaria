@@ -115,7 +115,6 @@ export default class ResumoLoteamento extends React.Component {
     };
     
     this.state.csvObject.content.forEach((element, index) => {dados.csvObject.content[index] = element});
-    console.log(dados.csvObject.content)
     addNewLoteamento( uuidv4() , dados);
     
     // Alert.alert('Cadastro efetuado com sucesso!');

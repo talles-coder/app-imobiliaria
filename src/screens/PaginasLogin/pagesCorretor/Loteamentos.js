@@ -1,11 +1,11 @@
-import React from 'react';
+import React , {useEffect} from 'react';
 import { FlatList,Modal, StyleSheet, Text, View, StatusBar, TouchableOpacity,} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import Button from '../../../components/Button';
 
 import VisualizarQuadras from './VisualizarQuadras'
-import { getLoteamentosData } from "../../../database/Firebase";
+import updateLoteamentos from "../../../services/Loteamentos";
 
 
 export default class Loteamentos extends React.Component {
@@ -24,11 +24,19 @@ export default class Loteamentos extends React.Component {
     this.setState({ modalVisible: visible });
   }
 
+  // componentDidUpdate(){
+  //   this.props.navigation.removeListener();
+  // }
+
+  // componentWillUnmount(){
+  // }
+
   componentDidMount = () => {
+    
     this.setState({
       updating : true
     })
-    getLoteamentosData()
+    updateLoteamentos()
     .then((array)=>{
       this.setState({
         dados : array,
@@ -51,7 +59,7 @@ export default class Loteamentos extends React.Component {
     <View style={{flex:1, backgroundColor:'#F4A261'}}>
       <StatusBar hidden = {false} translucent = {false} backgroundColor = '#0C1C41' />
         <View style={styles.header} on>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=> {this.props.navigation.openDrawer()}}>
             <Icon name="menu" size={35} color="white" />
           </TouchableOpacity>
           <Text style={styles.titlepage}>Loteamentos</Text>
@@ -76,6 +84,9 @@ export default class Loteamentos extends React.Component {
                 <Text  style={styles.titleitem}>Quantidade de Lotes : {item.csvObject.totalLotes}</Text>
                 <Text  style={styles.titleitem}>Reservados: {item.csvObject.totalReservados}</Text>
                 <Text  style={styles.titleitem}>Vendidos : {item.csvObject.totalVendidos}</Text>
+                <Text  style={styles.titleitem}>Disponíveis : {
+                  item.csvObject.totalLotes - (item.csvObject.totalReservados+item.csvObject.totalVendidos)
+                }</Text>
             </View>
           </TouchableOpacity>
           }/>
@@ -137,8 +148,6 @@ const styles = StyleSheet.create({
   maps: {
     height: '100%',
     backgroundColor: "#FFF",
-    borderWidth: 2,
-    borderColor: '#888',
     justifyContent: 'center',
   },
   caixa:{
@@ -149,7 +158,6 @@ const styles = StyleSheet.create({
     marginTop:20,
     alignSelf:'center',
     alignItems:'center',
-    borderWidth:0.7,
     justifyContent:'center'
   }
 });

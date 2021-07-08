@@ -70,6 +70,7 @@ export default class Senha extends React.Component {
     let data = getState(this.state);
 
     data.dashboard = {
+      dataRegistros: new Date(),
       realizadasHoje: 0,
       ativasHoje: 0,
       expiramHoje: 0,
@@ -78,8 +79,6 @@ export default class Senha extends React.Component {
       vendasNesteMes: 0,
       totalVendas: 0  
     }
-
-    console.log(data)
 
     const email = data.identificacao.email;
     const imagem = data.imagem;
@@ -122,18 +121,17 @@ export default class Senha extends React.Component {
     }
 
     // Criando usuário no banco de dadaos
-    deleteTemporaryToken(codigo)
+    // deleteTemporaryToken(codigo)
 
     this.createDataAndUserInDatabase(data, email, password);
-
+    
     // Alert.alert('Cadastro efetuado com sucesso!');
 
     this.nextStep();
   };
 
   nextStep = () => {
-    const { next, saveState } = this.props;
-    saveState(this.state);
+    const { next } = this.props;
 
     next();
   };

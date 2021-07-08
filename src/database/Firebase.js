@@ -8,7 +8,6 @@ export var db = firebaseApp.firestore();
 const increment = adminField.increment(+1);
 const decrement = adminField.increment(-1);
 
-
 //Efetuar o log off
 export function signout(callback) {
   firebaseApp.auth().signOut()
@@ -24,6 +23,7 @@ export function emailSignUp({ email, password }, callback) {
 
 //Efetuar login com e-mail e senha
 export function emailSignIn({ email, password }, callback) {
+  // db.collection("Usuarios").doc(email).update({'dashboard.dataRegistro' : adminField.serverTimestamp()})
   firebaseApp.auth().signInWithEmailAndPassword(email, password)
     .then((user) => callback(null, user))
     .catch((err) => callback(err, null))
@@ -118,27 +118,6 @@ export function getPlantaFromFirebase(imagem, callback) {
   .catch((error) => callback(null, error))
 };
 
-// export async function TemporaryToken() {
-  //----------------------------------
-
-  // Pesquisa valor no banco de dados
-
-  // const citiesRef = db.collection('cities');
-
-  // // Create a query against the collection
-  // const snapshot = await citiesRef.where('capital', '==', false).get();
-  
-  // if (snapshot.empty) {
-  //   console.log('No matching documents.');
-  //   return;
-  // }
-  // snapshot.forEach(doc => {
-  //   console.log(doc.id);
-  // });
-
-  
-// }
-
 export async function deleteTemporaryToken(value) {
   db.collection('codigos').doc(value).delete();
 }
@@ -147,7 +126,7 @@ export function CreateTemporaryToken(value) {
   let code = Math.floor(Math.pow(10, 8-1) + Math.random() * (Math.pow(10, 8) - Math.pow(10, 8-1) - 1));
   db.collection('codigos').doc(String(code)).set({      
     tipo : value,
-    startTime : new Date()
+    startTime : adminField.serverTimestamp()
     })
   return code
 }
@@ -157,19 +136,16 @@ export function addNewLoteamento(nome, loteamentoData) {
   db.collection('loteamentos').doc(nome).set(loteamentoData)
 };
 
-export async function getLoteamentosData() {
-  let array = []
-  const loteamentoRef = db.collection('loteamentos');
-  const dados = await loteamentoRef.get();
-  dados.forEach(doc => {
-      const object = doc.data()
-      object.id = doc.id
-      array.push(object)
-    }
-  );
-  
-  return array
+
+export async function getLoteamentos() {
+  const dados = await db.collection('loteamentos').get()
+  return dados
 };
+
+export async function getDashboardUsuario (idUsuario){
+  const data = await db.collection('Usuarios').doc(idUsuario).get()
+  return data.data()
+  }
 
 export function reservarLote(id, index, quadra, usuario) {
   const query = `csvObject.content.${index}.${quadra}.`
@@ -177,33 +153,34 @@ export function reservarLote(id, index, quadra, usuario) {
   data[query + 'status'] = "reservado"
   data[query + 'corretor'] = usuario 
   data[query + 'data'] = adminField.serverTimestamp()
-  db.collection("Usuarios").doc(Global.EMAIL).update({
-    'dashboard.realizadasHoje' : increment
-  })
+  data['csvObject.totalReservados'] = increment
   return db.collection("loteamentos").doc(id).update(data)
 }
 
-export async function liberarReservaLote (id, index, quadra, corretor) {
+export async function liberarReservaLote (id, index, quadra, status, idUsuario) {
   const query = `csvObject.content.${index}.${quadra}.`
   const data = {}
   data[query + 'status'] = "disponivel"
   data[query + 'corretor'] = "" 
   data[query + 'data'] = new Date(0)
-  const doc = await db.collection("Usuarios").where('nome', '==', corretor).get()
-  doc.forEach(doc => {
-    console.log(Object.values(doc));
-  })
+  await db.collection('Usuarios').doc(idUsuario).update({'dashboard.jaExpiraramMes': increment})
   return db.collection("loteamentos").doc(id).update(data)
 }
 
-export function venderLote(id, index, quadra, corretor, gestor) {
+export async function venderLote(id, index, quadra, corretor , idCorretor, gestor, status) {
   const query = `csvObject.content.${index}.${quadra}.`
   const data = {}
   data[query + 'status'] = "vendido"
-  data[query + 'data'] = new Date()
-  data[query + 'corretor'] = corretor
+  data[query + 'data'] = adminField.serverTimestamp()
+  data[query + 'corretor.nome'] = corretor
+  data[query + 'corretor.email'] = idCorretor
   data[query + 'gestor'] = gestor
-  return db.collection("loteamentos").doc(id).update(data)
+
+  await db.collection("Usuarios").doc(idCorretor).update({'dashboard.totalVendas' : increment})
+  await db.collection("Usuarios").doc(idCorretor).update({'dashboard.vendasHoje' : increment})
+  await db.collection("Usuarios").doc(idCorretor).update({'dashboard.vendasNesteMes' : increment})
+
+  return await db.collection("loteamentos").doc(id).update(data)
 }
 
 
