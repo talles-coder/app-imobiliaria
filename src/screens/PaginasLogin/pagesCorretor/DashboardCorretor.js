@@ -45,7 +45,7 @@ export default class DashboardCorretor extends React.Component {
                   colors={['#FFEE00', '#807700']}
                   style={styles.background}
                 />
-                <Text style={{width:90}}>Realizadas Hoje : </Text>
+                <Text style={{width:90}}>Realizadas Hoje</Text>
                 <Image  source={require('../../../../assets/RealizadasHoje.png')}/>
                 <Text style={styles.data}>{data?.realizadasHoje}</Text>
               </View>
@@ -55,7 +55,7 @@ export default class DashboardCorretor extends React.Component {
                   colors={['#FFCC00', '#806600']}
                   style={styles.background}
                 />
-                <Text style={{width:90}}>Em andamento: </Text>
+                <Text style={{width:90}}>Em andamento</Text>
                 <Image  source={require('../../../../assets/AtivasHoje.png')}/>
                 <Text style={styles.data}>{data?.ativasHoje}</Text>
               </View>
@@ -65,7 +65,7 @@ export default class DashboardCorretor extends React.Component {
                   colors={['#FF812D', '#804117']}
                   style={styles.background}
                 />
-                <Text style={{width:90}}>Expirarão Hoje : </Text>
+                <Text style={{width:90}}>Expirarão Hoje</Text>
                 <Image  source={require('../../../../assets/VaoExpirar.png')}/>
                 <Text style={styles.data}>{data?.expiramHoje}</Text>
               </View>
@@ -75,7 +75,7 @@ export default class DashboardCorretor extends React.Component {
                   colors={['#FF3A3A', '#A82525']}
                   style={styles.background}
                 />
-                <Text style={{width:90}}>Canceladas este mês : </Text>
+                <Text style={{width:90}}>Canceladas este mês</Text>
                 <Image  source={require('../../../../assets/JaExpiraram.png')}/>
                 <Text style={styles.data}>{data?.jaExpiraramMes}</Text>
               </View>
@@ -91,7 +91,7 @@ export default class DashboardCorretor extends React.Component {
                   colors={['#9BFF9B', '#4E804E']}
                   style={styles.background}
                 />
-                <Text style={{width:90}}>Realizadas Hoje : </Text>
+                <Text style={{width:90}}>Realizadas Hoje</Text>
                 <Image  source={require('../../../../assets/VendasHoje.png')}/>
                 <Text style={styles.data}>{data?.vendasHoje}</Text>
               </View>
@@ -101,7 +101,7 @@ export default class DashboardCorretor extends React.Component {
                   colors={['#54FE54', '#2A7F2A']}
                   style={styles.background}
                 />
-                <Text style={{width:90}}>Neste Mês: </Text>
+                <Text style={{width:90}}>Neste Mês</Text>
                 <Image  source={require('../../../../assets/VendasMes.png')}/>
                 <Text style={styles.data}>{data?.vendasNesteMes}</Text>
               </View>
@@ -111,7 +111,7 @@ export default class DashboardCorretor extends React.Component {
                   colors={['#00FF00', '#008000']}
                   style={styles.backgroundLarger}
                 />
-                <Text style={{width:'80%'}}>Total já realizadas : </Text>
+                <Text style={{width:'80%'}}>Total já realizadas</Text>
                 <Image  source={require('../../../../assets/TotalVendas.png')}/>
                 <Text style={styles.data}>{data?.totalVendas}</Text>
               </View>

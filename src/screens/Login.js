@@ -46,10 +46,10 @@ export default class Login extends React.Component {
       password: this.state.password
     };
     emailSignIn(objLogin, (error, user) => {
-      if (error && !user) return alert(error.message);
+      if (error && !user) return Alert.alert("Senha ou e-mmail incorretos");
 
       getUserData(objLogin.email, (data, error) => {
-        if (error && !data) return alert(error.message);
+        if (error && !data) return Alert.alert("Senha ou e-mmail incorretos");
 
         const userData = data.data();
         if (userData) {

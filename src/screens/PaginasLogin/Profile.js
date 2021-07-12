@@ -10,8 +10,8 @@ import CadastrarLoteamento from './pagesCorretor/CadastrarLoteamento'
 import CriarUsuario from './pagesCorretor/CriarUsuario'
 import VisualizarQuadras from './pagesCorretor/VisualizarQuadras'
 // import GerenciarCorretores from './pagesCorretor/GerenciarCorretores'
-// import TodasReservas from './pagesCorretor/TodasReservas'
-// import MinhasReservas from './pagesCorretor/MinhasReservas'
+import TodasReservas from './pagesCorretor/TodasReservas'
+import MinhasReservas from './pagesCorretor/MinhasReservas'
 
 import CustomDrawer from '../../components/componentPages/CustomDrawer'
 import {
@@ -42,9 +42,9 @@ export default function Profile() {
       <Drawer.Screen options={{unmountOnBlur:true}} name="CadastrarLoteamento" component={CadastrarLoteamento} />
       <Drawer.Screen options={{unmountOnBlur:true}} name="CriarUsuario" component={CriarUsuario} />
       <Drawer.Screen options={{unmountOnBlur:true}} name="VisualizarQuadras" component={VisualizarQuadras} />
-      {/* <Drawer.Screen name="GerenciarCorretores" component={GerenciarCorretores} /> */}
-      {/* <Drawer.Screen name="TodasReservas" component={TodasReservas} /> */}
-      {/* <Drawer.Screen name="MinhasReservas" component={MinhasReservas} /> */}
+      {/* <Drawer.Screen options={{unmountOnBlur:true}} name="GerenciarCorretores" component={GerenciarCorretores} /> */}
+      <Drawer.Screen options={{unmountOnBlur:true}} name="MinhasReservas" component={MinhasReservas} />
+      <Drawer.Screen options={{unmountOnBlur:true}} name="TodasReservas" component={TodasReservas} />
 
     </Drawer.Navigator>
   );

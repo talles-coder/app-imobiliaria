@@ -29,7 +29,6 @@ export function emailSignIn({ email, password }, callback) {
     .catch((err) => callback(err, null))
 };
 
-
 // Solicitar dados do usuário
 export function getUserData(email, callback) {
   var userRef = db.collection('Usuarios').doc(email);
@@ -157,17 +156,17 @@ export function reservarLote(id, index, quadra, usuario) {
   return db.collection("loteamentos").doc(id).update(data)
 }
 
-export async function liberarReservaLote (id, index, quadra, status, idUsuario) {
+export function liberarReservaLote (id, index, quadra, idUsuario) {
   const query = `csvObject.content.${index}.${quadra}.`
   const data = {}
   data[query + 'status'] = "disponivel"
   data[query + 'corretor'] = "" 
   data[query + 'data'] = new Date(0)
-  await db.collection('Usuarios').doc(idUsuario).update({'dashboard.jaExpiraramMes': increment})
+  // await db.collection('Usuarios').doc(idUsuario).update({'dashboard.jaExpiraramMes': increment})
   return db.collection("loteamentos").doc(id).update(data)
 }
 
-export async function venderLote(id, index, quadra, corretor , idCorretor, gestor, status) {
+export async function venderLote(id, index, quadra, corretor , idCorretor, gestor) {
   const query = `csvObject.content.${index}.${quadra}.`
   const data = {}
   data[query + 'status'] = "vendido"
@@ -176,13 +175,8 @@ export async function venderLote(id, index, quadra, corretor , idCorretor, gesto
   data[query + 'corretor.email'] = idCorretor
   data[query + 'gestor'] = gestor
 
-  await db.collection("Usuarios").doc(idCorretor).update({'dashboard.totalVendas' : increment})
-  await db.collection("Usuarios").doc(idCorretor).update({'dashboard.vendasHoje' : increment})
-  await db.collection("Usuarios").doc(idCorretor).update({'dashboard.vendasNesteMes' : increment})
-
   return await db.collection("loteamentos").doc(id).update(data)
 }
-
 
 export function addNewUserData({ email, userData }, callback) {
   var userRef = db.collection('Usuarios').doc(email);

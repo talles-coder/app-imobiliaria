@@ -1,3 +1,8 @@
 DashboardGestor - total de vendas e reservas de todos os usuários - OK
 DashboardCorretor - total de vendas e reservas deste corretor - OK
 Loteamentos - total de lotes vendidos e reservados deste Loteamento - OK
+
+stage 2
+
+Minhas Reservas - criar tela de mostrar as reservas do usuário atual 
+Todas Reservas - criar tela de mostrar reservas te todos os usuarios

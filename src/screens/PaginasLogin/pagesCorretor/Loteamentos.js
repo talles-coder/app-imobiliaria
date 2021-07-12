@@ -36,7 +36,7 @@ export default class Loteamentos extends React.Component {
     this.setState({
       updating : true
     })
-    updateLoteamentos()
+    updateLoteamentos("loteamentos")
     .then((array)=>{
       this.setState({
         dados : array,

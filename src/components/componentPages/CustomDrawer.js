@@ -41,6 +41,8 @@ export default function CustomDrawer(props) {
   //   return Global.IMAGEURL
   // }
 
+  // TODO - Separar gestor de corretor
+
   function formatarNome() {
     let tmp = nome.split(" ");
     if (tmp[1]) {nome = tmp[0];}
@@ -77,9 +79,6 @@ export default function CustomDrawer(props) {
           label="Cadastrar Loteamentos"
           onPress={() => props.navigation.navigate('CadastrarLoteamento')}
         />
-        {
-          Global.PROFILETYPE == "gestor"
-          ?
           <View>          
             <DrawerItem
               icon={() => <Image source={require('../../../assets/assetsCorretor/mais.png')} />}
@@ -97,10 +96,7 @@ export default function CustomDrawer(props) {
               onPress={() => props.navigation.navigate('MinhasReservas')}
             />
           </View>
-        :
-          <View>          
-          </View>
-        }
+        
 
       </View>
 
