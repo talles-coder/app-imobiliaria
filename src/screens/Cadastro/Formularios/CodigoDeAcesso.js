@@ -37,7 +37,7 @@ export default class DadosIniciais extends React.Component {
         if(userCodigo.tipo == 'gestor' || userCodigo.tipo == 'corretor') {
           const { next, saveState } = this.props;
           saveState(this.state);
-          Alert.alert(`Você será cadastrado como : ${userCodigo.tipo[0].toUpperCase() + userCodigo.tipo.slice(1)}`, '', [
+          Alert.alert(`Você será cadastrado como: ${userCodigo.tipo[0].toUpperCase() + userCodigo.tipo.slice(1)}`, '', [
             {
               style: 'default'
             }])
@@ -82,7 +82,7 @@ export default class DadosIniciais extends React.Component {
               <View>
                 <Input
                   inputType='phone-pad'
-                  labelText='Código :'
+                  labelText='Código:'
                   onChangeText={this.handleCodigoChange}
                   value={this.state.codigo}
                 />

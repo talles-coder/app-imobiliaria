@@ -25,17 +25,17 @@ export default async function updateGestorDashboard(identificacao) {
 
     const data = {
         ...dashboard.dashboard,
-        ativasHoje : 0,
-        realizadasHoje : 0,
-        expiramHoje : 0,
+        ativasHoje: 0,
+        realizadasHoje: 0,
+        expiramHoje: 0,
 
-        totalAtivasHoje : 0,
-        totalRealizadasHoje : 0,
-        totalExpiramHoje : 0,
+        totalAtivasHoje: 0,
+        totalRealizadasHoje: 0,
+        totalExpiramHoje: 0,
         
-        vendasHoje : 0,
-        vendasNesteMes : 0,
-        totalVendas : 0,
+        vendasHoje: 0,
+        vendasNesteMes: 0,
+        totalVendas: 0,
     }
 
     let diaAtual = new Date().getDate()
@@ -75,7 +75,7 @@ export default async function updateGestorDashboard(identificacao) {
 
                 // todos os lotes com status vendido
                 
-                if (quadra.status === "vendido" && quadra.corretor.email == Global.EMAIL){
+                if (quadra.status === "vendido"){
                     if(efetuadoHoje(quadra.data, diaAtual)) data.vendasHoje++
                     if(vendidoNesseMes(quadra.data, mesAtual)) data.vendasNesteMes++
                     data.totalVendas++

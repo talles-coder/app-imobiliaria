@@ -51,7 +51,7 @@ export default class Select extends Component {
               padding: 10,
               borderBottomColor: colors.branco,
               borderRadius: 10,
-              width: largura ? largura : wp('79.71%'),
+              width: largura ? largura: wp('79.71%'),
               alignSelf: 'center',
               justifyContent: 'center'
             }

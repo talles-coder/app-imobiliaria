@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, StatusBar, TouchableOpacity, ImageBackground, Image, Button, onPress, TextInput, Clipboard, ToastAndroid } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {CreateTemporaryToken} from '../../../database/Firebase'
-import Header from '../../../components/Header';
+import {CreateTemporaryToken} from '../../../../database/Firebase'
+import Header from '../../../../components/Header';
 
 import {
   widthPercentageToDP as wp,
@@ -24,7 +24,7 @@ export default class CriarUsuario extends Component {
     this.setState({
       type: !this.state.type 
     });
-    this.state.type ? this.state.tipo = "gestor" : this.state.tipo = "corretor"
+    this.state.type ? this.state.tipo = "gestor": this.state.tipo = "corretor"
   };
   
   CreateUser = () => {
@@ -40,14 +40,15 @@ export default class CriarUsuario extends Component {
 
   render() {
     const { type, code } = this.state;
+    const {back} = this.props
     return (
 
-      <ImageBackground style={{flex: 1}} source={require('../../../../assets/backmage.png')}>
+      <ImageBackground style={{flex: 1}} source={require('../../../../../assets/backmage.png')}>
     
-      <Header titulo="Novo Usuário" funcao={() => {this.props.navigation.toggleDrawer()}}></Header>
+      <Header titulo="Novo Usuário" funcao={back}></Header>
         
         <View>
-          <Text style={styles.descricao} >{`Criar um novo usuário :
+          <Text style={styles.descricao} >{`Criar um novo usuário:
 
     1° Selecione o tipo de perfil do novo Usuário
     2° Clique em "gerar o código."
@@ -61,13 +62,13 @@ export default class CriarUsuario extends Component {
           <Text style={styles.title}>Tipo de Usuário</Text>
           <View style={styles.selectUser}>
 
-            <TouchableOpacity style={type  ? styles.button : styles.buttonPress} onPress={this.onPress} disabled={!type}>
-              <Image  source={require('../../../../assets/Gestor.png')}/>
+            <TouchableOpacity style={type  ? styles.button: styles.buttonPress} onPress={this.onPress} disabled={!type}>
+              <Image  source={require('../../../../../assets/Gestor.png')}/>
               <Text style={styles.TextUser}>Gestor</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={type  ? styles.buttonPress : styles.button} onPress={this.onPress} disabled={type}>
-              <Image  source={require('../../../../assets/Corretor.png')}/>
+            <TouchableOpacity style={type  ? styles.buttonPress: styles.button} onPress={this.onPress} disabled={type}>
+              <Image  source={require('../../../../../assets/Corretor.png')}/>
               <Text style={styles.TextUser}>Corretor</Text>
               </TouchableOpacity>
 
@@ -79,7 +80,7 @@ export default class CriarUsuario extends Component {
           </Text>
           </TouchableOpacity>
 
-          <View style={{alignSelf:'center',opacity: code ? 1 : 0,borderBottomWidth: 1,borderColor:'white', paddingTop: hp('2%')}}>
+          <View style={{alignSelf:'center',opacity: code ? 1: 0,borderBottomWidth: 1,borderColor:'white', paddingTop: hp('2%')}}>
 
             <Text style={styles.codigoacesso} selectable={true}>Código de Acesso</Text>
 

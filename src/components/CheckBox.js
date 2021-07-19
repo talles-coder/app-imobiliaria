@@ -12,7 +12,7 @@ export default function CheckBox(props) {
 
   function handleChange() {
     let { onChange } = props;
-    (checkState) ? setCheckState(false) : setCheckState(true);
+    (checkState) ? setCheckState(false): setCheckState(true);
 
     if (onChange) return onChange();
   }
@@ -21,10 +21,10 @@ export default function CheckBox(props) {
     <View style={[
       styles.WrapperCheckBox,
       {
-        width: props.largura ? props.largura : ('79.71%'),
-        borderBottomWidth: props.bordaBottom ? props.bordaBottom : 0,
+        width: props.largura ? props.largura: ('79.71%'),
+        borderBottomWidth: props.bordaBottom ? props.bordaBottom: 0,
         borderBottomColor: colors.branco,
-        paddingBottom: props.bordaBottom ? 5 : 0
+        paddingBottom: props.bordaBottom ? 5: 0
       }]}>
 
       <TouchableOpacity onPress={handleChange} style={[
@@ -40,7 +40,7 @@ export default function CheckBox(props) {
                 color: colors.branco
               }}
             />
-            : null
+           : null
         }
 
       </TouchableOpacity>

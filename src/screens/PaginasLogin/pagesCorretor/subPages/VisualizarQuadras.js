@@ -1,10 +1,10 @@
 import React from 'react';
 import { ImageBackground, Modal, FlatList, Image, StyleSheet, View, Text, Keyboard, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 
-const fundo = "../../../../assets/fundo.png";
+const fundo = "../../../../../assets/fundo.png";
 
-import Header from '../../../components/Header';
-import Button from '../../../components/Button';
+import Header from '../../../../components/Header';
+import Button from '../../../../components/Button';
 import PreviaLotes from './VisualizarLotes';
 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -59,7 +59,7 @@ export default class VisualizarQuadras extends React.Component {
               resizeMode='cover'
               source={{ uri: data.planta.resultado}}
               />
-            : <Text>Erro : Não foi realizada a captura do mapa, tente novamente</Text>}
+           : <Text>Erro: Não foi realizada a captura do mapa, tente novamente</Text>}
           </View> 
           
 

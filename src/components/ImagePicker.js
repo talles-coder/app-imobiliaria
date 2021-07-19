@@ -45,13 +45,13 @@ export default function ImagePicker(props) {
   return (
     <ImageBackground
       source={{
-        uri: !image ? imagemSelecionada : image,
+        uri: !image ? imagemSelecionada: image,
       }}
       style={styles.container}
       borderRadius={100}
     >
       <TouchableOpacity
-        style={!permitirAdd ? styles.btnHidden : styles.btnAdicionar}
+        style={!permitirAdd ? styles.btnHidden: styles.btnAdicionar}
         onPress={pickImage}
       >
         <Image

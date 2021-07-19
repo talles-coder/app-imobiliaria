@@ -50,7 +50,7 @@ export default class PreviaLotes extends React.Component {
               resizeMode='cover'
               source={{ uri: data.planta.resultado}}
               />
-            : <Text>Erro : Não foi realizada a captura do mapa, tente novamente</Text>}
+           : <Text>Erro: Não foi realizada a captura do mapa, tente novamente</Text>}
           </View> 
           
 
@@ -68,7 +68,7 @@ export default class PreviaLotes extends React.Component {
                             <Button titulo='Reservar' btStyle={{marginBottom: 0, width:wp("24%"), height:hp("5%")}} hidden={true}/>
                             <Button titulo='Vender' funcao={this.vender} btStyle={{marginBottom: 0, width:wp("24%"), height:hp("5%")}} hidden={true}/>    
                           </View>
-                          :
+                         :
                           null
                           }
                       </View> 

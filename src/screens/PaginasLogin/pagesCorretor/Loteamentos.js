@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import Button from '../../../components/Button';
 
-import VisualizarQuadras from './VisualizarQuadras'
+import VisualizarQuadras from './subPages/VisualizarQuadras'
 import updateLoteamentos from "../../../services/Loteamentos";
 
 
@@ -13,9 +13,9 @@ export default class Loteamentos extends React.Component {
     super(props);
     this.state = {
       modalVisible: false,
-      dados : [],
-      updating : true,
-      loteData : {},
+      dados: [],
+      updating: true,
+      loteData: {},
       index: ""
     };
   }
@@ -34,13 +34,13 @@ export default class Loteamentos extends React.Component {
   componentDidMount = () => {
     
     this.setState({
-      updating : true
+      updating: true
     })
     updateLoteamentos("loteamentos")
     .then((array)=>{
       this.setState({
-        dados : array,
-        updating : false
+        dados: array,
+        updating: false
       })
       if(this.state.index.length !== null) {
         this.setState({
@@ -74,17 +74,17 @@ export default class Loteamentos extends React.Component {
           renderItem={({item, index}) => 
           <TouchableOpacity onPress={() => {
             this.setState({
-              loteData : item,
+              loteData: item,
               index: index
             })
             this.setModalVisible(true)
           }}>
             <View style={styles.caixa }>
                 <Text  style={{fontSize: 20, padding:3, fontWeight: 'bold'}} numberOfLines={1}>{item.nomeLote}</Text>
-                <Text  style={styles.titleitem}>Quantidade de Lotes : {item.csvObject.totalLotes}</Text>
+                <Text  style={styles.titleitem}>Quantidade de Lotes: {item.csvObject.totalLotes}</Text>
                 <Text  style={styles.titleitem}>Reservados: {item.csvObject.totalReservados}</Text>
-                <Text  style={styles.titleitem}>Vendidos : {item.csvObject.totalVendidos}</Text>
-                <Text  style={styles.titleitem}>Disponíveis : {
+                <Text  style={styles.titleitem}>Vendidos: {item.csvObject.totalVendidos}</Text>
+                <Text  style={styles.titleitem}>Disponíveis: {
                   item.csvObject.totalLotes - (item.csvObject.totalReservados+item.csvObject.totalVendidos)
                 }</Text>
             </View>
@@ -97,7 +97,7 @@ export default class Loteamentos extends React.Component {
             onRequestClose={() => {
               this.setModalVisible(false);
               this.setState({
-                index : ""
+                index: ""
               })
             }}
           >
@@ -108,7 +108,7 @@ export default class Loteamentos extends React.Component {
                   () => {
                     this.setModalVisible(false)
                     this.setState({
-                      index : ""
+                      index: ""
                     })
                   }}
                 atualizar={()=> {

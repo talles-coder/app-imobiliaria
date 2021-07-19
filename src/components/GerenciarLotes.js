@@ -58,11 +58,11 @@ export default class GerenciarLotes extends React.Component {
                             <Button titulo='Vender' funcao={this.vender} btStyle={{marginBottom: 0, width:wp("24%"), height:hp("5%"), backgroundColor: "#40B21E" }}/>
                         </View>
                         <View>
-                            <Text style={[styles.titleStatus]}>Status : {status} por {corretor}</Text>
+                            <Text style={[styles.titleStatus]}>Status: {status} por {corretor}</Text>
                         </View>
                         <View style={{flexDirection: "row", justifyContent: 'space-between'}}>
-                            <Text style={[styles.titleData]}>Data da Reserva :{`\n`}{dataFormatada}</Text>
-                            <Text style={[styles.titleData]}>Expira em :{`\n`}{dataLimiteFormatada}</Text>
+                            <Text style={[styles.titleData]}>Data da Reserva:{`\n`}{dataFormatada}</Text>
+                            <Text style={[styles.titleData]}>Expira em:{`\n`}{dataLimiteFormatada}</Text>
                         </View>
                     </View>
                     )
@@ -76,11 +76,11 @@ export default class GerenciarLotes extends React.Component {
                         </View>
                         <View style={{flexDirection: "row", justifyContent: 'space-between'}}>
                         <View>
-                            <Text style={[styles.titleStatus]}>Status : {status}</Text>
-                            <Text style={[styles.titleStatus]}>Corretor(a) : {corretor}</Text>
-                            <Text style={[styles.titleStatus]}>Gestor(a) : {gestor}</Text>
+                            <Text style={[styles.titleStatus]}>Status: {status}</Text>
+                            <Text style={[styles.titleStatus]}>Corretor(a): {corretor}</Text>
+                            <Text style={[styles.titleStatus]}>Gestor(a): {gestor}</Text>
                         </View>
-                            <Text style={[styles.titleData]}>Data da Venda :{`\n`}{dataFormatada}</Text>
+                            <Text style={[styles.titleData]}>Data da Venda:{`\n`}{dataFormatada}</Text>
                         </View>
                     </View>
                     )
@@ -105,16 +105,16 @@ export default class GerenciarLotes extends React.Component {
                                 corretor == Global.NOME
                             ?
                                 <Button titulo='Cancelar' funcao={this.cancelar} btStyle={{marginBottom: 0, width:wp("24%"), height:hp("5%"), backgroundColor: "#D52206"}}/>
-                            :
+                           :
                                 null
                             }
                         </View>
                         <View>
-                            <Text numberOfLines={1} style={[styles.titleStatus]}>Status : {status} por {corretor}</Text>
+                            <Text numberOfLines={1} style={[styles.titleStatus]}>Status: {status} por {corretor}</Text>
                         </View>
                         <View style={{flexDirection: "row", justifyContent: 'space-between'}}>
-                            <Text style={[styles.titleData]}>Data da Reserva :{`\n`}{dataFormatada}</Text>
-                            <Text style={[styles.titleData]}>Expira em :{`\n`}{dataLimiteFormatada}</Text>
+                            <Text style={[styles.titleData]}>Data da Reserva:{`\n`}{dataFormatada}</Text>
+                            <Text style={[styles.titleData]}>Expira em:{`\n`}{dataLimiteFormatada}</Text>
                         </View>
                     </View>
                     )
@@ -132,7 +132,7 @@ export default class GerenciarLotes extends React.Component {
                                 <Text numberOfLines={1} style={[styles.titleStatus]}>Corretor(a): {corretor}</Text>
                                 <Text style={[styles.titleStatus]}>Gestor(a): {gestor}</Text>
                             </View>
-                            <Text style={[styles.titleData, {}]}>Data da Venda :{`\n`}{dataFormatada}</Text>
+                            <Text style={[styles.titleData, {}]}>Data da Venda:{`\n`}{dataFormatada}</Text>
                         </View>
                     </View>
                     )

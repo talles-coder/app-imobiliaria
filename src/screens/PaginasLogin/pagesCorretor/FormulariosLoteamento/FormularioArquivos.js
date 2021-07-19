@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageBackground, StyleSheet, View, Text, Keyboard, TouchableWithoutFeedback, Modal } from 'react-native';
+import { ImageBackground, StyleSheet, View, Text, Keyboard, TouchableWithoutFeedback, Modal, Alert } from 'react-native';
 import Map from '../../../../components/map';
 
 import colors from '../../../../styles/colors/index';
@@ -48,16 +48,18 @@ export default class FormularioArquivos extends React.Component {
     this.handleNomeLoteamentoChange = this.handleNomeLoteamentoChange.bind(this);
   }
   
-  handleNomeLoteamentoChange = (nomeLoteamento) => this.setState({ nomeLote: nomeLoteamento });
+  handleNomeLoteamentoChange = (nomeLoteamento) => {
+    this.setState({ nomeLote: nomeLoteamento })
+  };
 
   componentDidMount(){
     const { getState } = this.props;
     let data = getState(this.state);
     this.setState({
-      nomeLote : data.nomeLote,
-      csvObject : data.csvObject,
-      address : data.address,
-      planta : data.planta,
+      nomeLote: data.nomeLote,
+      csvObject: data.csvObject,
+      address: data.address,
+      planta: data.planta,
     })
   }
   
@@ -67,7 +69,7 @@ export default class FormularioArquivos extends React.Component {
   
   closeMaps = () => {
     this.setState({
-      address : this.map?.state,
+      address: this.map?.state,
       modalVisible: false
     })
   }
@@ -119,11 +121,11 @@ export default class FormularioArquivos extends React.Component {
         for(var j=0;j<headers.length;j++){
           if (currentline[j] !== "") {
             obj[headers[j]] = {
-              lote : currentline[j],
-              status : "disponivel",
-              data : "",
-              corretor : "",
-              gestor : ""
+              lote: currentline[j],
+              status: "disponivel",
+              data: "",
+              corretor: "",
+              gestor: ""
             }
             lotesTotal++
           }
@@ -132,7 +134,7 @@ export default class FormularioArquivos extends React.Component {
         result.push(obj);
       }
       this.setState({
-        csvObject : { 
+        csvObject: { 
           name: responseDocument.name,
           uri: responseDocument.uri,
           content: result,
@@ -201,32 +203,57 @@ export default class FormularioArquivos extends React.Component {
                       onChangeText={this.handleNomeLoteamentoChange}
                       defaultValue={nomeLote}    
                       inputValue={nomeLote}
+                      onBlur={()=>{if((nomeLote.trim().length) < 8){Alert.alert("Erro","O nome do loteamento esta muito curto \n Minimo: 8 digitos");}}}
                     />
                 </View>
 
-                <View style={[styles.search, {opacity: planta?.fileName ? 1 : 0 }]}>            
-                  <Text numberOfLines={1}>Planta : {planta?.fileName}</Text>
+                <View style={[styles.search, {opacity: planta?.fileName ? 1: 0 }]}>            
+                  <Text numberOfLines={1}>Planta: {planta?.fileName}</Text>
                 </View>
-                <View style={[styles.search, {opacity: address?.descricao ? 1 : 0 }]}>            
-                  <Text numberOfLines={1}>Endereço : {address?.descricao}</Text>
+                <View style={[styles.search, {opacity: address?.descricao ? 1: 0 }]}>            
+                  <Text numberOfLines={1}>Endereço: {address?.descricao}</Text>
                 </View>
-                <View style={[styles.search, {opacity: csvObject?.name ? 1 : 0 }]}>
-                  <Text numberOfLines={1}>csv : {csvObject?.name}</Text>
+                <View style={[styles.search, {opacity: csvObject?.name ? 1: 0 }]}>
+                  <Text numberOfLines={1}>csv: {csvObject?.name}</Text>
                 </View>
 
-                <Button titulo='Importar Planta do Loteamento' funcao={this.pickImage} btStyle={{marginBottom: -20}} hidden={(nomeLote.length) < 8}/>
-
-                <Button titulo='Localização do Loteamento' funcao={() => this.setModalVisible(true)} btStyle={{marginBottom: -20}} hidden={(nomeLote.length) < 8}/>
-
-                <Button titulo='Importar Arquivo CSV' funcao={this.pickCSV} btStyle={{marginBottom: 0}} hidden={(nomeLote.length) < 8}/>
-              
-                
-                <Button titulo='Prosseguir' funcao={this.nextStep} 
-                hidden={
-                  !csvObject?.name || !address?.descricao || !planta?.fileName || !nomeLote
+                <View onTouchStart={()=>{
+                  if((nomeLote.trim().length) < 8){
+                    Alert.alert("Erro","o nome do loteamento é obrigatório");
                   }
-                   />
+                }}>
+                  <Button titulo='Importar Planta do Loteamento' funcao={this.pickImage} btStyle={{marginBottom: -20}} hidden={(nomeLote.length) < 8}/>
+                </View>
+
+                <View onTouchStart={()=>{
+                  if((nomeLote.trim().length) < 8){
+                    Alert.alert("Erro","o nome do loteamento é obrigatório");
+                  }
+                }}>
+                  <Button titulo='Localização do Loteamento' funcao={() => this.setModalVisible(true)} btStyle={{marginBottom: -20}} hidden={(nomeLote.length) < 8}/>
+                </View>
+
+                <View onTouchStart={()=>{
+                  if((nomeLote.trim().length) < 8){
+                    Alert.alert("Erro","o nome do loteamento é obrigatório");
+                  }
+                }}>
+                  <Button titulo='Importar Arquivo CSV' funcao={this.pickCSV} btStyle={{marginBottom: 0}} hidden={(nomeLote.length) < 8}/>
+                </View>
+                  
               
+                <View onTouchStart={()=>{
+                  if(!csvObject?.name || !address?.descricao || !planta?.fileName || !nomeLote){
+                    Alert.alert("Erro","Todas as informações são obrigatórias");
+                  }
+                }}>
+                  <Button 
+                    titulo='Prosseguir' funcao={this.nextStep} 
+                    hidden={
+                      !csvObject?.name || !address?.descricao || !planta?.fileName || !nomeLote
+                    }
+                  />
+                </View>
                   <Modal
                     animationType="slide"
                     transparent={true}

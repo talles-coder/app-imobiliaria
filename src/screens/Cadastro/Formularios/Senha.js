@@ -1,6 +1,6 @@
 import React from 'react';
-import { ImageBackground, StyleSheet, View, Alert, TouchableWithoutFeedback, Keyboard } from 'react-native';
-
+import { ImageBackground, StyleSheet, View, Alert, TouchableWithoutFeedback, Keyboard, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import colors from '../../../styles/colors/index';
 
 import Header from '../../../components/Header';
@@ -21,13 +21,15 @@ export default class Senha extends React.Component {
     this.state = {
       senha: '',
       confirmacaoSenha: '',
+      senhaVisivel: false,
+      confirmarVisivel: false, 
     };
 
     this.handleSenhaChange = this.handleSenhaChange.bind(this);
     this.handleConfirmacaoSenhaChange = this.handleConfirmacaoSenhaChange.bind(this);
   }
 
-  handleSenhaChange = (senha) => this.setState({ senha: senha ? senha.toString() : senha });
+  handleSenhaChange = (senha) => this.setState({ senha: senha ? senha.toString(): senha });
   handleConfirmacaoSenhaChange = (confirmacaoSenha) => this.setState({ confirmacaoSenha });
 
   createDataAndUserInDatabase = (data, email, password) => {
@@ -66,7 +68,7 @@ export default class Senha extends React.Component {
 
   handleSubmit = async () => {
     const { getState } = this.props;
-
+    
     let data = getState(this.state);
 
     data.dashboard = {
@@ -120,12 +122,9 @@ export default class Senha extends React.Component {
       await uploadDocumentToFirebase(blob, nomeDocumento);
     }
 
-    // Criando usuário no banco de dadaos
-    // deleteTemporaryToken(codigo)
+    deleteTemporaryToken(codigo)
 
     this.createDataAndUserInDatabase(data, email, password);
-    
-    // Alert.alert('Cadastro efetuado com sucesso!');
 
     this.nextStep();
   };
@@ -142,7 +141,20 @@ export default class Senha extends React.Component {
     back();
   }
 
+  // TODO - mascara nos campos - ok
+  // TODO - visualizar senha - ok
+  // TODO - remover dois pontos ": " - ok
+  // TODO - modificar icones - ok
+  // TODO - dashboard Minuscula - ok
+  // TODO - modificar tema do aplicativo
+  // TODO - colocar alerta no campo do carastro do loteamento - ok
+  // TODO - remover alterar perfil do drawer - ok
+  // TODO - colocar telas de carregamento no login e no cadastro do loteamento  
+  // TODO - limitar todos os inputs  
+  
+
   render() {
+    const { senhaVisivel, confirmarVisivel} = this.state
     return (
       <ImageBackground style={styles.imgBackground} source={require(fundo)}>  
         <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -153,20 +165,45 @@ export default class Senha extends React.Component {
               <ImagePicker permitirAdd={false} />
 
               <View>
+                <View style={{flexDirection: 'row-reverse'}}>
+                  <Input
+                    isPassword={!senhaVisivel}
+                    labelText='Senha'
+                    onChangeText={this.handleSenhaChange}
+                    value={this.state.senha}
+                  />
+                  <TouchableOpacity
+                    onPressIn={()=>{this.setState({senhaVisivel: !this.state.senhaVisivel})}}
+                    onPressOut={()=>{this.setState({senhaVisivel: !this.state.senhaVisivel})}}
+                    style={{position: 'absolute', alignSelf: 'flex-end', padding: 8 , zIndex:10}}
+                  >
+                    <Icon
+                      name='remove-red-eye'
+                      size={24}
+                      color="#333"
+                    />
+                  </TouchableOpacity>
+                </View>
 
-                <Input
-                  isPassword={true}
-                  labelText='Senha'
-                  onChangeText={this.handleSenhaChange}
-                  value={this.state.senha}
-                />
-
-                <Input
-                  isPassword={true}
+                <View style={{flexDirection: 'row-reverse'}}>
+                  <Input
+                  isPassword={!confirmarVisivel}
                   labelText='Confirmar senha'
                   onChangeText={this.handleConfirmacaoSenhaChange}
                   value={this.state.confirmacaoSenha}
                 />
+                  <TouchableOpacity
+                    onPressIn={()=>{this.setState({confirmarVisivel: !this.state.confirmarVisivel})}}
+                    onPressOut={()=>{this.setState({confirmarVisivel: !this.state.confirmarVisivel})}}
+                    style={{position: 'absolute', alignSelf: 'flex-end', padding: 8 , zIndex:10}}
+                  >
+                    <Icon
+                      name='remove-red-eye'
+                      size={24}
+                      color="#333"
+                    />
+                  </TouchableOpacity>
+                </View>
 
               </View>
 

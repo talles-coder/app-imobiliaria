@@ -27,13 +27,13 @@ export default async function updateCorretorDashboard(identificacao) {
 
     const data = {
         ...dashboard.dashboard,
-        ativasHoje : 0,
-        realizadasHoje : 0,
-        expiramHoje : 0,
+        ativasHoje: 0,
+        realizadasHoje: 0,
+        expiramHoje: 0,
         
-        vendasHoje : 0,
-        vendasNesteMes : 0,
-        totalVendas : 0,
+        vendasHoje: 0,
+        vendasNesteMes: 0,
+        totalVendas: 0,
     }
 
     let diaAtual = new Date().getDate()
@@ -54,7 +54,7 @@ export default async function updateCorretorDashboard(identificacao) {
                 if (quadra.status === "reservado") {
                     todasReservas.push(quadra)}
                     
-                    if (quadra.status === "reservado" && quadra.corretor.email == Global.EMAIL){
+                    if (quadra.status === "reservado" && quadra.corretor.email == identificacao){
                     // if(reservaExpirou(quadra.data, diaAtual)) {
                     //     // TODO - importar function
                     //     liberarReservaLote(id, jindex, indiceQuadra, quadra.status , quadra.corretor.email)

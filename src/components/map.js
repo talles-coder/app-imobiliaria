@@ -9,6 +9,9 @@ import Button from "./Button"
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
+// API Key do google para a api Geocode
+const API_KEY = ""
+
 export default class Map extends React.Component {
   constructor(props) {
     super(props);
@@ -73,7 +76,7 @@ export default class Map extends React.Component {
 
   findLocation = () => {
     if (this.state.pesquisa.length > 5) {
-        Geocode.fromAddress(this.state.pesquisa, "")
+        Geocode.fromAddress(this.state.pesquisa, API_KEY)
         .then((response)=>{
             this.setState({
                 changeCord:{
@@ -92,7 +95,7 @@ export default class Map extends React.Component {
   }
 
   geocodeLatLng = () => {
-    Geocode.fromLatLng(this.state.changeCord.latitude, this.state.changeCord.longitude, "")
+    Geocode.fromLatLng(this.state.changeCord.latitude, this.state.changeCord.longitude, API_KEY)
     .then((response) =>{ 
         const result = response.results[0]
         this.setState({
@@ -167,8 +170,8 @@ export default class Map extends React.Component {
         <View style={{flex:1}}>
             
                 <View style={{flex:1,
-                        height: height ? parseInt(height) : '100%',
-                        width: width ? parseInt(width) : '100%',
+                        height: height ? parseInt(height): '100%',
+                        width: width ? parseInt(width): '100%',
                         justifyContent: 'space-between',
                         alignItems: 'center'
                         }}>
@@ -215,8 +218,8 @@ export default class Map extends React.Component {
                         }}
                     }}
                     style={{
-                        height: height ? parseInt(height) : '100%',
-                        width: width ? parseInt(width) : '100%',
+                        height: height ? parseInt(height): '100%',
+                        width: width ? parseInt(width): '100%',
                         position:'absolute'
                     }}
                     >    
@@ -266,7 +269,7 @@ export default class Map extends React.Component {
                             ></Icon>
                         </TouchableOpacity>   
                     </View>
-                    :
+                   :
                     null
                     }
             
@@ -274,7 +277,7 @@ export default class Map extends React.Component {
                     <View>
                         <Button titulo='Selecionar Endereço' funcao={this.takeSnapshot} hidden={!validAddress} />
                     </View>
-                    :
+                   :
                     null
                     }
                     <Modal
@@ -300,13 +303,13 @@ export default class Map extends React.Component {
                                         resizeMode='cover'
                                         source={{ uri: mapSnapshotURI}}
                                         />
-                                        :
-                                        <Text>Erro : Não foi realizada a captura do mapa, tente novamente</Text>
+                                       :
+                                        <Text>Erro: Não foi realizada a captura do mapa, tente novamente</Text>
                                         }
                                     </View>  
 
                                     <View style={[styles.searchFormatado]}>
-                                        <Text numberOfLines={1}>numero : </Text>
+                                        <Text numberOfLines={1}>numero: </Text>
                                         <TextInput
                                             style={[
                                                 styles.inputFieldModal
@@ -325,7 +328,7 @@ export default class Map extends React.Component {
                                         />
                                     </View>
                                     <View style={[styles.searchFormatado]}>
-                                        <Text numberOfLines={1}>endereco : </Text>
+                                        <Text numberOfLines={1}>endereco: </Text>
                                         <TextInput
                                             style={[
                                                 styles.inputFieldModal
@@ -344,7 +347,7 @@ export default class Map extends React.Component {
                                         />
                                     </View>
                                     <View style={[styles.searchFormatado]}>
-                                        <Text numberOfLines={1}>bairro : </Text>
+                                        <Text numberOfLines={1}>bairro: </Text>
                                         <TextInput
                                             style={[
                                                 styles.inputFieldModal
@@ -363,7 +366,7 @@ export default class Map extends React.Component {
                                         />
                                     </View>
                                     <View style={[styles.searchFormatado]}>
-                                        <Text numberOfLines={1}>cidade : </Text>
+                                        <Text numberOfLines={1}>cidade: </Text>
                                         <TextInput
                                             style={[
                                                 styles.inputFieldModal
@@ -382,7 +385,7 @@ export default class Map extends React.Component {
                                         />
                                     </View>
                                     <View style={[styles.searchFormatado]}>
-                                        <Text numberOfLines={1}>estado : </Text>
+                                        <Text numberOfLines={1}>estado: </Text>
                                         <TextInput
                                             style={[
                                                 styles.inputFieldModal
@@ -401,7 +404,7 @@ export default class Map extends React.Component {
                                         />
                                     </View>
                                     <View style={[styles.searchFormatado]}>
-                                        <Text numberOfLines={1}>cep : </Text>
+                                        <Text numberOfLines={1}>cep: </Text>
                                         <TextInput
                                             style={[
                                                 styles.inputFieldModal

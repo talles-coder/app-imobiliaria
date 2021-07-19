@@ -1,6 +1,5 @@
 import React from 'react';
-import { RefreshControl , FlatList, StyleSheet, Text, View, ScrollView, StatusBar, TouchableOpacity, Image} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { RefreshControl , StyleSheet, Text, View, ScrollView, Image, Alert, BackHandler} from 'react-native';
 import Header from '../../../components/Header';
 import { LinearGradient } from 'expo-linear-gradient';
 import updateGestorDashboard from '../../../services/Gestor'
@@ -20,23 +19,43 @@ export default class DashboardGestor extends React.Component {
         };
     }
 
+    backAction = () => {
+      Alert.alert("", "Você quer fechar o aplicativo?", [
+        {
+          text: "Cancelar",
+          onPress: () => null,
+          style: "cancel"
+        },
+        { text: "Sim", onPress: () => BackHandler.exitApp() }
+      ]);
+      return true;
+    };
+
     componentDidMount = () => {
+      this.backHandler = BackHandler.addEventListener(
+        "hardwareBackPress",
+        this.backAction
+      );
       this.setState({
-        atualizando : true
+        atualizando: true
       })
       updateGestorDashboard(Global.EMAIL)
       .then((dadosAtualizados)=>{
         console.log("testeeeeeeeeeeee", dadosAtualizados)
         this.setState({
-          data : dadosAtualizados
+          data: dadosAtualizados
         })
       })
       .catch((e)=>(console.log("falha ao atualizar os dados do Gestor")))
       .finally(()=>{
         this.setState({
-          atualizando : false
+          atualizando: false
         })
       })
+    }
+
+    componentWillUnmount() {
+      this.backHandler.remove();
     }
 
     render() {
@@ -136,7 +155,7 @@ export default class DashboardGestor extends React.Component {
 
             </View>
 
-            <Text style={styles.titlebox}>Vendas</Text> 
+            <Text style={styles.titlebox}>Todas as Vendas</Text> 
 
             <View style={styles.mainBox}>
             

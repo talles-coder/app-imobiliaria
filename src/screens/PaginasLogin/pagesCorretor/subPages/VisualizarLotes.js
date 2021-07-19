@@ -1,13 +1,12 @@
 import React from 'react';
 import { ImageBackground, FlatList, Image, StyleSheet, View, Text, Keyboard, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 
-import Header from '../../../components/Header';
-import Button from '../../../components/Button';
-import GerenciarLotes from '../../../components/GerenciarLotes';
-const fundo = "../../../../assets/fundo.png";
+import GerenciarLotes from '../../../../components/GerenciarLotes';
+const fundo = "../../../../../assets/fundo.png";
 
-import Global from '../../../global/Global';
-
+import Global from '../../../../global/Global';
+import Header from '../../../../components/Header';
+import Button from '../../../../components/Button';
 
 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -36,7 +35,7 @@ export default class PreviaLotes extends React.Component {
         descricao: "",
         mapSnapshotURI: ""
       },
-      touchable : true,
+      touchable: true,
     };
   }
 
@@ -50,7 +49,7 @@ export default class PreviaLotes extends React.Component {
     let titulo = 'Lotes da ' + quadra.replace("_"," ")
     return (
       <ImageBackground style={styles.imgBackground} source={require(fundo)}>
-        <View style={styles.container} pointerEvents={touchable ? 'auto' : 'none'}>
+        <View style={styles.container} pointerEvents={touchable ? 'auto': 'none'}>
           <Header titulo={titulo} funcao={back} />
 
           <View style={{height:150, width: wp("90%"), alignSelf: 'center'}}>
@@ -61,7 +60,7 @@ export default class PreviaLotes extends React.Component {
               resizeMode='cover'
               source={{ uri: data.planta.resultado}}
               />
-            : <Text>Erro : Não foi realizada a captura do mapa, tente novamente</Text>}
+           : <Text>Erro: Não foi realizada a captura do mapa, tente novamente</Text>}
           </View> 
 
           <View style={{height:"65%", width: wp("90%"), alignSelf: 'center'}}>
@@ -83,13 +82,13 @@ export default class PreviaLotes extends React.Component {
                           lote={item[quadra]?.lote}
                           status={item[quadra]?.status}
                           data={item[quadra]?.data.seconds} 
-                          corretor={item[quadra].corretor?.nome !== undefined ? item[quadra].corretor?.nome : Global.NOME}
-                          idCorretor={item[quadra].corretor?.email !== undefined ? item[quadra].corretor?.email : Global.EMAIL}
+                          corretor={item[quadra].corretor?.nome !== undefined ? item[quadra].corretor?.nome: Global.NOME}
+                          idCorretor={item[quadra].corretor?.email !== undefined ? item[quadra].corretor?.email: Global.EMAIL}
                           gestor={item[quadra]?.gestor}
                           tipo={Global.PROFILETYPE}
                           atualizar={atualizar}
                         />
-                      :
+                     :
                       null
                       }
                     </View> 

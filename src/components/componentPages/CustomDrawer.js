@@ -10,7 +10,6 @@ import Global from "../../global/Global";
 
 export default function CustomDrawer(props) {
   let nome = Global.NOME
-
   function handleSignOutButton() {
     Alert.alert('Você tem certeza que deseja sair?', '', [
       {
@@ -20,6 +19,11 @@ export default function CustomDrawer(props) {
       }, {
         text: "Sim",
         onPress: () => {
+          Global.IMAGEURL = "https://reactnative.dev/img/tiny_logo.png"
+          Global.NOME = ""
+          Global.PROFILEIMAGE = ""
+          Global.PROFILETYPE = ""
+          Global.EMAIL = ""
           props.navigation.navigate('Login');
           signout();
         },
@@ -28,18 +32,21 @@ export default function CustomDrawer(props) {
     )
   }
 
-  // function buscarImagemPerfil() {
-  //   const imagem = Global.PROFILEIMAGE
+  function buscarImagemPerfil() {
+    const imagem = Global.PROFILEIMAGE
     
-  //   if (Global.IMAGEURL === "https://reactnative.dev/img/tiny_logo.png") {
-  //     getImageFromFirebase(imagem, (url, error) => {
-  //       if (error) console.log(error);
-  //       Global.IMAGEURL = url;
-  //     });
-  //   }
+    if (Global.PROFILEIMAGE !== "") {
+      getImageFromFirebase(imagem).then((res) => {
+        Global.IMAGEURL = res
+      }
+      )
+      .catch((e)=>{console.log("ao carregar a imagem do perfil")})
+    } else {
+      Global.IMAGEURL = "https://reactnative.dev/img/tiny_logo.png"
+    }
 
-  //   return Global.IMAGEURL
-  // }
+    return Global.IMAGEURL
+  }
 
   // TODO - Separar gestor de corretor
 
@@ -53,10 +60,10 @@ export default function CustomDrawer(props) {
   return (
     <View >
       <View style={styles.BoxUser}>
-        {/* <Image
+        <Image
           style={styles.imgPerfil}
           source={{ uri: buscarImagemPerfil() }}
-        /> */}
+        />
         <View style={{maxWidth:wp("43%")}}>
           <Text numberOfLines={1} style={styles.NameUser}>{formatarNome()}</Text>
         </View>
@@ -65,51 +72,66 @@ export default function CustomDrawer(props) {
       <View style={styles.BoxMid}>
 
         <DrawerItem
-          icon={() => <Image source={require('../../../assets/assetsCorretor/profs.png')} />}
-          label="dashboard"
+          icon={() => <Image style={{height: 30, width: 30}} source={require('../../../assets/assetsDrawer/dashboard.png')} />}
+          label="Dashboard"
           onPress={() => props.navigation.navigate('Dashboard')}
+          labelStyle={{marginLeft:-20, width:"200%"}}
         />
         <DrawerItem
-          icon={() => <Image source={require('../../../assets/assetsCorretor/profs.png')} />}
+          icon={() => <Image style={{height: 30, width: 30}} source={require('../../../assets/assetsDrawer/loteamentos.png')} />}
           label="Loteamentos"
           onPress={() => props.navigation.navigate('Loteamentos')}
+          labelStyle={{marginLeft:-20, width:"200%"}}
+        />
+          {
+            Global.PROFILETYPE === "gestor"
+            ?
+            <View>
+            <DrawerItem
+              icon={() => <Image style={{height: 30, width: 30}} source={require('../../../assets/assetsDrawer/cadastrarLoteamento.png')} />}
+              label="Cadastrar Loteamento"
+              onPress={() => props.navigation.navigate('CadastrarLoteamento')}
+              labelStyle={{marginLeft:-20, width:"200%"}}
+            />
+            </View>
+            :
+            null  
+          }
+        <DrawerItem
+          icon={() => <Image style={{height: 30, width: 30}} source={require('../../../assets/assetsDrawer/minhasReservas.png')} />}
+          label="Minhas Reservas"
+          onPress={() => props.navigation.navigate('MinhasReservas')}
+          labelStyle={{marginLeft:-20, width:"200%"}}
         />
         <DrawerItem
-          icon={() => <Image source={require('../../../assets/assetsCorretor/mensagens.png')} />}
-          label="Cadastrar Loteamentos"
-          onPress={() => props.navigation.navigate('CadastrarLoteamento')}
+          icon={() => <Image style={{height: 30, width: 30}} source={require('../../../assets/assetsDrawer/todasReservas.png')} />}
+          label="Todas Reservas"
+          onPress={() => props.navigation.navigate('TodasReservas')}
+          labelStyle={{marginLeft:-20, width:"200%"}}
         />
-          <View>          
-            <DrawerItem
-              icon={() => <Image source={require('../../../assets/assetsCorretor/mais.png')} />}
-              label="CriarUsuario"
-              onPress={() => props.navigation.navigate('CriarUsuario')}
-            />
-            <DrawerItem
-              icon={() => <Image source={require('../../../assets/assetsCorretor/carteira.png')} />}
-              label="Todas Reservas"
-              onPress={() => props.navigation.navigate('TodasReservas')}
-            />
-            <DrawerItem
-              icon={() => <Image source={require('../../../assets/assetsCorretor/calendario.png')} />}
-              label="Minhas Reservas"
-              onPress={() => props.navigation.navigate('MinhasReservas')}
-            />
-          </View>
+        {
+            Global.PROFILETYPE === "gestor"
+            ?
+            <View>
+              <DrawerItem
+                icon={() => <Image style={{height: 30, width: 30}} source={require('../../../assets/assetsDrawer/gerenciarCorretores.png')}/>}
+                label="Gerenciar Corretores"
+                onPress={() => props.navigation.navigate('GerenciarCorretores')}
+                labelStyle={{marginLeft:-20, width:"200%"}}
+              />
+            </View>
+            :
+            null  
+          }
         
 
       </View>
 
       <View style={styles.LastBox}>
 
-        <TouchableOpacity style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Image source={require('../../../assets/assetsCorretor/editar.png')} />
-          <Text style={{ color: '#000', fontWeight: 'bold' }}>Alternar Perfil</Text>
-        </TouchableOpacity>
-
         <TouchableOpacity style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }} onPress={handleSignOutButton}>
-          <Image source={require('../../../assets/assetsCorretor/sair.png')} />
-          <Text style={{ color: '#000', fontWeight: 'bold' }}>Sair</Text>
+          <Image source={require('../../../assets/assetsDrawer/exit.png')} style={{height: 30 , width: 30}} />
+          <Text style={{ color: '#000', fontWeight: 'bold' , width: 30}}>Sair</Text>
         </TouchableOpacity>
 
       </View>

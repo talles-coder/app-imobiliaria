@@ -59,7 +59,7 @@ export default class PreviaQuadras extends React.Component {
               resizeMode='cover'
               source={{ uri: data.planta.resultado}}
               />
-            : <Text>Erro : Não foi realizada a captura do mapa, tente novamente</Text>}
+           : <Text>Erro: Não foi realizada a captura do mapa, tente novamente</Text>}
           </View> 
           
 

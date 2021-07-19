@@ -2,7 +2,6 @@ import React from 'react';
 import { ImageBackground, FlatList, Image, Alert,  StyleSheet, View, Text, Keyboard, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 
 import Header from '../../../components/Header';
-import GerenciarLotes from '../../../components/GerenciarLotes';
 
 import Global from '../../../global/Global';
 import Button from '../../../components/Button';
@@ -20,9 +19,9 @@ export default class MinhasReservas extends React.Component {
     super(props);
     this.state = {
       modalVisible: false,
-      dados : [],
-      updating : true,
-      loteData : {},
+      dados: [],
+      updating: true,
+      loteData: {},
       index: ""
     };
   }
@@ -43,14 +42,14 @@ export default class MinhasReservas extends React.Component {
   componentDidMount = () => {
     
     this.setState({
-      updating : true
+      updating: true
     })
     updateLoteamentos("minhasReservas")
     .then((array)=>{
         console.log(array)
       this.setState({
-        dados : array,
-        updating : false
+        dados: array,
+        updating: false
       })
     })
     .catch((error) => {console.log(error)})
@@ -63,8 +62,8 @@ export default class MinhasReservas extends React.Component {
     }
 
     vender = (id , index , quadra , corretor, idCorretor) => {
-        const usuario = corretor.length > 0 ? corretor : Global.NOME
-        const idUsuario = idCorretor.length > 0 ? idCorretor : Global.EMAIL 
+        const usuario = corretor.length > 0 ? corretor: Global.NOME
+        const idUsuario = idCorretor.length > 0 ? idCorretor: Global.EMAIL 
         venderLote(id , index , quadra , usuario, idUsuario , Global.NOME)
         .then(this.componentDidMount)
         .catch((error)=> {Alert.alert(error.toString())})
@@ -79,7 +78,7 @@ export default class MinhasReservas extends React.Component {
 
     return (
     <ImageBackground style={styles.imgBackground} source={require(fundo)}>
-        <View style={styles.container} pointerEvents={updating ? 'none' : 'auto'}>
+        <View style={styles.container} pointerEvents={updating ? 'none': 'auto'}>
           <Header titulo={titulo} funcao={()=> {this.props.navigation.openDrawer()}} />
             <View style={{height:"90%", width: wp("90%"), alignSelf: 'center'}}>
                 {   dados.length === 0
@@ -87,7 +86,7 @@ export default class MinhasReservas extends React.Component {
                         <View style={[styles.loteReservado, {height: hp("8%")}]}>
                             <Text style={[styles.titleStatus]}>Não há reservas por aqui</Text>
                         </View>
-                        :
+                       :
                         null
                     }
                 <FlatList
@@ -105,8 +104,8 @@ export default class MinhasReservas extends React.Component {
                                 <Text style={[styles.titleStatus, {fontSize:hp("1.8%"), fontWeight: "normal",  marginTop: 5}]}>{(item.endereco).split(', ')[2]}: {(item.endereco).split(',')[3]}</Text>
                             </View>
                             <View style={{flexDirection: "row", justifyContent: 'space-between'}}>
-                                <Text style={[styles.titleData]}>Data da Reserva :{`\n`}{dataFormatada(new Date(item.data.seconds*1000))}</Text>
-                                <Text style={[styles.titleData]}>Expira em :{`\n`}{dataLimiteFormatada(new Date(item.data.seconds*1000))}</Text>
+                                <Text style={[styles.titleData]}>Data da Reserva:{`\n`}{dataFormatada(new Date(item.data.seconds*1000))}</Text>
+                                <Text style={[styles.titleData]}>Expira em:{`\n`}{dataLimiteFormatada(new Date(item.data.seconds*1000))}</Text>
                             </View>
                             <View style={{flexDirection: "row-reverse", justifyContent: 'space-between'}}>
                                 <Button titulo='Cancelar' funcao={()=>{
@@ -126,7 +125,7 @@ export default class MinhasReservas extends React.Component {
                                         })
                                         }} btStyle={{marginBottom: 0, width:wp("24%"), height:hp("5%"), backgroundColor: "#40B21E" }}
                                     />
-                                    :
+                                   :
                                     null
                                 }
                             </View>
@@ -137,8 +136,8 @@ export default class MinhasReservas extends React.Component {
                             lote={item.lote}
                             status={item.status}
                             data={item.data.seconds} 
-                            corretor={item.corretor?.nome !== undefined ? item.corretor?.nome : Global.NOME}
-                            idCorretor={item.corretor?.email !== undefined ? item.corretor?.email : Global.EMAIL}
+                            corretor={item.corretor?.nome !== undefined ? item.corretor?.nome: Global.NOME}
+                            idCorretor={item.corretor?.email !== undefined ? item.corretor?.email: Global.EMAIL}
                             gestor={item.gestor}
                             tipo={Global.PROFILETYPE}
                             atualizar={this.componentDidMount} */}

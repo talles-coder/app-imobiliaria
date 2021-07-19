@@ -23,7 +23,7 @@ export function emailSignUp({ email, password }, callback) {
 
 //Efetuar login com e-mail e senha
 export function emailSignIn({ email, password }, callback) {
-  // db.collection("Usuarios").doc(email).update({'dashboard.dataRegistro' : adminField.serverTimestamp()})
+  // db.collection("Usuarios").doc(email).update({'dashboard.dataRegistro': adminField.serverTimestamp()})
   firebaseApp.auth().signInWithEmailAndPassword(email, password)
     .then((user) => callback(null, user))
     .catch((err) => callback(err, null))
@@ -61,11 +61,9 @@ export function uploadImageToFirebase(blob, nomeImagem) {
   });
 };
 
-export function getImageFromFirebase(imagem, callback) {
-  var ref = firebaseApp.storage().ref('profileImages/' + imagem);
-  ref.getDownloadURL()
-  .then((url) => callback(url, null))
-  .catch((error) => callback(null, error))
+export async function getImageFromFirebase(imagem) {
+  const imagemURL = await firebaseApp.storage().ref('profileImages/' + imagem).getDownloadURL()
+  return imagemURL
 };
 
 export function uploadMapsSnapshotToFirebase(blob, nomeImagem) {
@@ -124,8 +122,8 @@ export async function deleteTemporaryToken(value) {
 export function CreateTemporaryToken(value) {
   let code = Math.floor(Math.pow(10, 8-1) + Math.random() * (Math.pow(10, 8) - Math.pow(10, 8-1) - 1));
   db.collection('codigos').doc(String(code)).set({      
-    tipo : value,
-    startTime : adminField.serverTimestamp()
+    tipo: value,
+    startTime: adminField.serverTimestamp()
     })
   return code
 }
@@ -139,6 +137,11 @@ export function addNewLoteamento(nome, loteamentoData) {
 export async function getLoteamentos() {
   const dados = await db.collection('loteamentos').get()
   return dados
+};
+
+export async function getUsuarios() {
+  const usuarios = await db.collection('Usuarios').get()
+  return usuarios
 };
 
 export async function getDashboardUsuario (idUsuario){
@@ -184,6 +187,14 @@ export function addNewUserData({ email, userData }, callback) {
   userRef.set(userData)
     .then((docRef) => callback(docRef, null))
     .catch((error) => callback(null, error))
+};
+
+export function deleteUserData(email) {
+  return db.collection('Usuarios').doc(email).delete();
+};
+
+export function alterarTipoUsuario(email, tipo) {
+  return db.collection('Usuarios').doc(email).update({tipo: tipo});
 };
 
 export function addItem(item, tabel) {

@@ -21,7 +21,7 @@ export default class Button extends Component {
     return (
       <View style={[styles.wrapper]}>
         <TouchableOpacity 
-          style={[hidden ? styles.buttonHidden : styles.button, btStyle ]} 
+          style={[hidden ? styles.buttonHidden: styles.button, btStyle ]} 
           onPress={funcao}
           disabled={hidden}
         >

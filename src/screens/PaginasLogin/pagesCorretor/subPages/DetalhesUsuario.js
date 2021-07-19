@@ -1,16 +1,15 @@
 import React from 'react';
-import { RefreshControl, FlatList, StyleSheet, Text, View, ScrollView, Image, Alert, BackHandler} from 'react-native';
+import { RefreshControl, FlatList, StyleSheet, Text, View, Image, Alert, BackHandler, ScrollView} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import Header from '../../../components/Header';
+import Header from '../../../../components/Header';
 import { LinearGradient } from 'expo-linear-gradient';
-import updateCorretorDashboard from '../../../services/Usuario'
+import updateCorretorDashboard from '../../../../services/Usuario'
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import Global from '../../../global/Global';
 
-export default class DashboardCorretor extends React.Component {
+export default class DetalhesUsuario extends React.Component {
     constructor(props) {
         super(props);
         
@@ -20,28 +19,14 @@ export default class DashboardCorretor extends React.Component {
         };
     }
 
-    backAction = () => {
-      Alert.alert("", "Você quer fechar o aplicativo?", [
-        {
-          text: "Cancel",
-          onPress: () => null,
-          style: "cancel"
-        },
-        { text: "YES", onPress: () => BackHandler.exitApp() }
-      ]);
-      return true;
-    };
-
     componentDidMount = () => {
-      this.backHandler = BackHandler.addEventListener(
-        "hardwareBackPress",
-        this.backAction
-      );
       this.setState({
         atualizando: true
       })
-      updateCorretorDashboard(Global.EMAIL)
+      console.log(this.props.dados.id)
+      updateCorretorDashboard(this.props.dados.id)
       .then((dadosAtualizados)=>{
+        console.log(dadosAtualizados)
         this.setState({
           data: dadosAtualizados
         })
@@ -54,25 +39,40 @@ export default class DashboardCorretor extends React.Component {
       })
     }
 
-    componentWillUnmount() {
-      this.backHandler.remove();
-    }
-
     render() {
-      const { data, atualizando } = this.state
+      const { data, atualizando} = this.state
+      const { dados, back } = this.props
         return (
 
         <View style={styles.container}>
-            <Header titulo="Dashboard Corretor" funcao={() => {this.props.navigation.openDrawer()}}></Header>
-            <ScrollView 
-            style={{marginTop:hp('2%'), marginBottom:hp('2%') }} 
-            refreshControl={
-              <RefreshControl
-                refreshing={atualizando}
-                onRefresh={this.componentDidMount}
-              />
-            }
-            >
+            <Header titulo="Dashboard Corretor" funcao={back}></Header>
+              <ScrollView 
+              style={{marginTop:hp('2%'), marginBottom:hp('2%') }} 
+              refreshControl={
+                <RefreshControl
+                  refreshing={atualizando}
+                  onRefresh={this.componentDidMount}
+                />
+              }
+              >
+            <View style={styles.mainBox}>
+                <View style={styles.profileBox}>
+                    <LinearGradient
+                    colors={['#00FF00', '#008000']}
+                    style={styles.backgroundLarger}
+                    />
+                      <Image
+                          style={styles.imgPerfil}
+                          source={{ uri: dados.foto }}
+                      />
+                    <View style={{width: "80%"}}>
+                      <Text numberOfLines={1} style={styles.nome}>Nome: {dados.nome}</Text>
+                      <Text numberOfLines={1} style={styles.nome}>Email: {dados.id}</Text>
+                      <Text numberOfLines={1} style={styles.nome}>Celular: {dados.celular}</Text>
+                    </View>
+                </View>
+            </View>
+
             <Text style={styles.titlebox}>Reservas</Text>    
 
             <View style={styles.mainBox}>
@@ -83,7 +83,7 @@ export default class DashboardCorretor extends React.Component {
                   style={styles.background}
                 />
                 <Text style={{width:90}}>Realizadas Hoje</Text>
-                <Image  source={require('../../../../assets/RealizadasHoje.png')}/>
+                <Image  source={require('../../../../../assets/RealizadasHoje.png')}/>
                 <Text style={styles.data}>{data?.realizadasHoje}</Text>
               </View>
 
@@ -93,7 +93,7 @@ export default class DashboardCorretor extends React.Component {
                   style={styles.background}
                 />
                 <Text style={{width:90}}>Em andamento</Text>
-                <Image  source={require('../../../../assets/AtivasHoje.png')}/>
+                <Image  source={require('../../../../../assets/AtivasHoje.png')}/>
                 <Text style={styles.data}>{data?.ativasHoje}</Text>
               </View>
 
@@ -103,7 +103,7 @@ export default class DashboardCorretor extends React.Component {
                   style={styles.background}
                 />
                 <Text style={{width:90}}>Expirarão Hoje</Text>
-                <Image  source={require('../../../../assets/VaoExpirar.png')}/>
+                <Image  source={require('../../../../../assets/VaoExpirar.png')}/>
                 <Text style={styles.data}>{data?.expiramHoje}</Text>
               </View>
 
@@ -113,7 +113,7 @@ export default class DashboardCorretor extends React.Component {
                   style={styles.background}
                 />
                 <Text style={{width:90}}>Canceladas este mês</Text>
-                <Image  source={require('../../../../assets/JaExpiraram.png')}/>
+                <Image  source={require('../../../../../assets/JaExpiraram.png')}/>
                 <Text style={styles.data}>{data?.jaExpiraramMes}</Text>
               </View>
 
@@ -129,7 +129,7 @@ export default class DashboardCorretor extends React.Component {
                   style={styles.background}
                 />
                 <Text style={{width:90}}>Realizadas Hoje</Text>
-                <Image  source={require('../../../../assets/VendasHoje.png')}/>
+                <Image  source={require('../../../../../assets/VendasHoje.png')}/>
                 <Text style={styles.data}>{data?.vendasHoje}</Text>
               </View>
 
@@ -139,7 +139,7 @@ export default class DashboardCorretor extends React.Component {
                   style={styles.background}
                 />
                 <Text style={{width:90}}>Neste Mês</Text>
-                <Image  source={require('../../../../assets/VendasMes.png')}/>
+                <Image  source={require('../../../../../assets/VendasMes.png')}/>
                 <Text style={styles.data}>{data?.vendasNesteMes}</Text>
               </View>
 
@@ -149,7 +149,7 @@ export default class DashboardCorretor extends React.Component {
                   style={styles.backgroundLarger}
                 />
                 <Text style={{width:'80%'}}>Total já realizadas</Text>
-                <Image  source={require('../../../../assets/TotalVendas.png')}/>
+                <Image  source={require('../../../../../assets/TotalVendas.png')}/>
                 <Text style={styles.data}>{data?.totalVendas}</Text>
               </View>
 
@@ -196,6 +196,15 @@ const styles = StyleSheet.create({
     width: wp('82%'),
     margin: 5,
   },
+  profileBox: {
+    justifyContent: "center",
+    flexDirection: 'row',
+    borderRadius: 15,
+    height: hp('10%'),
+    width: wp('82%'),
+    marginVertical: 10,
+    padding: 8,
+  },
   background: {
     borderRadius: 15,
     position: 'absolute',
@@ -211,15 +220,30 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     top: 0,
-    height: hp('14%'),
+    height: hp('12.5%'),
     width: wp('82%'),
   },
   titlebox:{
-    margin: 15 ,
-    marginLeft: 35, 
+      margin: 8 ,
+      marginLeft: 35, 
+      textAlign: "left",
+      fontSize: 28,
+      color:"#fff",
+      fontWeight: 'bold'
+    },
+  imgPerfil: {
+    width: hp('8%'),
+    height: hp('8%'),
+    borderRadius: hp('50%'),
+    borderWidth: 1,
+    borderColor: "#000"
+  },
+  nome:{
+    marginBottom: 5,
     textAlign: "left",
-    fontSize: 28,
+    fontSize: 15,
     color:"#fff",
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    paddingHorizontal: 12
   },
 });

@@ -2,14 +2,13 @@ import React from 'react';
 import { ImageBackground, StyleSheet, View, Text, Keyboard, TouchableWithoutFeedback } from 'react-native';
 
 import colors from '../../../styles/colors/index';
-
 import Header from '../../../components/Header';
 import Input from '../../../components/Input';
 import ImagePicker from '../../../components/ImagePicker';
 import Button from '../../../components/Button';
 const fundo = "../../../../assets/fundo.png";
-
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
@@ -32,19 +31,41 @@ export default class DadosIniciais extends React.Component {
     this.handleCelularChange = this.handleCelularChange.bind(this);
   }
 
+
   handleImageChange = (imagem) => this.setState({ imagem });
   handleNomeChange = (name) => this.setState(
     { identificacao: {
       ...this.state.identificacao,
-      nome : name
+      nome: name
     } }
     );
   handleEmailChange = (email) => this.setState(
     { identificacao: {
       ...this.state.identificacao,
-      email: email ? email.toString().trim().toLowerCase() : email
+      email: email ? email.toString().trim().toLowerCase(): email
     } });
-  handleCelularChange = (celular) => this.setState({ celular });
+    
+  maskPhone = (value) => {
+    return value
+      .replace(/\D/g, "")
+      .replace(/(\d{2})(\d)(\d)/, "($1) $2 $3")
+      .replace(/(\d{4})(\d)/, "$1-$2")
+      .replace(/(-\d{4})(\d+?)$/, "$1");
+  };
+
+  componentDidMount(){
+    let numeroFormatado = this.maskPhone(this.state.celular)
+    this.setState({ 
+      celular: numeroFormatado
+    })
+  }
+
+  handleCelularChange = (celular) => {
+    let numeroFormatado = this.maskPhone(celular)
+    this.setState({ 
+      celular: numeroFormatado
+    })
+  };
 
   nextStep = () => {
     const { next, saveState } = this.props;
@@ -60,6 +81,7 @@ export default class DadosIniciais extends React.Component {
   }
 
   render() {
+    const {celular} = this.state
     let titulo = 'Cadastro Corretor'
     return (
       <ImageBackground style={styles.imgBackground} source={require(fundo)}>
@@ -92,12 +114,16 @@ export default class DadosIniciais extends React.Component {
                   value={this.state.identificacao.email}
                 />
 
+                
+
                 <Input
                   inputType='phone-pad'
                   labelText='Celular'
                   onChangeText={this.handleCelularChange}
                   value={this.state.celular}
-                />
+                  inputValue={this.state.celular}
+                >
+                </Input>
 
               </View>
 
@@ -131,5 +157,10 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: "space-around",
     alignItems: "center"
+  },
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
   },
 });

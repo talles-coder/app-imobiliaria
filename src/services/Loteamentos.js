@@ -18,14 +18,14 @@ export default async function updateLoteamentos(tipo) {
     const listaMinhasReservas = []
     const listaTodasReservas = []
 
-    todosLoteamentos.forEach(async (doc) => {
+    todosLoteamentos.forEach((doc) => {
         const object = {
             ...doc.data(),
             id: doc.id,
         }
         const data = {
-            todasReservas : 0,
-            totalVendas : 0,
+            todasReservas: 0,
+            totalVendas: 0,
         }
         Object.values(doc.get('csvObject.content')).forEach((element, index) => {
             Object.entries(element).forEach((quadras) => {

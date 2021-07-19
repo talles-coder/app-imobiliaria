@@ -119,7 +119,7 @@ class Index extends Component {
     } = this.props;
     if (!animationFinished) {
       this.setState({
-        action: action == OutOnBack ? comeInOnBack : comeInOnNext,
+        action: action == OutOnBack ? comeInOnBack: comeInOnNext,
         animationFinished: true
       });
     }

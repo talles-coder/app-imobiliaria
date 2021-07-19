@@ -52,10 +52,10 @@ export default class ResumoLoteamento extends React.Component {
     let data = getState(this.state);
     if (this.state.nomeLote !== data.nomeLote) {
       this.setState({
-        nomeLote : data.nomeLote,
-        csvObject : data.csvObject,
-        address : data.address,
-        planta : data.planta,
+        nomeLote: data.nomeLote,
+        csvObject: data.csvObject,
+        address: data.address,
+        planta: data.planta,
       })
     }
   }
@@ -100,18 +100,18 @@ export default class ResumoLoteamento extends React.Component {
     await uploadMapsSnapshotToFirebase(blobMaps, nomeMaps);
 
     let dados = {
-      nomeLote : this.state.nomeLote,
-      csvObject : {
+      nomeLote: this.state.nomeLote,
+      csvObject: {
         name: this.state.csvObject.name,
         uri: this.state.csvObject.uri,
         content: {},
-        totalQuadras : this.state.csvObject.values.totalQuadras,
-        totalLotes :  this.state.csvObject.values.totalLotes,
+        totalQuadras: this.state.csvObject.values.totalQuadras,
+        totalLotes:  this.state.csvObject.values.totalLotes,
         totalReservados: 0,
         totalVendidos: 0,
       },
-      address : this.state.address,
-      planta : this.state.planta,
+      address: this.state.address,
+      planta: this.state.planta,
     };
     
     this.state.csvObject.content.forEach((element, index) => {dados.csvObject.content[index] = element});
@@ -152,7 +152,7 @@ export default class ResumoLoteamento extends React.Component {
                 {this.state.csvObject.values?.totalQuadras} quadras e {this.state.csvObject?.values?.totalLotes} lotes
                 </Text>
 
-                <Text style={{fontSize:14, fontWeight: 'bold'}}>Planta :</Text>
+                <Text style={{fontSize:14, fontWeight: 'bold'}}>Planta:</Text>
                 
                 <View style={{height:150, width: "90%", alignSelf: 'center'}}>
                   { this.state.planta?.resultado ?
@@ -162,10 +162,10 @@ export default class ResumoLoteamento extends React.Component {
                     resizeMode='cover'
                     source={{ uri: this.state.planta?.resultado}}
                     />
-                  : <Text>Erro : Não foi realizada a captura do mapa, tente novamente</Text>}
+                 : <Text>Erro: Não foi realizada a captura do mapa, tente novamente</Text>}
                 </View> 
 
-                <Text style={{fontSize:14, fontWeight: 'bold'}}>Localização : </Text>
+                <Text style={{fontSize:14, fontWeight: 'bold'}}>Localização: </Text>
                 <View style={{height:150, width: "90%", alignSelf: 'center'}}>
                   { this.state.address?.mapSnapshotURI ?
                     <Image
@@ -174,7 +174,7 @@ export default class ResumoLoteamento extends React.Component {
                     resizeMode='cover'
                     source={{ uri: this.state.address.mapSnapshotURI}}
                     />
-                  : <Text>Erro : Não foi realizada a captura do mapa, tente novamente</Text>}
+                 : <Text>Erro: Não foi realizada a captura do mapa, tente novamente</Text>}
                 </View>
                 
                 <View style={{alignSelf: 'center'}}>

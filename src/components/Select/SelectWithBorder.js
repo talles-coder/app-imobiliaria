@@ -51,7 +51,7 @@ export default class SelectWithBorder extends Component {
               padding: 10,
               borderColor: colors.branco,
               borderRadius: 10,
-              width: largura ? largura : wp('79.71%'),
+              width: largura ? largura: wp('79.71%'),
               alignSelf: 'center',
               justifyContent: 'center'
             }

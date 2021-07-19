@@ -22,7 +22,7 @@ export default class Input extends Component {
     this.handleBlur = this.handleBlur.bind(this);
     this.componentDidUpdate = this.componentDidUpdate.bind(this);
     this.onChangeText = this.onChangeText.bind(this);
-    this._animatedIsFocused = new Animated.Value(this.props.value === '' ? 0 : 1);
+    this._animatedIsFocused = new Animated.Value(this.props.value === '' ? 0: 1);
   }
 
   handleFocus = () => {
@@ -35,7 +35,7 @@ export default class Input extends Component {
 
   componentDidUpdate() {
     Animated.timing(this._animatedIsFocused, {
-      toValue: (this.state.isFocused || this.props.value !== '') ? 1 : 0,
+      toValue: (this.state.isFocused || this.props.value !== '') ? 1: 0,
       duration: 200,
       useNativeDriver: false
     }).start();
@@ -57,7 +57,8 @@ export default class Input extends Component {
       multiline,
       numberOfLines,
       isPassword,
-      placeHold
+      placeHold,
+      onBlur=this.handleBlur,
     } = this.props;
 
     const labelStyle = {
@@ -81,7 +82,7 @@ export default class Input extends Component {
       <View style={[
         styles.wrapper
       ]}>
-        <Animated.Text style={[labelStyle,{color: cor ? cor : colors.branco,}]}>
+        <Animated.Text style={[labelStyle,{color: cor ? cor: colors.branco,}]}>
           {labelText}
 
         </Animated.Text>
@@ -89,10 +90,10 @@ export default class Input extends Component {
           style={[
             styles.inputField,
             {
-              borderBottomColor: cor ? cor : colors.branco,
-              color: cor ? cor : colors.branco,
-              width: withi ? withi : wp('79.71%'),
-              height: altura ? altura : hp('3.95%')
+              borderBottomColor: cor ? cor: colors.branco,
+              color: cor ? cor: colors.branco,
+              width: withi ? withi: wp('79.71%'),
+              height: altura ? altura: hp('3.95%')
             }
           ]}
           placeholder={placeHold}
@@ -103,7 +104,7 @@ export default class Input extends Component {
           defaultValue={inputValue}
           value={inputValue}
           onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
+          onBlur={onBlur}
           blurOnSubmit
           multiline={multiline}
           numberOfLines={numberOfLines}
