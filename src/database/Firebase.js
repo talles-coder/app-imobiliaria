@@ -108,11 +108,9 @@ export function uploadPlantaToFirebase(blob, nomeDocumento) {
   });
 };
 
-export function getPlantaFromFirebase(imagem, callback) {
-  var ref = firebaseApp.storage().ref('plantas/' + imagem);
-  ref.getDownloadURL()
-  .then((url) => callback(url, null))
-  .catch((error) => callback(null, error))
+export async function getPlantaFromFirebase(imagem) {
+  const imagemURL = await firebaseApp.storage().ref('plantas/' + imagem).getDownloadURL()
+  return imagemURL
 };
 
 export async function deleteTemporaryToken(value) {

@@ -10,7 +10,6 @@ import Button from "./Button"
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 // API Key do google para a api Geocode
-const API_KEY = ""
 
 export default class Map extends React.Component {
   constructor(props) {
@@ -51,15 +50,19 @@ export default class Map extends React.Component {
     };
     
     this.handleCodigoChange = this.handleCodigoChange.bind(this);
-}
+    }
 
     handleCodigoChange = (pesquisa) => this.setState({ pesquisa });
 
-    componentDidUpdate(prevProps, PrevState){
-        if (this.mar.props.title !== PrevState.descricao && this.state.readyToSnap) {
-            this.mar.showCallout()
-        }
+    componentDidMount(){
+        Geocode.setApiKey("AIzaSyB4TVCzjqUXClgfCjpf6ZlGRmvQ4u8N7go")
     }
+
+    componentDidUpdate(prevProps, PrevState){    
+            if (this.mar.props.title !== PrevState.descricao && this.state.readyToSnap) {
+                this.mar.showCallout()
+            }
+        }
 
     pesquisar = () => {
         this.setState({
@@ -74,9 +77,9 @@ export default class Map extends React.Component {
         })
     }
 
-  findLocation = () => {
+    findLocation = () => {
     if (this.state.pesquisa.length > 5) {
-        Geocode.fromAddress(this.state.pesquisa, API_KEY)
+        Geocode.fromAddress(this.state.pesquisa)
         .then((response)=>{
             this.setState({
                 changeCord:{
@@ -87,15 +90,14 @@ export default class Map extends React.Component {
         })
         .catch((erro)=>{
             Alert.alert("O endereço não foi encontrado");
-        }
-        )
+        })
     }else { 
-        Alert.alert("O endereço esta muito curto");
+            Alert.alert("O endereço esta muito curto");
+        }
     }
-  }
 
   geocodeLatLng = () => {
-    Geocode.fromLatLng(this.state.changeCord.latitude, this.state.changeCord.longitude, API_KEY)
+    Geocode.fromLatLng(this.state.changeCord.latitude, this.state.changeCord.longitude)
     .then((response) =>{ 
         const result = response.results[0]
         this.setState({
@@ -120,7 +122,8 @@ export default class Map extends React.Component {
   
   takeSnapshot = async() => {
     this.setState({
-        readyToSnap: false  
+        readyToSnap: false,
+        validAddress: false,  
     })
     this.mar.hideCallout();
     let cameraInicial = await this.map.getCamera()
@@ -131,11 +134,13 @@ export default class Map extends React.Component {
             result: 'file'
         });
         this.setState({
-            mapSnapshotURI: snapshot
+            mapSnapshotURI: snapshot,
+            fileName : 'mapSnap_' + new Date().valueOf() + Math.random() + '.png'
         })
         this.map.setCamera(cameraInicial)
         this.setState({
-            readyToSnap: true  
+            readyToSnap: true,
+            validAddress: false,    
         })
         if (this.state.readyToSnap) {this.mar.showCallout()}
         this.setState({modalVisible: true})
@@ -167,7 +172,7 @@ export default class Map extends React.Component {
         closer
     } = this.props
     return(
-        <View style={{flex:1}}>
+        <View style={{flex:1}} pointerEvents={readyToSnap ? "auto" : "none"}>
             
                 <View style={{flex:1,
                         height: height ? parseInt(height): '100%',
@@ -275,7 +280,7 @@ export default class Map extends React.Component {
             
                     { Visiblesearch ?
                     <View>
-                        <Button titulo='Selecionar Endereço' funcao={this.takeSnapshot} hidden={!validAddress} />
+                        <Button titulo='Selecionar Endereço' funcao={this.takeSnapshot} hidden={!validAddress || !readyToSnap} />
                     </View>
                    :
                     null

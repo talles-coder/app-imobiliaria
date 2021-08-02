@@ -35,14 +35,12 @@ export default function CustomDrawer(props) {
   function buscarImagemPerfil() {
     const imagem = Global.PROFILEIMAGE
     
-    if (Global.PROFILEIMAGE !== "") {
+    if (Global.IMAGEURL === "https://reactnative.dev/img/tiny_logo.png") {
       getImageFromFirebase(imagem).then((res) => {
         Global.IMAGEURL = res
       }
       )
       .catch((e)=>{console.log("ao carregar a imagem do perfil")})
-    } else {
-      Global.IMAGEURL = "https://reactnative.dev/img/tiny_logo.png"
     }
 
     return Global.IMAGEURL
@@ -52,7 +50,7 @@ export default function CustomDrawer(props) {
 
   function formatarNome() {
     let tmp = nome.split(" ");
-    if (tmp[1]) {nome = tmp[0];}
+    if (tmp[1]) {nome = tmp[0]}
 
     return nome;
   }

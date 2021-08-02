@@ -203,7 +203,7 @@ export default class FormularioArquivos extends React.Component {
                       onChangeText={this.handleNomeLoteamentoChange}
                       defaultValue={nomeLote}    
                       inputValue={nomeLote}
-                      onBlur={()=>{if((nomeLote.trim().length) < 8){Alert.alert("Erro","O nome do loteamento esta muito curto \n Minimo: 8 digitos");}}}
+                      onBlur={()=>{if((nomeLote.trim().length) < 8){Alert.alert("Erro","O nome do loteamento está muito curto \nMinimo: 8 digitos");}}}
                     />
                 </View>
 

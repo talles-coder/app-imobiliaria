@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Alert,
   StyleSheet,
   Text,
   View,
@@ -7,7 +8,8 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
-  Keyboard
+  Keyboard,
+  ActivityIndicator
 } from "react-native";
 import {
   widthPercentageToDP as wp,
@@ -27,6 +29,7 @@ export default class Login extends React.Component {
     super(props);
 
     this.state = {
+      loading: false,
       email: '',
       password: '',
     };
@@ -34,22 +37,35 @@ export default class Login extends React.Component {
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
   }
-  
+
   handleEmailChange = (email) => this.setState({ email: email.trim() });
   handlePasswordChange = (password) => this.setState({ password });
 
   handleForgotPassword = () => this.props.navigation.navigate('ResetPassword')
 
   login = () => {
+    this.setState({
+      loading : true
+    })
     const objLogin = {
       email: this.state.email,
       password: this.state.password
     };
     emailSignIn(objLogin, (error, user) => {
-      if (error && !user) return Alert.alert("Senha ou e-mmail incorretos");
+      if (error && !user) {
+        this.setState({
+          loading : false
+        })
+        return Alert.alert("Senha ou E-mail incorretos");
+      }
 
       getUserData(objLogin.email, (data, error) => {
-        if (error && !data) return Alert.alert("Senha ou e-mmail incorretos");
+        if (error && !data) {
+          this.setState({
+            loading : false
+          })
+          return Alert.alert("Usuario não encontrado");
+        }
 
         const userData = data.data();
         if (userData) {
@@ -58,6 +74,9 @@ export default class Login extends React.Component {
           Global.PROFILEIMAGE = userData.imagem;
           Global.PROFILETYPE = userData.tipo;
 
+          this.setState({
+            loading : false
+          })
           this.props.navigation.navigate('Profile')  
         }
       });
@@ -79,7 +98,7 @@ export default class Login extends React.Component {
   corretor = () => {
     this.setState({
       email: 'corretor@gmail.com',
-      password: 'corretor',
+      password: 'batata',
     })
     setTimeout(() => {
       this.login()
@@ -88,10 +107,10 @@ export default class Login extends React.Component {
   }
 
   render() {
+    const { loading } = this.state
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
-
           <ImageBackground
             style={{
               width: wp("100%"),
@@ -100,51 +119,60 @@ export default class Login extends React.Component {
             }}
             source={require(fundo)}
           >
+          {
+            !loading
+            ?
 
-            <KeyboardAvoidingView>
-              <View style={{ justifyContent: "space-evenly", height: hp('100%'), width: wp('100%') }}>
+              <KeyboardAvoidingView>
+                <View style={{ justifyContent: "space-evenly", height: hp('100%'), width: wp('100%') }}>
 
-                <Header
-                  titulo=''
-                  funcao={() => this.props.navigation.navigate('Main')}
-                />
-
-                <Text style={styles.saudacao}>BEM VINDO</Text>
-
-                <View style={styles.container2}>
-                  <Input
-                    inputType='email-address'
-                    labelText='E-mail'
-                    onChangeText={this.handleEmailChange}
-                    value={this.state.email}
+                  <Header
+                    titulo=''
+                    funcao={() => this.props.navigation.navigate('Main')}
                   />
 
-                  <Input
-                    isPassword={true}
-                    labelText='Senha'
-                    onChangeText={this.handlePasswordChange}
-                    value={this.state.password}
-                  />
-                </View>
+                  <Text style={styles.saudacao}>BEM VINDO</Text>
 
-                <View style={{ alignItems: "center", marginTop: 40, marginBottom: 40 }}>
-                  <TouchableOpacity onPress={this.gestor} style={styles.botoes}>
-                    <Text style={styles.txtbotao}>Gestor</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={this.corretor} style={styles.botoes}>
-                    <Text style={styles.txtbotao}>Corretor</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={this.login} style={styles.botoes}>
-                    <Text style={styles.txtbotao}>Login</Text>
-                  </TouchableOpacity>
-                  {/* <TouchableOpacity onPress={this.handleForgotPassword}>
-                    <Text style={{ textDecorationLine: "underline", color: "white", textAlign: "center", marginTop: 25 }}>
-                      Esqueci minha senha
-                    </Text>
-                  </TouchableOpacity> */}
+                  <View style={styles.container2}>
+                    <Input
+                      inputType='email-address'
+                      labelText='E-mail'
+                      onChangeText={this.handleEmailChange}
+                      value={this.state.email}
+                    />
+
+                    <Input
+                      isPassword={true}
+                      labelText='Senha'
+                      onChangeText={this.handlePasswordChange}
+                      value={this.state.password}
+                    />
+                  </View>
+
+                  <View style={{ alignItems: "center", marginTop: 40, marginBottom: 40 }}>
+                    <TouchableOpacity onPress={this.gestor} style={styles.botoes}>
+                      <Text style={styles.txtbotao}>Gestor</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={this.corretor} style={styles.botoes}>
+                      <Text style={styles.txtbotao}>Corretor</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={this.login} style={styles.botoes}>
+                      <Text style={styles.txtbotao}>Login</Text>
+                    </TouchableOpacity>
+                    {/* <TouchableOpacity onPress={this.handleForgotPassword}>
+                      <Text style={{ textDecorationLine: "underline", color: "white", textAlign: "center", marginTop: 25 }}>
+                        Esqueci minha senha
+                      </Text>
+                    </TouchableOpacity> */}
+                  </View>
                 </View>
-              </View>
-            </KeyboardAvoidingView>
+              </KeyboardAvoidingView>
+            :
+            <View style={{flex:1, justifyContent: "center", alignItems: "center"}}>
+              <ActivityIndicator size="large" color="#5699d2"/>
+            </View>
+          }
+        
           </ImageBackground>
         </View>
       </TouchableWithoutFeedback>

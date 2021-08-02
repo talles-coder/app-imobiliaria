@@ -35,7 +35,6 @@ export default class PreviaLotes extends React.Component {
         descricao: "",
         mapSnapshotURI: ""
       },
-      touchable: true,
     };
   }
 
@@ -44,21 +43,20 @@ export default class PreviaLotes extends React.Component {
   }
 
   render() {
-    const {touchable} = this.state
-    const {data, back, quadra, atualizar, updating} = this.props
+    const {data, back, quadra, atualizar, updating, image} = this.props
     let titulo = 'Lotes da ' + quadra.replace("_"," ")
     return (
       <ImageBackground style={styles.imgBackground} source={require(fundo)}>
-        <View style={styles.container} pointerEvents={touchable ? 'auto': 'none'}>
+        <View style={styles.container} pointerEvents={updating ? 'none': 'auto'}>
           <Header titulo={titulo} funcao={back} />
 
-          <View style={{height:150, width: wp("90%"), alignSelf: 'center'}}>
-            { data.planta.resultado ?
+          <View style={{height: hp("23%"), width: wp("90%"), alignSelf: 'center'}}>
+            { image ?
               <Image
               style={styles.imgPerfil}
               resizeMethod="resize"
               resizeMode='cover'
-              source={{ uri: data.planta.resultado}}
+              source={{ uri: image}}
               />
            : <Text>Erro: Não foi realizada a captura do mapa, tente novamente</Text>}
           </View> 

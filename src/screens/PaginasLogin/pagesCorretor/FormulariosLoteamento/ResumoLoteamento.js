@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageBackground, Image, StyleSheet, View, Text, Keyboard, TouchableWithoutFeedback, Modal} from 'react-native';
+import { ImageBackground, Image, StyleSheet, View, Text, Keyboard, TouchableWithoutFeedback, Modal, ActivityIndicator} from 'react-native';
 
 import colors from '../../../../styles/colors/index';
 import  {  v4  as  uuidv4 } from  'uuid' ;
@@ -44,10 +44,14 @@ export default class ResumoLoteamento extends React.Component {
         descricao: "",
         mapSnapshotURI: ""
       },
+      loading: false
     };
   }
 
   componentDidMount(){
+    this.setState({
+      loading: true   
+    })
     const { getState } = this.props;
     let data = getState(this.state);
     if (this.state.nomeLote !== data.nomeLote) {
@@ -58,6 +62,9 @@ export default class ResumoLoteamento extends React.Component {
         planta: data.planta,
       })
     }
+    this.setState({
+      loading: false
+    })
   }
 
   setModalVisible = (visible) => {
@@ -85,25 +92,23 @@ export default class ResumoLoteamento extends React.Component {
   };
 
   handleSubmit = async () => {
+    this.setState({
+      loading: true
+    })
     let nome = this.state.nomeLote
 
     const blobPlanta = await this.uriToBlob(this.state.planta.resultado);
 
-    const nomeImagem = 'planta_' + new Date() + '.jpg';
-
-    await uploadPlantaToFirebase(blobPlanta, nomeImagem);
+    await uploadPlantaToFirebase(blobPlanta, this.state.planta.fileName);
 
     const blobMaps = await this.uriToBlob(this.state.address.mapSnapshotURI);
 
-    const nomeMaps = 'mapSnap_' + new Date() + '.png';
-
-    await uploadMapsSnapshotToFirebase(blobMaps, nomeMaps);
+    await uploadMapsSnapshotToFirebase(blobMaps, this.state.address.fileName);
 
     let dados = {
       nomeLote: this.state.nomeLote,
       csvObject: {
         name: this.state.csvObject.name,
-        uri: this.state.csvObject.uri,
         content: {},
         totalQuadras: this.state.csvObject.values.totalQuadras,
         totalLotes:  this.state.csvObject.values.totalLotes,
@@ -111,7 +116,7 @@ export default class ResumoLoteamento extends React.Component {
         totalVendidos: 0,
       },
       address: this.state.address,
-      planta: this.state.planta,
+      planta: this.state.planta.fileName,
     };
     
     this.state.csvObject.content.forEach((element, index) => {dados.csvObject.content[index] = element});
@@ -135,10 +140,13 @@ export default class ResumoLoteamento extends React.Component {
   }
 
   render() {
-    const {modalVisible} = this.state
+    const {modalVisible, loading} = this.state
     let nome = 'Cadastro de Loteamento'
     return (
       <ImageBackground style={styles.imgBackground} source={require(fundo)}>
+        {
+          !loading
+          ?
         <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.container}>
@@ -201,6 +209,11 @@ export default class ResumoLoteamento extends React.Component {
             </View>
           </TouchableWithoutFeedback>
         </KeyboardAwareScrollView>
+        :
+        <View style={{flex:1, justifyContent: "center", alignItems: "center"}}>
+          <ActivityIndicator size="large" color="#5699d2"/>
+        </View>
+        }
       </ImageBackground>
     );
   }

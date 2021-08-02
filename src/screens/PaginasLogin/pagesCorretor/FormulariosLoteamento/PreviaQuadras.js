@@ -51,7 +51,7 @@ export default class PreviaQuadras extends React.Component {
         <View style={styles.container}>
           <Header titulo={nome} funcao={back} />
 
-          <View style={{height:150, width: wp("90%"), alignSelf: 'center'}}>
+          <View style={{height: hp("23%"), width: wp("90%"), alignSelf: 'center'}}>
             { data.planta.resultado ?
               <Image
               style={styles.imgPerfil}

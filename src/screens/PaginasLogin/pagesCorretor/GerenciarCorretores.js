@@ -200,7 +200,7 @@ export default class GerenciarCorretores extends React.Component {
                   transparent={true}
                   visible={modalCriarUsuario}
                   onRequestClose={() => {
-                    this.setModalVisible(false);
+                    this.setCriarUsuario(false);
                   }}
                 >
                   <CriarUsuario

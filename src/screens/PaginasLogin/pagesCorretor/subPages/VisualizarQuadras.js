@@ -7,6 +7,10 @@ import Header from '../../../../components/Header';
 import Button from '../../../../components/Button';
 import PreviaLotes from './VisualizarLotes';
 
+import { getPlantaFromFirebase } from '../../../../database/Firebase'
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 
@@ -34,8 +38,46 @@ export default class VisualizarQuadras extends React.Component {
         descricao: "",
         mapSnapshotURI: ""
       },
-      index: ""
+      index: "",
+      imageURL: ""
     };
+  }
+
+  storeData = async (key, value) => {
+    try {
+      await AsyncStorage.setItem(key, value)
+    } catch (e) {
+      console.log("erro storage: ",e)
+    }
+  }
+
+  getData = async (key) => {
+    try {
+      const value = await AsyncStorage.getItem(key)
+      if(value !== null) {
+        return value
+      } else {
+        return null
+      }
+    } catch(e) {
+      console.log("erro storage: ",e)
+    }
+  }
+
+  componentDidMount = async () =>{
+    if (await this.getData(this.props.data.planta) !== null){
+      this.setState({
+        imageURL : await this.getData(this.props.data.planta)
+      })
+      console.log(this.state.imageURL)
+    }
+    if (await this.getData(this.props.data.planta) === null){
+      const imageURL = await getPlantaFromFirebase(this.props.data.planta)
+      this.storeData(this.props.data.planta, imageURL)
+      this.setState({
+        imageURL : await this.getData(this.props.data.planta)
+      })
+    }
   }
 
   setModalVisible = (visible) => {
@@ -51,13 +93,13 @@ export default class VisualizarQuadras extends React.Component {
         <View style={styles.container}>
           <Header titulo={nome} funcao={back}/>
 
-          <View style={{height:150, width: wp("90%"), alignSelf: 'center'}}>
-            { data.planta.resultado ?
+          <View style={{height: hp("23%"), width: wp("90%"), alignSelf: 'center'}}>
+            { this.state.imageURL ?
               <Image
               style={styles.imgPerfil}
               resizeMethod="resize"
               resizeMode='cover'
-              source={{ uri: data.planta.resultado}}
+              source={{ uri: this.state.imageURL}}
               />
            : <Text>Erro: Não foi realizada a captura do mapa, tente novamente</Text>}
           </View> 
@@ -89,7 +131,9 @@ export default class VisualizarQuadras extends React.Component {
             transparent={true}
             visible={modalVisible}
             onRequestClose={() => {
+              if (!updating) {
               this.setModalVisible(false);
+              }
             }}
           >
             <View style={styles.maps}>
@@ -99,6 +143,7 @@ export default class VisualizarQuadras extends React.Component {
                 back={() => {this.setModalVisible(false)}}
                 updating={updating}
                 atualizar={atualizar}
+                image={this.state.imageURL}
               />
             </View>
           </Modal>

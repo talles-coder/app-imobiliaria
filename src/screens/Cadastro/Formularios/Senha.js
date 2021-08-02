@@ -141,16 +141,13 @@ export default class Senha extends React.Component {
     back();
   }
 
-  // TODO - mascara nos campos - ok
-  // TODO - visualizar senha - ok
-  // TODO - remover dois pontos ": " - ok
-  // TODO - modificar icones - ok
-  // TODO - dashboard Minuscula - ok
   // TODO - modificar tema do aplicativo
-  // TODO - colocar alerta no campo do carastro do loteamento - ok
-  // TODO - remover alterar perfil do drawer - ok
   // TODO - colocar telas de carregamento no login e no cadastro do loteamento  
   // TODO - limitar todos os inputs  
+  // TODO - adcionar dowload de imagens ++
+  // TODO - mostrar mais informações do loteamento  
+  // TODO - mudar botões de menu
+  // TODO - mudar icones gestor e corretor, 
   
 
   render() {
