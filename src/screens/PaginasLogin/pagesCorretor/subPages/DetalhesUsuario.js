@@ -23,10 +23,8 @@ export default class DetalhesUsuario extends React.Component {
       this.setState({
         atualizando: true
       })
-      console.log(this.props.dados.id)
       updateCorretorDashboard(this.props.dados.id)
       .then((dadosAtualizados)=>{
-        console.log(dadosAtualizados)
         this.setState({
           data: dadosAtualizados
         })
@@ -45,7 +43,7 @@ export default class DetalhesUsuario extends React.Component {
         return (
 
         <View style={styles.container}>
-            <Header titulo="Dashboard Corretor" funcao={back}></Header>
+            <Header titulo="Dashboard Corretor" funcao={back} icon={true}></Header>
               <ScrollView 
               style={{marginTop:hp('2%'), marginBottom:hp('2%') }} 
               refreshControl={
@@ -163,7 +161,7 @@ export default class DetalhesUsuario extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex:1, 
-    backgroundColor:'#0C1C41',
+    backgroundColor:'#475658',
   },
   data: {
     fontSize: hp('5.5%'),

@@ -150,7 +150,7 @@ export default class ResumoLoteamento extends React.Component {
         <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.container}>
-              <Header titulo={nome} funcao={this.goBack} />
+              <Header titulo={nome} funcao={this.goBack} icon={true}/>
 
               <View style={styles.resumo}>
                 <Text style={{textAlign: 'center', fontSize:18, fontWeight: 'bold' }}>Revise as informações por favor</Text>

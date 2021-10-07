@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet,StatusBar, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet,StatusBar, Text, View, TouchableOpacity} from 'react-native';
+import Icon from "react-native-vector-icons/FontAwesome";
 import colors from "../styles/colors/index";
 // import Button from '../../components/Button';
 
@@ -11,18 +12,38 @@ export default class Header extends React.Component {
   }
 
   render() {
-    const { titulo, funcao } = this.props;
+    const { titulo, funcao , icon} = this.props;
 
     return (
       <View style={styles.container}>
-        <StatusBar hidden = {false} translucent = {false} backgroundColor = '#896B42' />
+        <StatusBar hidden = {false} translucent = {false} />
+
         <TouchableOpacity style={styles.btnVoltar} onPress={funcao}>
-          <Image style={styles.imagem} source={require("../../assets/icons/btn-voltar.png")} />
+          {
+            icon
+            ?
+            <Icon
+                name="chevron-left"
+                style={{
+                  fontSize: 24,
+                  color: colors.branco
+                  }}
+            />
+            :
+            <Icon
+                name="bars"
+                style={{
+                  fontSize: 24,
+                  color: colors.branco
+                  }}
+            />
+          }
         </TouchableOpacity>
 
-        <Text style={styles.title}>
+        <Text style={styles.title} numberOfLines={1}>
           {titulo}
         </Text>
+        <View style={{width:wp('12%')}}></View>
       </View>
     );
   }
@@ -31,24 +52,20 @@ export default class Header extends React.Component {
 const styles = StyleSheet.create({
   container: {
     width: wp('100%'),
-    paddingTop: hp('2.2%'),
-  },
-  imagem: {
-    width: wp('2.5%'),
-    height: hp('2.3%'),
+    flexDirection: "row",
+    justifyContent: "space-between"
   },
   title: {
     fontSize: hp('3.2%'),
-    color: colors.branco,
+    color: "#FFF",
     textAlign: 'center',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    alignSelf:"center"
   },
   btnVoltar: {
-    position: 'absolute',
-    width: wp('15%'),
-    height: wp('15%'),
+    width: wp('12%'),
+    height: wp('12%'),
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 3
   }
 });

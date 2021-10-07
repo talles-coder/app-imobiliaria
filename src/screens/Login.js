@@ -84,28 +84,6 @@ export default class Login extends React.Component {
 
   }
 
-  gestor = () => {
-    this.setState({
-      email: 'gestor@gmail.com',
-      password: 'gestor',
-    })
-    setTimeout(() => {
-      this.login()
-      console.log("logado como gestor")
-    }, 500);
-  }
-
-  corretor = () => {
-    this.setState({
-      email: 'corretor@gmail.com',
-      password: 'batata',
-    })
-    setTimeout(() => {
-      this.login()
-      console.log("logado como corretor")
-    }, 500);
-  }
-
   render() {
     const { loading } = this.state
     return (
@@ -124,11 +102,12 @@ export default class Login extends React.Component {
             ?
 
               <KeyboardAvoidingView>
-                <View style={{ justifyContent: "space-evenly", height: hp('100%'), width: wp('100%') }}>
+                <View style={{ justifyContent: "space-evenly", height: hp('100%'), width: wp('100%') , paddingTop: hp("3.5%")}}>
 
                   <Header
                     titulo=''
                     funcao={() => this.props.navigation.navigate('Main')}
+                    icon={true}
                   />
 
                   <Text style={styles.saudacao}>BEM VINDO</Text>
@@ -150,12 +129,6 @@ export default class Login extends React.Component {
                   </View>
 
                   <View style={{ alignItems: "center", marginTop: 40, marginBottom: 40 }}>
-                    <TouchableOpacity onPress={this.gestor} style={styles.botoes}>
-                      <Text style={styles.txtbotao}>Gestor</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={this.corretor} style={styles.botoes}>
-                      <Text style={styles.txtbotao}>Corretor</Text>
-                    </TouchableOpacity>
                     <TouchableOpacity onPress={this.login} style={styles.botoes}>
                       <Text style={styles.txtbotao}>Login</Text>
                     </TouchableOpacity>

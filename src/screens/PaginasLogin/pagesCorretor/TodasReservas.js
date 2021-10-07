@@ -47,7 +47,6 @@ export default class TodasReservas extends React.Component {
     })
     updateLoteamentos("todasReservas")
     .then((array)=>{
-        console.log(array)
       this.setState({
         dados: array,
         updating: false

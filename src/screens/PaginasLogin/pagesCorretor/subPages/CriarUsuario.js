@@ -45,7 +45,7 @@ export default class CriarUsuario extends Component {
 
       <ImageBackground style={{flex: 1}} source={require('../../../../../assets/backmage.png')}>
     
-      <Header titulo="Novo Usuário" funcao={back}></Header>
+      <Header titulo="Novo Usuário" funcao={back} icon={true}></Header>
         
         <View>
           <Text style={styles.descricao} >{`Criar um novo usuário:

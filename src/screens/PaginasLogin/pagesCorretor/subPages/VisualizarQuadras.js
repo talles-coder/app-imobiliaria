@@ -69,7 +69,6 @@ export default class VisualizarQuadras extends React.Component {
       this.setState({
         imageURL : await this.getData(this.props.data.planta)
       })
-      console.log(this.state.imageURL)
     }
     if (await this.getData(this.props.data.planta) === null){
       const imageURL = await getPlantaFromFirebase(this.props.data.planta)
@@ -91,7 +90,7 @@ export default class VisualizarQuadras extends React.Component {
     return (
       <ImageBackground style={styles.imgBackground} source={require(fundo)}>
         <View style={styles.container}>
-          <Header titulo={nome} funcao={back}/>
+          <Header titulo={nome} funcao={back} icon={true}/>
 
           <View style={{height: hp("23%"), width: wp("90%"), alignSelf: 'center'}}>
             { this.state.imageURL ?

@@ -14,7 +14,6 @@ export default async function updateCorretores() {
         arrayUsuarios.push(usuario) 
     })
 
-    console.log("_______________________")
     for (const index in arrayUsuarios) {
         // if (arrayUsuarios[index].imagem !== undefined) {
             // arrayUsuarios[index].URLImagem = await getImageFromFirebase(arrayUsuarios[index].imagem);   

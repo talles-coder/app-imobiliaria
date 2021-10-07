@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     bottom: 0
   },
   button: {
-    backgroundColor: colors.azulVibrante,
+    backgroundColor: "#475658",
     width: wp('61.6%'),
     height: hp('5.57%'),
     marginBottom: hp('3.5%'),

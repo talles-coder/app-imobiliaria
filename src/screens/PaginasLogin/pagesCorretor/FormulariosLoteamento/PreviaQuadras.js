@@ -45,11 +45,11 @@ export default class PreviaQuadras extends React.Component {
   render() {
     const {modalVisible, index} = this.state
     const {data, back} = this.props
-    let nome = 'Detalhes do Loteamento'
+    let nome = 'Detalhes do Loteame'
     return (
       <ImageBackground style={styles.imgBackground} source={require(fundo)}>
         <View style={styles.container}>
-          <Header titulo={nome} funcao={back} />
+          <Header titulo={nome} funcao={back} icon={true}/>
 
           <View style={{height: hp("23%"), width: wp("90%"), alignSelf: 'center'}}>
             { data.planta.resultado ?
@@ -127,13 +127,13 @@ const styles = StyleSheet.create({
     marginTop:20,
     alignSelf:'center',
     alignItems:'center',
-    borderWidth:0.7,
+    borderWidth:0,
     justifyContent:'space-around'
   },
   maps: {
     height: '100%',
     backgroundColor: "#FFF",
-    borderWidth: 2,
+    borderWidth: 0,
     borderColor: '#888',
     justifyContent: 'center',
   },

@@ -40,7 +40,7 @@ export default class PreviaLotes extends React.Component {
     return (
       <ImageBackground style={styles.imgBackground} source={require(fundo)}>
         <View style={styles.container}>
-          <Header titulo={nome} funcao={back} />
+          <Header titulo={nome} funcao={back} icon={true}/>
 
           <View style={{height: hp("23%"), width: wp("90%"), alignSelf: 'center'}}>
             { data.planta.resultado ?

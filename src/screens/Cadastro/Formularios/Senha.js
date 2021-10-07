@@ -144,8 +144,7 @@ export default class Senha extends React.Component {
   // TODO - modificar tema do aplicativo
   // TODO - colocar telas de carregamento no login e no cadastro do loteamento  
   // TODO - limitar todos os inputs  
-  // TODO - adcionar dowload de imagens ++
-  // TODO - mostrar mais informações do loteamento  
+  // TODO - adcionar dowload de imagens - Feito
   // TODO - mudar botões de menu
   // TODO - mudar icones gestor e corretor, 
   

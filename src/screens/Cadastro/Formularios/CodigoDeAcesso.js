@@ -65,7 +65,7 @@ export default class DadosIniciais extends React.Component {
         <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.container}>
-              <Header titulo={nome} funcao={this.goBack} />
+              <Header titulo={nome} funcao={this.goBack} icon={true} />
 
               <View>
                 <Image style={styles.img} source={require('../../../../assets/usher.png')}></Image>

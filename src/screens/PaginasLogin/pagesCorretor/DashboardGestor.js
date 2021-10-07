@@ -41,7 +41,6 @@ export default class DashboardGestor extends React.Component {
       })
       updateGestorDashboard(Global.EMAIL)
       .then((dadosAtualizados)=>{
-        console.log("testeeeeeeeeeeee", dadosAtualizados)
         this.setState({
           data: dadosAtualizados
         })
@@ -199,7 +198,7 @@ export default class DashboardGestor extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex:1, 
-    backgroundColor:'#0C1C41',
+    backgroundColor:'#475658',
   },
   data: {
     fontSize: hp('5.5%'),

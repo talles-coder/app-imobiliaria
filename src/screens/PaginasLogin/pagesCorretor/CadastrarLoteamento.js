@@ -17,9 +17,10 @@ export default class CadastrarLoteamento extends React.Component {
     this.state = {};
   }
 
+
   onNext = () => { };
 
-  onBack = () => { };
+  onBack = () => this.props.navigation.openDrawer();
 
   finish = () => this.props.navigation.navigate('Loteamentos');
 
@@ -39,12 +40,6 @@ export default class CadastrarLoteamento extends React.Component {
           onFinish={this.finish}
           onBack={this.onBack}
           onNext={this.onNext}
-        />
-
-        <StatusBar
-          style='light'
-          backgroundColor={colors.azulEscuro}
-          translucent={false}
         />
       </View>
     );

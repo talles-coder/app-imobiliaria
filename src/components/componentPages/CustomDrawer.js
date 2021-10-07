@@ -36,11 +36,9 @@ export default function CustomDrawer(props) {
     const imagem = Global.PROFILEIMAGE
     
     if (Global.IMAGEURL === "https://reactnative.dev/img/tiny_logo.png") {
-      getImageFromFirebase(imagem).then((res) => {
-        Global.IMAGEURL = res
-      }
-      )
-      .catch((e)=>{console.log("ao carregar a imagem do perfil")})
+      getImageFromFirebase(imagem)
+        .then((res) => {Global.IMAGEURL = res})
+        .catch((e)=>{console.log("ao carregar a imagem do perfil")})
     }
 
     return Global.IMAGEURL
@@ -145,7 +143,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     height: '9%',
-    backgroundColor: '#0C1C41',
+    backgroundColor: '#475658',
     padding: 10,
   },
   imgPerfil: {

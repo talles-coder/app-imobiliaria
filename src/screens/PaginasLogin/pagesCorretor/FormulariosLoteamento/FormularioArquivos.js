@@ -114,10 +114,10 @@ export default class FormularioArquivos extends React.Component {
       var lotesTotal = 0   
       var result = [];
       var lines = csvFormated.split("\r\n")
-      var headers= lines[0].split(";");
+      var headers= lines[0].split(",");
       for(var i=1;i<lines.length;i++){
         var obj = {};
-        var currentline=lines[i].split(";");
+        var currentline=lines[i].split(",");
         for(var j=0;j<headers.length;j++){
           if (currentline[j] !== "") {
             obj[headers[j]] = {
@@ -156,10 +156,6 @@ export default class FormularioArquivos extends React.Component {
 
     next();
   };
-
-  openMenu = () => {
-    console.log(this.props)
-  }
 
   goBack = () => {
     const { finish } = this.props;

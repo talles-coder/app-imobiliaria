@@ -8,6 +8,9 @@ import VisualizarQuadras from './subPages/VisualizarQuadras'
 import updateLoteamentos from "../../../services/Loteamentos";
 
 
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+
+
 export default class Loteamentos extends React.Component {
   constructor(props) {
     super(props);
@@ -56,8 +59,8 @@ export default class Loteamentos extends React.Component {
   render(){
     const { dados, updating, modalVisible , loteData} = this.state
     return (
-    <View style={{flex:1, backgroundColor:'#F4A261'}}>
-      <StatusBar hidden = {false} translucent = {false} backgroundColor = '#0C1C41' />
+    <View style={{flex:1, backgroundColor:'#475658'}}>
+      <StatusBar hidden = {false} translucent = {false} backgroundColor = '#475658' />
         <View style={styles.header} on>
           <TouchableOpacity onPress={()=> {this.props.navigation.openDrawer()}}>
             <Icon name="menu" size={35} color="white" />
@@ -65,6 +68,14 @@ export default class Loteamentos extends React.Component {
           <Text style={styles.titlepage}>Loteamentos</Text>
           <View style={{width:40}}></View>
         </View>
+        {   this.state.dados.length === 0
+                    ?
+                    <View style={[styles.loteReservado, {height: hp("8%")}]}>
+                        <Text style={[styles.titleStatus]}>Não há loteamentos cadastrados.</Text>
+                    </View>
+                    :
+                    null
+                }
         <FlatList
           refreshing={updating}
           onRefresh={this.componentDidMount}
@@ -133,15 +144,33 @@ const styles = StyleSheet.create({
     color:"white",
     fontWeight: 'bold'
   },
+  loteReservado: {
+    backgroundColor:'white',
+    borderRadius:15,
+    padding: hp("2.2%"),
+    width:wp("90%"),
+    height:hp("25%"),
+    marginTop:10,
+    marginBottom:10,
+    alignSelf:'center',
+    borderWidth:0.7,
+    justifyContent:'space-between'
+  },
+  titleStatus: {
+      fontSize: hp('2.1%'),
+      color: "#000",
+      textAlignVertical: 'bottom',
+      fontWeight: 'bold',
+  },
   header:{
-    backgroundColor: '#F4A261',
+    backgroundColor: '#475658',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingRight: 10,
     paddingLeft: 10,
     borderBottomWidth: 2,
-    borderBottomColor: '#F4A261',
+    borderBottomColor: '#475658',
     width: '100%',
     paddingTop:15
   },  

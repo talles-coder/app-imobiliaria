@@ -20,10 +20,16 @@
       "supportsTablet": true
     },
     "android": {
+      "config" : {
+        "googleMaps" : {
+          "apiKey" : "AIzaSyB4TVCzjqUXClgfCjpf6ZlGRmvQ4u8N7go"
+        }
+      },
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#000000"
-      }
+      },
+      "package": "imobi.App"
     },
     "web": {
       "favicon": "./assets/favicon.png"

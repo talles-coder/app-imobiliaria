@@ -63,9 +63,10 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   img: {
+    resizeMode: 'contain',
     alignSelf: "center",
     marginTop: wp('30%'),
-    height: hp('20%'),
+    height: hp('25%'),
     width: hp('40%')
   },
   // modal

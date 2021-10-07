@@ -48,7 +48,7 @@ export default class PreviaLotes extends React.Component {
     return (
       <ImageBackground style={styles.imgBackground} source={require(fundo)}>
         <View style={styles.container} pointerEvents={updating ? 'none': 'auto'}>
-          <Header titulo={titulo} funcao={back} />
+          <Header titulo={titulo} funcao={back} icon={true}/>
 
           <View style={{height: hp("23%"), width: wp("90%"), alignSelf: 'center'}}>
             { image ?
