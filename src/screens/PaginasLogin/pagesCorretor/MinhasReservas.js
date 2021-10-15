@@ -71,7 +71,6 @@ export default class MinhasReservas extends React.Component {
   render(){
     const { dados, updating } = this.state
 
-    // const {touchable} = this.state
     const {data, atualizar} = this.props
     let titulo = "Minhas Reservas"
 
@@ -95,8 +94,6 @@ export default class MinhasReservas extends React.Component {
                 renderItem={({ item }) => {
                     return (
                     <View>
-                        {/* <Button titulo='Reativar' funcao={()=>{console.log(item)}} btStyle={{marginBottom: 0, width:wp("55%"), height:hp("5%"), backgroundColor: "#0C610F" }}/> */}
-                        
                         <View style={styles.loteReservado}>
                             <View>
                                 <Text style={[styles.titleStatus]}>{item.nomeLote} - {item.quadra} - {item.lote}</Text>

@@ -181,6 +181,7 @@ export default class Map extends React.Component {
                         alignItems: 'center'
                         }}>
                 <MapView
+                    mapType={"hybrid"}
                     minZoomLevel={15}
                     maxZoomLevel={20}
                     ref={ref => { this.map = ref }}

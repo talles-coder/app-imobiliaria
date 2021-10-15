@@ -87,6 +87,5 @@ export default async function updateGestorDashboard(identificacao) {
             // })
         })
     })
-    console.log("data.totalAtivasHoje")
     return data
 }

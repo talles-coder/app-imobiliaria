@@ -18,6 +18,11 @@ export default class GerenciarLotes extends React.Component {
       };
     }
 
+    primeiroNome(nomeCompleto){
+        const nomeArray = String(nomeCompleto).split(" ")
+        return nomeArray[0]
+    }
+
     reservar = () => {
         const usuario = {
             nome: Global.NOME,
@@ -42,7 +47,7 @@ export default class GerenciarLotes extends React.Component {
     }
    
     render() {
-        const {lote ,status ,data ,corretor ,gestor}  = this.props
+        const {lote ,status ,data ,corretor ,gestor, idCorretor}  = this.props
         const {tipo} = this.state
         var date = new Date(data*1000);
         var dataFormatada = ("0" + date.getDate()).substr(-2) + "/" + ("0" + (date.getMonth() + 1)).substr(-2) + "/" + date.getFullYear() + " " + ("0" + date.getHours()).substr(-2) + ":" + ("0" + date.getMinutes()).substr(-2);
@@ -58,7 +63,7 @@ export default class GerenciarLotes extends React.Component {
                             <Button titulo='Vender' funcao={this.vender} btStyle={{marginBottom: 0, width:wp("24%"), height:hp("5%"), backgroundColor: "#40B21E" }}/>
                         </View>
                         <View>
-                            <Text style={[styles.titleStatus]}>Status: {status} por {corretor}</Text>
+                            <Text style={[styles.titleStatus]}>Status: {status} por {this.primeiroNome(corretor)}</Text>
                         </View>
                         <View style={{flexDirection: "row", justifyContent: 'space-between'}}>
                             <Text style={[styles.titleData]}>Data da Reserva:{`\n`}{dataFormatada}</Text>
@@ -77,8 +82,8 @@ export default class GerenciarLotes extends React.Component {
                         <View style={{flexDirection: "row", justifyContent: 'space-between'}}>
                         <View>
                             <Text style={[styles.titleStatus]}>Status: {status}</Text>
-                            <Text style={[styles.titleStatus]}>Corretor(a): {corretor}</Text>
-                            <Text style={[styles.titleStatus]}>Gestor(a): {gestor}</Text>
+                            <Text style={[styles.titleStatus]}>Corretor(a): {this.primeiroNome(corretor)}</Text>
+                            <Text style={[styles.titleStatus]}>Gestor(a): {this.primeiroNome(gestor)}</Text>
                         </View>
                             <Text style={[styles.titleData]}>Data da Venda:{`\n`}{dataFormatada}</Text>
                         </View>
@@ -102,17 +107,23 @@ export default class GerenciarLotes extends React.Component {
                         <View style={styles.caixaReserva}>
                             <Text style={[styles.title]}>{lote}</Text>
                             {
-                                corretor == Global.NOME
+                                idCorretor == Global.EMAIL
                             ?
                                 <Button titulo='Cancelar' funcao={this.cancelar} btStyle={{marginBottom: 0, width:wp("24%"), height:hp("5%"), backgroundColor: "#D52206"}}/>
                            :
-                                null
+                                <Text style={[styles.titleStatus, {fontSize: 20,  width:wp("24%"), textAlign: 'center'}]}>{status}</Text>
                             }
                         </View>
-                        <View>
-                            <Text numberOfLines={1} style={[styles.titleStatus]}>Status: {status} por {corretor}</Text>
-                        </View>
-                        <View style={{flexDirection: "row", justifyContent: 'space-between'}}>
+                        {
+                            idCorretor == Global.EMAIL
+                            ?
+                            <View style={{marginTop:idCorretor === Global.EMAIL? 10 : 0}}>
+                                <Text numberOfLines={1} style={[styles.titleStatus]}>Status: {status} por {this.primeiroNome(corretor)}</Text>
+                            </View>
+                            :
+                            null
+                        }
+                        <View style={{flexDirection: "row", justifyContent: 'space-between', marginTop:idCorretor === Global.EMAIL? 10 : 20 }}>
                             <Text style={[styles.titleData]}>Data da Reserva:{`\n`}{dataFormatada}</Text>
                             <Text style={[styles.titleData]}>Expira em:{`\n`}{dataLimiteFormatada}</Text>
                         </View>
@@ -121,7 +132,7 @@ export default class GerenciarLotes extends React.Component {
             }
             if (status == "vendido") {
                 return (
-                    <View style={[styles.loteReservado, {height:hp("18%")}]}>
+                    <View style={[styles.loteReservado, {height:hp("15%")}]}>
                         <View style={{flexDirection: "row", justifyContent: 'space-between', width: '100%' }}>
                             <Text style={[styles.title]}>{lote}</Text>
                             <Text style={[styles.titleStatus, {fontSize: 20,  width:wp("24%"), textAlign: 'center'}]}>{status}</Text>
@@ -129,8 +140,14 @@ export default class GerenciarLotes extends React.Component {
                         <View style={{flexDirection: "row", justifyContent: 'space-between', width: '100%', height: '55%'}}>
                             
                             <View style={{width: '57%', justifyContent: 'space-around'}}>
-                                <Text numberOfLines={1} style={[styles.titleStatus]}>Corretor(a): {corretor}</Text>
-                                <Text style={[styles.titleStatus]}>Gestor(a): {gestor}</Text>
+                                <Text numberOfLines={1} style={[styles.titleStatus]}>Gestor : {this.primeiroNome(gestor)}</Text>
+                                {
+                                idCorretor == Global.EMAIL
+                                ?
+                                <Text numberOfLines={1} style={[styles.titleStatus]}>Corretor : {this.primeiroNome(corretor)}</Text>
+                                : 
+                                null
+                                }
                             </View>
                             <Text style={[styles.titleData, {}]}>Data da Venda:{`\n`}{dataFormatada}</Text>
                         </View>
@@ -177,7 +194,6 @@ export default class GerenciarLotes extends React.Component {
         borderRadius:15,
         padding: hp("2.2%"),
         width:wp("90%"),
-        height:hp("20%"),
         marginTop:10,
         marginBottom:10,
         alignSelf:'center',

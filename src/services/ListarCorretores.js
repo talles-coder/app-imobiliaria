@@ -13,14 +13,12 @@ export default async function updateCorretores() {
         const usuario = doc.data()
         arrayUsuarios.push(usuario) 
     })
-
     for (const index in arrayUsuarios) {
-        // if (arrayUsuarios[index].imagem !== undefined) {
-            // arrayUsuarios[index].URLImagem = await getImageFromFirebase(arrayUsuarios[index].imagem);   
-        // } else {
+        if (arrayUsuarios[index].imagem) {
+            arrayUsuarios[index].URLImagem = await getImageFromFirebase(arrayUsuarios[index].imagem);   
+        } else {
             arrayUsuarios[index].URLImagem = "https://reactnative.dev/img/tiny_logo.png"
-        // }
-        // console.log(arrayUsuarios[index].URLImagem)
+        }
     }
     return arrayUsuarios
 }

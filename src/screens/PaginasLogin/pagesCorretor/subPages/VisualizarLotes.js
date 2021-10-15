@@ -1,9 +1,10 @@
 import React from 'react';
-import { ImageBackground, FlatList, Image, StyleSheet, View, Text, Keyboard, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import { ImageBackground, FlatList, Image, StyleSheet, View, Text, Modal, Keyboard, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 
 import GerenciarLotes from '../../../../components/GerenciarLotes';
 const fundo = "../../../../../assets/fundo.png";
 
+import ImageViewer from 'react-native-image-zoom-viewer'
 import Global from '../../../../global/Global';
 import Header from '../../../../components/Header';
 import Button from '../../../../components/Button';
@@ -35,7 +36,14 @@ export default class PreviaLotes extends React.Component {
         descricao: "",
         mapSnapshotURI: ""
       },
+      modalImage: false
     };
+  }
+
+  setImageVisible = (visible) => {
+    this.setState({
+       modalImage: visible
+       });
   }
 
   componentDidMount = () => {
@@ -43,6 +51,7 @@ export default class PreviaLotes extends React.Component {
   }
 
   render() {
+    const { modalImage } = this.state
     const {data, back, quadra, atualizar, updating, image} = this.props
     let titulo = 'Lotes da ' + quadra.replace("_"," ")
     return (
@@ -52,12 +61,16 @@ export default class PreviaLotes extends React.Component {
 
           <View style={{height: hp("23%"), width: wp("90%"), alignSelf: 'center'}}>
             { image ?
-              <Image
-              style={styles.imgPerfil}
-              resizeMethod="resize"
-              resizeMode='cover'
-              source={{ uri: image}}
-              />
+              <TouchableOpacity
+              onPress={()=>{this.setImageVisible(true)}}
+              >
+                <Image
+                style={styles.imgPerfil}
+                resizeMethod="resize"
+                resizeMode='cover'
+                source={{ uri: image}}
+                />
+              </TouchableOpacity>
            : <Text>Erro: Não foi realizada a captura do mapa, tente novamente</Text>}
           </View> 
 
@@ -94,7 +107,31 @@ export default class PreviaLotes extends React.Component {
                   }}
                 keyExtractor={(item, index) => {return String(index)}} 
               />
-          </View> 
+          </View>
+          <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalImage}
+              onRequestClose={() => {
+                if (!updating) {
+                this.setImageVisible(false);
+                }
+              }}
+            >
+              
+                <ImageViewer
+                  enableSwipeDown={true}
+                  onSwipeDown={() => {this.setImageVisible(false);}}
+                  onClick={() => {this.setImageVisible(false);}}
+                  onDoubleClick={() => {this.setImageVisible(false);}}
+                  renderIndicator={()=>{<View></View>}}
+                  imageUrls={[{
+                    freeWidth: true,
+                    url : image,
+                    freeHeight: true,
+                  }]}
+                />
+            </Modal> 
         </View> 
       </ImageBackground>
     );

@@ -1,19 +1,24 @@
 import React from 'react';
-import { ImageBackground, Image, StyleSheet, View, Text, Keyboard, TouchableWithoutFeedback, Modal, ActivityIndicator} from 'react-native';
+import { ImageBackground, Image,TextInput , StyleSheet, View, Text, Keyboard, TouchableWithoutFeedback, Modal, ActivityIndicator, ScrollView} from 'react-native';
 
 import colors from '../../../../styles/colors/index';
 import  {  v4  as  uuidv4 } from  'uuid' ;
+
+import Input from '../../../../components/Input';
 
 import Header from '../../../../components/Header';
 import Button from '../../../../components/Button';
 const fundo = "../../../../../assets/fundo.png";
 
+
+import ImageViewer from 'react-native-image-zoom-viewer'
 import PreviaQuadras from './PreviaQuadras'
 
-import { uploadMapsSnapshotToFirebase, uploadPlantaToFirebase, addNewLoteamento } from '../../../../database/Firebase';
+import { uploadMapsSnapshotToFirebase, uploadPlantaToFirebase, uploadScriptToFirebase, addNewLoteamento } from '../../../../database/Firebase';
 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import Global from '../../../../global/Global';
 
 // const iconeCorretor = '../../../../../assets/Corretor.png';
 // const Gestor = '../../../../../assets/Gestor.png'
@@ -25,28 +30,66 @@ export default class ResumoLoteamento extends React.Component {
 
     this.state = {
       modalVisible: false,
-
-      nomeLote: "",
-      planta: {
+      address: {
+        address: {
+          bairro: "",
+          cep: "",
+          cidade: "",
+          endereco: "",
+          enderecoFormatado: "",
+          estado: "",
+          numero: "",
+        },
+        changeCord: {
+          latitude: "",
+          longitude: "",
+        },
+        descricao: "",
         fileName: "",
-        resultado: ""
+        latDelta: "",
+        localInicial: {
+          latitude: "",
+          latitudeDelta: "",
+          longitude: "",
+          longitudeDelta: "",
+        },
+        lonDelta: "",
+        mapSnapshotURI: "",
+        modalVisible: true,
+        opaci: 0.7,
+        pesquisa: "",
+        readyToSnap: true,
+        userLoc: true,
+        validAddress: true,
       },
-      csvObject: {
+      csvObject:  {
+        content:  [],
         name: "",
         uri: "",
-        content: "",
         values: {
-          totalQuadras: "" ,
-          totalLotes: "" ,
-        }
+          totalLotes: 0,
+          totalQuadras: 0,
+        },
       },
-      address: {
-        descricao: "",
-        mapSnapshotURI: ""
+      loading: false,
+      modalVisible: false,
+      notas: "",
+      nomeLote: "",
+      planta:{
+        fileName: "",
+        resultado: "",
+      },
+      script: {
+        resultado: "",
+        scriptName: "",
       },
       loading: false
     };
   }
+
+  handleNotasChange = (input) => {
+    this.setState({ notas: input })
+  };
 
   componentDidMount(){
     this.setState({
@@ -60,6 +103,7 @@ export default class ResumoLoteamento extends React.Component {
         csvObject: data.csvObject,
         address: data.address,
         planta: data.planta,
+        script: data.script,
       })
     }
     this.setState({
@@ -68,6 +112,7 @@ export default class ResumoLoteamento extends React.Component {
   }
 
   setModalVisible = (visible) => {
+    console.log(this.state)
     this.setState({ modalVisible: visible });
   }
 
@@ -105,6 +150,10 @@ export default class ResumoLoteamento extends React.Component {
 
     await uploadMapsSnapshotToFirebase(blobMaps, this.state.address.fileName);
 
+    const blobScript = await this.uriToBlob(this.state.script.resultado);
+
+    await uploadScriptToFirebase(blobScript, this.state.script.scriptName);
+
     let dados = {
       nomeLote: this.state.nomeLote,
       csvObject: {
@@ -117,6 +166,9 @@ export default class ResumoLoteamento extends React.Component {
       },
       address: this.state.address,
       planta: this.state.planta.fileName,
+      script: this.state.script.scriptName,
+      notas: this.state.notas,
+      cadastador: Global.NOME
     };
     
     this.state.csvObject.content.forEach((element, index) => {dados.csvObject.content[index] = element});
@@ -140,57 +192,85 @@ export default class ResumoLoteamento extends React.Component {
   }
 
   render() {
-    const {modalVisible, loading} = this.state
-    let nome = 'Cadastro de Loteamento'
+    const {modalVisible, loading, notas=""} = this.state
+    let nome = 'Revise as Informações'
     return (
       <ImageBackground style={styles.imgBackground} source={require(fundo)}>
         {
           !loading
           ?
-        <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }}>
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.container}>
-              <Header titulo={nome} funcao={this.goBack} icon={true}/>
-
-              <View style={styles.resumo}>
-                <Text style={{textAlign: 'center', fontSize:18, fontWeight: 'bold' }}>Revise as informações por favor</Text>
-
-                <Text style={{fontSize:14, fontWeight: 'bold'}}>O Loteamento Possui: </Text>
-                <Text style={{textAlign: 'center'}}>
-                {this.state.csvObject.values?.totalQuadras} quadras e {this.state.csvObject?.values?.totalLotes} lotes
-                </Text>
-
-                <Text style={{fontSize:14, fontWeight: 'bold'}}>Planta:</Text>
-                
-                <View style={{height:150, width: "90%", alignSelf: 'center'}}>
-                  { this.state.planta?.resultado ?
-                    <Image
-                    style={styles.imgPerfil}
-                    resizeMethod="resize"
-                    resizeMode='cover'
-                    source={{ uri: this.state.planta?.resultado}}
-                    />
-                 : <Text>Erro: Não foi realizada a captura do mapa, tente novamente</Text>}
-                </View> 
-
-                <Text style={{fontSize:14, fontWeight: 'bold'}}>Localização: </Text>
-                <View style={{height:150, width: "90%", alignSelf: 'center'}}>
-                  { this.state.address?.mapSnapshotURI ?
-                    <Image
-                    style={styles.imgPerfil}
-                    resizeMethod="resize"
-                    resizeMode='cover'
-                    source={{ uri: this.state.address.mapSnapshotURI}}
-                    />
-                 : <Text>Erro: Não foi realizada a captura do mapa, tente novamente</Text>}
-                </View>
-                
-                <View style={{alignSelf: 'center'}}>
-                  <Button titulo='Pré-visualização' funcao={() => {this.setModalVisible(true)}} btStyle={{width:wp('45%'), height:hp("4.5%"), marginTop: 23, marginBottom: 17}}/>
-                </View>
+              <View style={{marginVertical: hp('2%')}}>
+                <Header titulo={nome} funcao={this.goBack} icon={true}/>
               </View>
 
-              <Button titulo='CONTINUAR' funcao={this.handleSubmit} hidden={this.state.termoDeUso} />
+              <ScrollView>
+                <View style={styles.resumo}>
+                  <Text style={{fontSize:14, fontWeight: 'bold'}}>Planta:</Text>
+                  <View style={{height:150, width: "100%", alignSelf: 'center'}}>
+                    { this.state.planta?.resultado ?
+                      <Image
+                      style={styles.imgPerfil}
+                      resizeMethod="resize"
+                      resizeMode='cover'
+                      source={{ uri: this.state.planta?.resultado}}
+                      />
+                  : <Text>Erro: Não foi realizada a captura do mapa, tente novamente</Text>}
+                  </View>
+
+                  <Text style={{fontSize:14, fontWeight: 'bold'}}>Script:</Text>
+                  <View style={{height:150, width: "100%", alignSelf: 'center'}}>
+                    { this.state.script?.resultado
+                      ?
+                      <Image
+                      style={styles.imgPerfil}
+                      resizeMethod="resize"
+                      resizeMode='cover'
+                      source={{ uri: this.state.script?.resultado}}
+                      />
+                      : 
+                      <Text>Erro: Não foi realizada a captura do mapa, tente novamente</Text>
+                      }
+                  </View>
+
+                  <Text style={{fontSize:14, fontWeight: 'bold'}}>Localização: </Text>
+                  <View style={{height:150, width: "100%", alignSelf: 'center', flexDirection: "row"}}>
+                    <Text style={{alignSelf: 'flex-end',fontSize:14, width: "100%", position: "absolute", zIndex: 1, backgroundColor: "#cdcdcd", opacity: 0.8, borderBottomLeftRadius: 15, borderBottomRightRadius: 15, paddingStart: 10}}>{this.state.address.descricao}</Text>
+                    { this.state.address?.mapSnapshotURI ?
+                      <Image
+                      style={styles.imgPerfil}
+                      resizeMethod="resize"
+                      resizeMode='cover'
+                      source={{ uri: this.state.address.mapSnapshotURI}}
+                      />
+                  : <Text>Erro: Não foi realizada a captura do mapa, tente novamente</Text>}
+                  </View>
+
+                  <Text style={{fontSize:14, fontWeight: 'bold'}}>Notas:</Text>
+                  <View style={{width: "100%", alignSelf: 'center',borderRadius: 15, borderColor: "#cdcdcd", borderWidth: 2}}>
+                    <TextInput
+                      editable
+                      multiline
+                      numberOfLines={1}
+                      onChangeText={this.handleNotasChange}
+                      value={notas}
+                      style={{padding: 10}}
+                    />
+                  </View>
+                   {/* TODO - Informar qtd de quadras */}
+                  {/* <Text style={{fontSize:14, fontWeight: 'bold'}}>O Loteamento Possui: </Text>
+                  <Text style={{textAlign: 'center'}}>
+                  {this.state.csvObject.values.totalQuadras} quadras e {this.state.csvObject.values.totalLotes} lotes
+                  </Text>  */}
+                  <View style={{alignSelf: 'center'}}>
+                    <Button titulo='Pré-visualização' funcao={() => {this.setModalVisible(true)}} btStyle={{width:wp('45%'), height:hp("4.5%"), marginTop: 23, marginBottom: 17}}/>
+                  </View>
+                </View>
+
+                <Button titulo='CONTINUAR' funcao={this.handleSubmit} hidden={this.state.termoDeUso} btStyle={{alignSelf: "center", marginTop: 20}}/>
+
+              </ScrollView>
+
               <Modal
                   animationType="slide"
                   transparent={true}
@@ -207,12 +287,10 @@ export default class ResumoLoteamento extends React.Component {
                   </View>
               </Modal>
             </View>
-          </TouchableWithoutFeedback>
-        </KeyboardAwareScrollView>
         :
-        <View style={{flex:1, justifyContent: "center", alignItems: "center"}}>
-          <ActivityIndicator size="large" color="#5699d2"/>
-        </View>
+          <View style={{flex:1, justifyContent: "center", alignItems: "center"}}>
+            <ActivityIndicator size="large" color="#5699d2"/>
+          </View>
         }
       </ImageBackground>
     );
@@ -226,13 +304,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around'
   },
   resumo: {
-    height: hp('75%'),
+    height: hp('100%'),
     width: wp('90%'),
     backgroundColor: "#FFF",
     borderRadius: 15,
     borderWidth: 2,
     borderColor: '#888',
-    marginBottom: hp('5%'),
     paddingHorizontal: 20,
     justifyContent: 'space-around'
   },
@@ -248,9 +325,7 @@ const styles = StyleSheet.create({
   },
   maps: {
     height: '100%',
-    backgroundColor: colors.branco,
-    borderWidth: 2,
-    borderColor: '#888',
+    backgroundColor: "#FFF",
     justifyContent: 'center',
   },
   imgBackground: {
@@ -260,8 +335,8 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   imgPerfil: {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
     borderRadius: 15,
     borderColor: "#999",
     borderWidth:2

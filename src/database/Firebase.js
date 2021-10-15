@@ -84,11 +84,9 @@ export function uploadMapsSnapshotToFirebase(blob, nomeImagem) {
   });
 };
 
-export function getMapsSnapshotFromFirebase(imagem, callback) {
-  var ref = firebaseApp.storage().ref('mapsSnapshots/' + imagem);
-  ref.getDownloadURL()
-  .then((url) => callback(url, null))
-  .catch((error) => callback(null, error))
+export async function getMapsSnapshotFromFirebase(imagem) {
+  const imagemURL = await firebaseApp.storage().ref('mapsSnapshots/' + imagem).getDownloadURL()
+  return imagemURL
 };
 
 export function uploadPlantaToFirebase(blob, nomeDocumento) {
@@ -110,6 +108,28 @@ export function uploadPlantaToFirebase(blob, nomeDocumento) {
 
 export async function getPlantaFromFirebase(imagem) {
   const imagemURL = await firebaseApp.storage().ref('plantas/' + imagem).getDownloadURL()
+  return imagemURL
+};
+
+export function uploadScriptToFirebase(blob, nomeDocumento) {
+  return new Promise((resolve, reject) => {
+    var storageRef = firebaseApp.storage().ref();
+
+    storageRef.child('scripts/' + nomeDocumento).put(blob, {
+      contentType: 'image/jpeg'
+    }).then((document) => {
+      blob.close();
+
+      resolve(document);
+
+    }).catch((error) => {
+      reject(error);
+    });
+  });
+};
+
+export async function getScriptFromFirebase(imagem) {
+  const imagemURL = await firebaseApp.storage().ref('scripts/' + imagem).getDownloadURL()
   return imagemURL
 };
 
@@ -156,7 +176,6 @@ export function reservarLote(id, index, quadra, usuario) {
   data['csvObject.totalReservados'] = increment
   return db.collection("loteamentos").doc(id).update(data)
 }
-
 export function liberarReservaLote (id, index, quadra, idUsuario) {
   const query = `csvObject.content.${index}.${quadra}.`
   const data = {}
@@ -193,6 +212,14 @@ export function deleteUserData(email) {
 
 export function alterarTipoUsuario(email, tipo) {
   return db.collection('Usuarios').doc(email).update({tipo: tipo});
+};
+
+export function alterarNotas(idLoteamento, novaNota) {
+  return db.collection('loteamentos').doc(idLoteamento).update({notas: novaNota});
+};
+
+export function alterarScript(idLoteamento, novoScript) {
+  return db.collection('loteamentos').doc(idLoteamento).update({script: novoScript});
 };
 
 export function addItem(item, tabel) {

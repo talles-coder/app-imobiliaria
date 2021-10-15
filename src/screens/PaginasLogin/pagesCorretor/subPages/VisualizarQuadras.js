@@ -3,6 +3,8 @@ import { ImageBackground, Modal, FlatList, Image, StyleSheet, View, Text, Keyboa
 
 const fundo = "../../../../../assets/fundo.png";
 
+
+import ImageViewer from 'react-native-image-zoom-viewer'
 import Header from '../../../../components/Header';
 import Button from '../../../../components/Button';
 import PreviaLotes from './VisualizarLotes';
@@ -39,8 +41,15 @@ export default class VisualizarQuadras extends React.Component {
         mapSnapshotURI: ""
       },
       index: "",
-      imageURL: ""
+      imageURL: "",
+      modalImage: false
     };
+  }
+
+  setImageVisible = (visible) => {
+    this.setState({
+       modalImage: visible
+       });
   }
 
   storeData = async (key, value) => {
@@ -84,7 +93,7 @@ export default class VisualizarQuadras extends React.Component {
   }
 
   render() {
-    const {modalVisible, index} = this.state
+    const {modalVisible, index, modalImage} = this.state
     const {data, back, updating, atualizar} = this.props
     let nome = 'Detalhes do Loteamento'
     return (
@@ -94,12 +103,16 @@ export default class VisualizarQuadras extends React.Component {
 
           <View style={{height: hp("23%"), width: wp("90%"), alignSelf: 'center'}}>
             { this.state.imageURL ?
-              <Image
-              style={styles.imgPerfil}
-              resizeMethod="resize"
-              resizeMode='cover'
-              source={{ uri: this.state.imageURL}}
-              />
+              <TouchableOpacity
+              onPress={()=>{this.setImageVisible(true)}}
+              >
+                <Image
+                style={styles.imgPerfil}
+                resizeMethod="resize"
+                resizeMode='cover'
+                source={{ uri: this.state.imageURL}}
+                />
+              </TouchableOpacity>
            : <Text>Erro: Não foi realizada a captura do mapa, tente novamente</Text>}
           </View> 
           
@@ -146,6 +159,31 @@ export default class VisualizarQuadras extends React.Component {
               />
             </View>
           </Modal>
+
+          <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalImage}
+              onRequestClose={() => {
+                if (!updating) {
+                this.setImageVisible(false);
+                }
+              }}
+            >
+              
+                <ImageViewer
+                  enableSwipeDown={true}
+                  onSwipeDown={() => {this.setImageVisible(false);}}
+                  onClick={() => {this.setImageVisible(false);}}
+                  onDoubleClick={() => {this.setImageVisible(false);}}
+                  renderIndicator={()=>{<View></View>}}
+                  imageUrls={[{
+                    freeWidth: true,
+                    url : this.state.imageURL,
+                    freeHeight: true,
+                  }]}
+                />
+            </Modal>
 
         </View>
       </ImageBackground>

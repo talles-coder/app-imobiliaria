@@ -13,7 +13,10 @@ import updateCorretores, {excluir, alterarTipo} from "../../../services/ListarCo
 import CriarUsuario from './subPages/CriarUsuario';
 import DetalhesUsuario from './subPages/DetalhesUsuario';
 
+import { getImageFromFirebase } from '../../../database/Firebase';
+
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { any, object } from 'prop-types';
 
 const fundo = "../../../../assets/fundo.png";
 
@@ -21,6 +24,7 @@ export default class GerenciarCorretores extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      teste : [],
       modalDetalhes: false,
       modalCriarUsuario: false,
       dados: [],
@@ -39,13 +43,13 @@ export default class GerenciarCorretores extends React.Component {
       updating: true
     })
     updateCorretores()
-    .then((array)=>{
-      this.setState({
-        dados: array,
-        updating: false
+      .then((array)=>{
+        this.setState({
+          dados: array,
+          updating: false
+        })
       })
-    })
-    .catch((error) => {console.log(error)})
+      .catch((error) => {console.log(error)})
   }
 
   setDetalhesVisible = (visible) => {
@@ -74,6 +78,12 @@ export default class GerenciarCorretores extends React.Component {
     }
   }
 
+  buscarImagemPerfil = () => {    
+    getImageFromFirebase("photo42.2552577756843.jpg").then((res)=>{
+      this.state.teste.push(res)
+    })
+  }
+
   render(){
     const { dados, updating, selectId, selectUser ,modalCriarUsuario, modalDetalhes} = this.state
 
@@ -96,7 +106,7 @@ export default class GerenciarCorretores extends React.Component {
                             <View style={{flexDirection: "row"}}>
                                 <Image
                                     style={styles.imgPerfil}
-                                    source={{ uri: item.URLImagem }}
+                                    source={{ uri: item.URLImagem}}
                                 />
                                 <View style={{width: "60%", marginLeft: 10}}>
                                   <Text numberOfLines={1} style={[styles.nome]}>{item.identificacao.nome}</Text>

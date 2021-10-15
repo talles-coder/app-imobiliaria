@@ -30,6 +30,10 @@ export default class FormularioArquivos extends React.Component {
         fileName: "",
         resultado: ""
       },
+      script: {
+        scriptName: "",
+        resultado: ""
+      },
       csvObject: {
         name: "",
         uri: "",
@@ -41,6 +45,10 @@ export default class FormularioArquivos extends React.Component {
       },
       address: {
         descricao: "",
+      },
+      script: {
+        resultado: "",
+        scriptName: "",
       },
       modalVisible: false
     };
@@ -74,6 +82,34 @@ export default class FormularioArquivos extends React.Component {
     })
   }
   
+  pickScript = async () => {
+    const { status } = await ExpoImagePicker.requestCameraRollPermissionsAsync();
+
+    if (status !== 'granted') {
+      alert('Desculpe, nós precisamos acessar a galeria para isso!');
+    }
+
+    const result = await ExpoImagePicker.launchImageLibraryAsync({
+      mediaTypes: ExpoImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [9, 16],
+      cropperCircleOverlay: false,
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      let fileName = result.uri.split("/")
+      fileName = fileName[fileName.length-1]
+      const resultado = result.uri
+      this.setState({
+        script: {
+          scriptName: fileName,
+          resultado: resultado, 
+        }
+      })
+    }
+  };
+
   pickImage = async () => {
     const { status } = await ExpoImagePicker.requestCameraRollPermissionsAsync();
 
@@ -180,14 +216,14 @@ export default class FormularioArquivos extends React.Component {
   }
 
   render() {
-    const { modalVisible, planta, nomeLote="" , csvObject, address } = this.state
+    const { modalVisible, planta, nomeLote="" , csvObject, address, script } = this.state
     const titulo = 'Cadastro de Loteamentos'
     return (
       <ImageBackground style={styles.imgBackground} source={require(fundo)}>
         <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.container}>
-              <Header titulo={titulo} funcao={this.goBack} />
+              <Header titulo={titulo} funcao={this.goBack}/>
               
             <View style={styles.preVisualizacao}>
                 <View style={[styles.nomeLote]}>
@@ -203,14 +239,17 @@ export default class FormularioArquivos extends React.Component {
                     />
                 </View>
 
-                <View style={[styles.search, {opacity: planta?.fileName ? 1: 0 }]}>            
+                <View style={[styles.arquivosUp, {opacity: planta?.fileName ? 1: 0 }]}>            
                   <Text numberOfLines={1}>Planta: {planta?.fileName}</Text>
                 </View>
-                <View style={[styles.search, {opacity: address?.descricao ? 1: 0 }]}>            
+                <View style={[styles.arquivosUp, {opacity: address?.descricao ? 1: 0 }]}>            
                   <Text numberOfLines={1}>Endereço: {address?.descricao}</Text>
                 </View>
-                <View style={[styles.search, {opacity: csvObject?.name ? 1: 0 }]}>
+                <View style={[styles.arquivosUp, {opacity: csvObject?.name ? 1: 0 }]}>
                   <Text numberOfLines={1}>csv: {csvObject?.name}</Text>
+                </View>
+                <View style={[styles.arquivosUp, {opacity: script?.scriptName ? 1: 0 }]}>
+                  <Text numberOfLines={1}>Script: {script?.scriptName}</Text>
                 </View>
 
                 <View onTouchStart={()=>{
@@ -228,6 +267,14 @@ export default class FormularioArquivos extends React.Component {
                 }}>
                   <Button titulo='Localização do Loteamento' funcao={() => this.setModalVisible(true)} btStyle={{marginBottom: -20}} hidden={(nomeLote.length) < 8}/>
                 </View>
+                
+                <View onTouchStart={()=>{
+                  if((nomeLote.trim().length) < 8){
+                    Alert.alert("Erro","o nome do loteamento é obrigatório");
+                  }
+                }}>
+                  <Button titulo='Importar Script' funcao={this.pickScript} btStyle={{marginBottom: -20}} hidden={(nomeLote.length) < 8}/>
+                </View>
 
                 <View onTouchStart={()=>{
                   if((nomeLote.trim().length) < 8){
@@ -236,7 +283,8 @@ export default class FormularioArquivos extends React.Component {
                 }}>
                   <Button titulo='Importar Arquivo CSV' funcao={this.pickCSV} btStyle={{marginBottom: 0}} hidden={(nomeLote.length) < 8}/>
                 </View>
-                  
+
+                               
               
                 <View onTouchStart={()=>{
                   if(!csvObject?.name || !address?.descricao || !planta?.fileName || !nomeLote){
@@ -245,9 +293,9 @@ export default class FormularioArquivos extends React.Component {
                 }}>
                   <Button 
                     titulo='Prosseguir' funcao={this.nextStep} 
-                    hidden={
-                      !csvObject?.name || !address?.descricao || !planta?.fileName || !nomeLote
-                    }
+                    // hidden={
+                    //   !csvObject?.name || !address?.descricao || !planta?.fileName || !nomeLote
+                    // }
                   />
                 </View>
                   <Modal
@@ -285,9 +333,7 @@ const styles = StyleSheet.create({
   },
   maps: {
     height: '100%',
-    backgroundColor: colors.branco,
-    borderWidth: 2,
-    borderColor: '#888',
+    backgroundColor: "#FFF",
     justifyContent: 'center',
   },
   formulario: {
@@ -316,10 +362,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center"
   },
-  search: {
+  arquivosUp: {
     paddingHorizontal: "4%",
     flexDirection: 'row',
-    backgroundColor: "#cdcdcd",
+    backgroundColor: "#5D5",
     height:40,
     width:'90%',
     alignSelf: 'center',

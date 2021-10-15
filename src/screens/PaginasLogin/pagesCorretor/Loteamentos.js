@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import Button from '../../../components/Button';
 
-import VisualizarQuadras from './subPages/VisualizarQuadras'
+import InformacoesLoteamento from './subPages/InformacoesLoteamento'
 import updateLoteamentos from "../../../services/Loteamentos";
 
 
@@ -27,31 +27,24 @@ export default class Loteamentos extends React.Component {
     this.setState({ modalVisible: visible });
   }
 
-  // componentDidUpdate(){
-  //   this.props.navigation.removeListener();
-  // }
-
-  // componentWillUnmount(){
-  // }
-
   componentDidMount = () => {
     
     this.setState({
       updating: true
     })
     updateLoteamentos("loteamentos")
-    .then((array)=>{
-      this.setState({
-        dados: array,
-        updating: false
-      })
-      if(this.state.index.length !== null) {
+      .then((array)=>{
         this.setState({
-          loteData: this.state.dados[this.state.index]
+          dados: array,
+          updating: false
         })
-      }
-    })
-    .catch((error) => {console.log(error)})
+        if(this.state.index.length !== null) {
+          this.setState({
+            loteData: this.state.dados[this.state.index]
+          })
+        }
+      })
+      .catch((error) => {console.log(error)})
   }
 
   
@@ -91,7 +84,7 @@ export default class Loteamentos extends React.Component {
             this.setModalVisible(true)
           }}>
             <View style={styles.caixa }>
-                <Text  style={{fontSize: 20, padding:3, fontWeight: 'bold'}} numberOfLines={1}>{item.nomeLote}</Text>
+                <Text  style={{fontSize: 20, padding:3, fontWeight: 'bold'}} numberOfLines={1}>{String(item.nomeLote).trim().toUpperCase()}</Text>
                 <Text  style={styles.titleitem}>Quantidade de Lotes: {item.csvObject.totalLotes}</Text>
                 <Text  style={styles.titleitem}>Reservados: {item.csvObject.totalReservados}</Text>
                 <Text  style={styles.titleitem}>Vendidos: {item.csvObject.totalVendidos}</Text>
@@ -113,7 +106,7 @@ export default class Loteamentos extends React.Component {
             }}
           >
             <View style={styles.maps}>
-              <VisualizarQuadras
+              <InformacoesLoteamento
                 data={loteData}
                 back={
                   () => {
